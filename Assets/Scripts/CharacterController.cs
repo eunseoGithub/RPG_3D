@@ -34,7 +34,7 @@ public class CharacterController : MonoBehaviour
         dicState.Add(CharState.Idle, idle);
         dicState.Add(CharState.Move, move);
         //dicState.Add(BikeState.Turn, turn);
-
+        Debug.Log(dicState[CharState.Idle].ToString());
         sm = new StateMachine<CharacterController>(this, dicState[CharState.Idle]);
 
     }

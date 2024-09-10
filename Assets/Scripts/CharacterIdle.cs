@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterIdle : MonoBehaviour, IState<CharacterController>
+public class CharacterIdle : IState<CharacterController>
 {
     private CharacterController charController;
 
