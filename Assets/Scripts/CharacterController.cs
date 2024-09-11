@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class CharacterController : MonoBehaviour
 {
+    public float Speed = 4.0f;     
+    public float rotateSpeed = 10.0f;
+    public Animator charAnimator;
+    private Vector3 destinationPoint;
+    private bool shouldMove = false;
     public enum CharState
     {
         Idle,
@@ -11,7 +16,6 @@ public class CharacterController : MonoBehaviour
     }
 
     public float maxSpeed = 2.0f;
-    public float turnDistance = 2.0f;
 
     public float CurrentSpeed { get; set; }
     public Direction CurrentTurnDirection { get; private set; }
@@ -29,35 +33,42 @@ public class CharacterController : MonoBehaviour
     {
         IState<CharacterController> idle = new CharacterIdle();
         IState<CharacterController> move = new CharacterMove();
-        //IState<CharacterController> turn = new CharacterTurn();
 
         dicState.Add(CharState.Idle, idle);
         dicState.Add(CharState.Move, move);
-        //dicState.Add(BikeState.Turn, turn);
-        Debug.Log(dicState[CharState.Idle].ToString());
+
         sm = new StateMachine<CharacterController>(this, dicState[CharState.Idle]);
 
+        charAnimator = GetComponent<Animator>();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetMouseButtonDown(1))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 100f))
+            {
+                destinationPoint = new Vector3(hit.point.x, transform.position.y, hit.point.z);
+
+                shouldMove = true;
+            }
+        }
+
+        if (shouldMove)
         {
             sm.SetState(dicState[CharState.Move]);
-        }
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            CurrentTurnDirection = Direction.Right;
-            //sm.SetState(dicState[CharState.Turn]);
-        }
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            CurrentTurnDirection = Direction.Left;
-            //sm.SetState(dicState[BikeState.Turn]);
-        }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            sm.SetState(dicState[CharState.Idle]);
+            Quaternion targetRotation = Quaternion.LookRotation(destinationPoint - transform.position);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+
+            transform.position = Vector3.MoveTowards(transform.position, destinationPoint, Speed * Time.deltaTime);
+
+            if (transform.position == destinationPoint)
+            {
+                shouldMove = false;
+                sm.SetState(dicState[CharState.Idle]);
+            }
         }
 
         sm.DoOperateUpdate();

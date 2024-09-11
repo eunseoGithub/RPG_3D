@@ -5,26 +5,32 @@ using UnityEngine;
 public class CharacterMove :  IState<CharacterController>
 {
     private CharacterController charController;
-
+  
     public void OperateEnter(CharacterController sender)
     {
         charController = sender;
-        charController.CurrentSpeed = charController.maxSpeed;
+        charController.CurrentSpeed = charController.Speed;
     }
 
     public void OperateUpdate(CharacterController sender)
     {
         if (charController != null)
         {
-            if (charController.CurrentSpeed > 0)
+           if(!(charController.charAnimator.GetBool("Walk")))
             {
-                charController.transform.Translate(Vector3.forward * (charController.CurrentSpeed * Time.deltaTime));
+                charController.charAnimator.SetBool("Walk", true);
             }
         }
     }
 
     public void OperateExit(CharacterController sender)
     {
-
+        if (charController != null)
+        {
+            if (charController.charAnimator.GetBool("Walk"))
+            {
+                charController.charAnimator.SetBool("Walk", false);
+            }
+        }
     }
 }

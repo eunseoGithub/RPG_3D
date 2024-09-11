@@ -18,17 +18,13 @@ public class StateMachine<T>
 
     public void SetState(IState<T> state)
     {
-        Debug.Log("SetState : " + state);
-
         if (this.sender == null)
         {
-            Debug.LogError("this.sender ERROR");
             return;
         }
 
         if (curState == state)
         {
-            Debug.LogWarningFormat("Same state : ", state);
             return;
         }
 
@@ -43,8 +39,6 @@ public class StateMachine<T>
         {
             curState.OperateEnter(this.sender);
         }
-
-        Debug.Log("SetNextState : " + state);
 
     }
 
