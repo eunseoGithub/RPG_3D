@@ -9,28 +9,26 @@ public class CharacterMove :  IState<CharacterController>
     public void OperateEnter(CharacterController sender)
     {
         charController = sender;
-        charController.CurrentSpeed = charController.Speed;
+        charController.charAnimator.SetBool("Walk", true);
+        //charController.CurrentSpeed = charController.Speed;
     }
 
     public void OperateUpdate(CharacterController sender)
     {
-        if (charController != null)
-        {
-           if(!(charController.charAnimator.GetBool("Walk")))
-            {
-                charController.charAnimator.SetBool("Walk", true);
-            }
-        }
+        //if (charController != null)
+        //{
+        //   if(!(charController.charAnimator.GetBool("Walk")))
+        //    {
+        //        charController.charAnimator.SetBool("Walk", true);
+        //    }
+        //}
     }
 
     public void OperateExit(CharacterController sender)
     {
         if (charController != null)
         {
-            if (charController.charAnimator.GetBool("Walk"))
-            {
-                charController.charAnimator.SetBool("Walk", false);
-            }
+            charController.charAnimator.SetBool("Walk", false);
         }
     }
 }

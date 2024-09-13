@@ -243,7 +243,7 @@ PrefabInstance:
     - target: {fileID: 5251107426523682287, guid: 6a3c3c37133b6ae4d9590995c8166d88,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.99691737
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5251107426523682287, guid: 6a3c3c37133b6ae4d9590995c8166d88,
         type: 3}
@@ -253,7 +253,7 @@ PrefabInstance:
     - target: {fileID: 5251107426523682287, guid: 6a3c3c37133b6ae4d9590995c8166d88,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.078459114
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5251107426523682287, guid: 6a3c3c37133b6ae4d9590995c8166d88,
         type: 3}
@@ -268,7 +268,7 @@ PrefabInstance:
     - target: {fileID: 5251107426523682287, guid: 6a3c3c37133b6ae4d9590995c8166d88,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 9
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5251107426523682287, guid: 6a3c3c37133b6ae4d9590995c8166d88,
         type: 3}
@@ -452,8 +452,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 403d1a87c84d1d5419e265e4341acd3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Speed: 4
+  rotateSpeed: 10
+  charAnimator: {fileID: 0}
   maxSpeed: 2
-  turnDistance: 2
 --- !u!54 &992773208
 Rigidbody:
   m_ObjectHideFlags: 0
