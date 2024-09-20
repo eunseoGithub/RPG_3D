@@ -10,18 +10,11 @@ public class CharacterMove :  IState<CharacterController>
     {
         charController = sender;
         charController.charAnimator.SetBool("Walk", true);
-        //charController.CurrentSpeed = charController.Speed;
     }
 
     public void OperateUpdate(CharacterController sender)
     {
-        //if (charController != null)
-        //{
-        //   if(!(charController.charAnimator.GetBool("Walk")))
-        //    {
-        //        charController.charAnimator.SetBool("Walk", true);
-        //    }
-        //}
+       
     }
 
     public void OperateExit(CharacterController sender)

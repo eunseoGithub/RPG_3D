@@ -45,7 +45,7 @@ public class CharacterController : MonoBehaviour
 
         charAnimator = GetComponent<Animator>();
     }
-
+    //animation event
     public void StartAttack()
     {
         isAttacking = true;
@@ -121,7 +121,7 @@ public class CharacterController : MonoBehaviour
         StartAttack();
     }
 
-    public void EndAnimation_MagicdAttack02()
+    public void EndAnimation_MagicAttack02()
     {
         EndAttack();
     }
@@ -131,37 +131,88 @@ public class CharacterController : MonoBehaviour
         StartAttack();
     }
 
-    public void EndAnimation_MagicdAttack03()
+    public void EndAnimation_MagicAttack03()
     {
         EndAttack();
     }
-
+    
     public void StartAnimation_MagicAttack04()
     {
         StartAttack();
     }
 
-    public void EndAnimation_MagicdAttack04()
+    public void EndAnimation_MagicAttack04()
     {
         EndAttack();
     }
 
+    public void SetAttackNum()
+    {
+        if (Input.GetKey(KeyCode.Q))
+        {
+            charAnimator.SetInteger("Attack_num", 1);
+            shouldMove = false;
+            sm.SetState(dicState[CharState.Attack]);
+        }
+        else if (Input.GetKey(KeyCode.W))
+        {
+            charAnimator.SetInteger("Attack_num", 2);
+            shouldMove = false;
+            sm.SetState(dicState[CharState.Attack]);
+        }
+        else if(Input.GetKey(KeyCode.E))
+        {
+            charAnimator.SetInteger("Attack_num", 3);
+            shouldMove = false;
+            sm.SetState(dicState[CharState.Attack]);
+        }
+        else if(Input.GetKey(KeyCode.R))
+        {
+            charAnimator.SetInteger("Attack_num", 4);
+            shouldMove = false;
+            sm.SetState(dicState[CharState.Attack]);
+        }
+        else if(Input.GetKey(KeyCode.A))
+        {
+            charAnimator.SetInteger("Attack_num", 5);
+            shouldMove = false;
+            sm.SetState(dicState[CharState.Attack]);
+        }
+        else if(Input.GetKey(KeyCode.S))
+        {
+            charAnimator.SetInteger("Attack_num", 6);
+            shouldMove = false;
+            sm.SetState(dicState[CharState.Attack]);
+        }
+        else if(Input.GetKey(KeyCode.D))
+        {
+            charAnimator.SetInteger("Attack_num", 7);
+            shouldMove = false;
+            sm.SetState(dicState[CharState.Attack]);
+        }
+        else if(Input.GetKey(KeyCode.F))
+        {
+            charAnimator.SetInteger("Attack_num", 8);
+            shouldMove = false;
+            sm.SetState(dicState[CharState.Attack]);
+        }
+        else
+        {
+            
+        }
+    }
 
     void Update()
     {
         //attack
         if(Input.GetMouseButtonDown(0))
         {
+            charAnimator.SetInteger("Attack_num", 0);
             shouldMove = false;
             sm.SetState(dicState[CharState.Attack]);
         }
-        if(Input.GetKey(KeyCode.Q)|| Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.R) ||
-            Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.F))
-        {
-            shouldMove = false;
-            sm.SetState(dicState[CharState.Attack]);
-        }
-
+        SetAttackNum();
+        
         //move
         if (Input.GetMouseButtonDown(1))
         {

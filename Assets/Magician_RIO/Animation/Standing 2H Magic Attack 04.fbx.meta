@@ -67,7 +67,7 @@ ModelImporter:
         intParameter: 0
         messageOptions: 0
       - time: 1
-        functionName: EndAnimation_MmagicAttack03
+        functionName: EndAnimation_MagicAttack03
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
