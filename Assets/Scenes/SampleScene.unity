@@ -305,6 +305,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e1450ca396978418e9ce2d7f37960f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _currentState: 0
+  _currentDistance: 0
+  speed: 3
+  _attackNearRange: 5
+  _attackFarRange: 10
+  _targetTr: {fileID: 0}
   _animator: {fileID: 775958096}
 --- !u!95 &775958096 stripped
 Animator:
@@ -312,6 +318,19 @@ Animator:
     type: 3}
   m_PrefabInstance: {fileID: 1167825669}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &775958098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 775958094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19513362994f30c44a26b68141dab265, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _owner: {fileID: 775958095}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0

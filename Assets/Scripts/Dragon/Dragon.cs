@@ -40,7 +40,6 @@ public class Dragon : MonoBehaviour
     public Animator _animator;
 
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -59,7 +58,6 @@ public class Dragon : MonoBehaviour
 
         // 애니메이터컴포넌트를 가지고 온다.
         _animator = GetComponent<Animator>();
-        
     }
 
     // 상태 변경함수
@@ -99,10 +97,12 @@ public class Dragon : MonoBehaviour
         if(random == 1)
         {
             randomSkill = SkillStates.Near;
+            _animator.SetInteger("nearAttackSkill", Random.Range(0, 3));
         }
         else
         {
             randomSkill = SkillStates.Far;
+            _animator.SetInteger("farAttackSkill", Random.Range(0, 4));
         }
         return randomSkill;
     }

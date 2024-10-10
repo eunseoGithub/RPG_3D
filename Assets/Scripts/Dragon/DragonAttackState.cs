@@ -57,8 +57,8 @@ public class DragonAttackState : IState<Dragon>
 
     public void OperateExit(Dragon Sender) 
     {
-        _owner._animator.SetBool("nearAttack", false);
-        _owner._animator.SetBool("farAttack", false);
+        //_owner._animator.SetBool("nearAttack", false);
+        //_owner._animator.SetBool("farAttack", false);
     }
 
 }
