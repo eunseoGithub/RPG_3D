@@ -47,7 +47,7 @@ public class DragonIdleState : IState<Dragon>
                 {
                     case Dragon.SkillStates.Near:
                         _owner._currentDistance = _owner._attackNearRange;
-                        if (_owner.CheckNearAttackRange())
+                        if (_owner.CheckNearAttackRange() == Dragon.BossState.Attack)
                         {
                             _owner.ChangeAttackState();
                         }
@@ -59,13 +59,26 @@ public class DragonIdleState : IState<Dragon>
 
                     case Dragon.SkillStates.Far:
                         _owner._currentDistance = _owner._attackFarRange;
-                        if (_owner.CheckFarAttackRange())
+                        
+                        Dragon.BossState state = _owner.CheckFarAttackRange();
+                        if (state == Dragon.BossState.Attack)
                         {
+                            Debug.Log("Far Attack");
                             _owner.ChangeAttackState();
+                        }
+                        else if(state == Dragon.BossState.Chase)
+                        {
+                            Debug.Log("Chase");
+                            _owner.ChangeChaseState();
+                        }
+                        else if(state == Dragon.BossState.Retreat)
+                        {
+                            Debug.Log("Retreat");
+                            _owner.ChangeRetreatState();
                         }
                         else
                         {
-                            _owner.ChangeChaseState();
+                            Debug.LogError("Far Attack Check Boss state is none. (" + state + ")");
                         }
                         break;
                 }

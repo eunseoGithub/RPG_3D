@@ -25,25 +25,25 @@ public class DragonReturnBaseState : IState<Dragon>
 
     public void OperateUpdate(Dragon sender)
     {
-        if (_owner.CheckFarAttackRange() || _owner.CheckNearAttackRange())   // 추적중에 공격 반경으로 변경되면
-        {
-            _owner.ChangeAttackState();
-        }
-        else if (_owner.CheckChaseRange())    // 귀환중에 타겟이 추적반경안에 있으면
-        {
-            _owner.ChangeChaseState();      // 추적 상태로 변경
-        }
-        else
-        {
-            if (_owner.CheckReturnBase()) // 귀환해야 하는지 체크
-            {
-                _owner.MoveReturnBase(); // 귀환이동.
-            }
-            else
-            {
-                _owner.ChangeIdleState(); // 귀환하지 않으면 idle 상태
-            }
-        }
+        //if (_owner.CheckFarAttackRange() || _owner.CheckNearAttackRange())   // 추적중에 공격 반경으로 변경되면
+        //{
+        //    _owner.ChangeAttackState();
+        //}
+        //else if (_owner.CheckChaseRange() == Dragon.BossState.Chase)    // 귀환중에 타겟이 추적반경안에 있으면
+        //{
+        //    _owner.ChangeChaseState();      // 추적 상태로 변경
+        //}
+        //else
+        //{
+        //    if (_owner.CheckReturnBase()) // 귀환해야 하는지 체크
+        //    {
+        //        _owner.MoveReturnBase(); // 귀환이동.
+        //    }
+        //    else
+        //    {
+        //        _owner.ChangeIdleState(); // 귀환하지 않으면 idle 상태
+        //    }
+        //}
     }
 
 }
