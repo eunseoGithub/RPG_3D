@@ -11,6 +11,9 @@ public class Dragon : MonoBehaviour
     DragonMoveState _moveState;     // 이동 상태 관리
     DragonReturnBaseState _returnBaseState; // 귀환 상태 관리
     DragonRetreatState _retreatState;
+    DragonNearAttackState _nearAttackState; // 근거리 공격 상태.
+    DragonFarAttackState _farAttackState;   // 원거리 공격 상태
+
     public SkillStates _currentState;
     public float _currentDistance;
     // 상태 컨트롤 객체
@@ -56,7 +59,7 @@ public class Dragon : MonoBehaviour
     private float _detectingRange = 200.0f;   // 타겟 감지 반경
 
     private float _moveSpeed = 3.0f;        // 이동 속도
-    
+
     private float _returnDistance = 100.0f;  // 귀환 위치 max 거리
 
     public Transform _targetTr = null;     // 공격 타겟 지정
@@ -76,6 +79,9 @@ public class Dragon : MonoBehaviour
         _moveState = new DragonMoveState(this);
         _returnBaseState = new DragonReturnBaseState(this);
         _retreatState = new DragonRetreatState(this);
+        _nearAttackState = new DragonNearAttackState(this);
+        _farAttackState = new DragonFarAttackState(this);
+
         // 상태 관리 객체 생성
         _fsm = new StateMachine<Dragon>(this, _idleState); //  초기 상태를 Idle 상태로 설정한다.
 
@@ -88,36 +94,45 @@ public class Dragon : MonoBehaviour
 
     // 상태 변경함수
     public void ChangeIdleState()
-	{
+    {
         _fsm.SetState(_idleState);
-	}
+    }
 
     public void ChangeMoveState()
-	{
+    {
         _fsm.SetState(_moveState);
-	}
+    }
 
     public void ChangeAttackState()
-	{
+    {
         _fsm.SetState(_attackState);
-	}
+    }
 
     public void ChangeChaseState()
-	{
+    {
         _fsm.SetState(_chaseState);
-	}
+    }
 
     public void ChangeReturnBaseState()
-	{
+    {
         _fsm.SetState(_returnBaseState);
-	}
+    }
 
     public void ChangeRetreatState()
     {
         _fsm.SetState(_retreatState);
     }
 
-    /// <summary>
+    public void ChangeNearAttackState()
+    {
+        _fsm.SetState(_nearAttackState);
+    }
+    public void ChangeFarAttackState()
+    {
+        _fsm.SetState(_farAttackState);
+    }
+
+   /* /// <summary>
     /// 랜덤으로 보스 공격 범위를 지정한다
     /// </summary>
     /// <returns></returns>
@@ -125,7 +140,7 @@ public class Dragon : MonoBehaviour
     {
         SkillStates randomSkill;
         int random = Random.Range(0, 2);
-        if(random == 1)
+        if (random == 1)
         {
             randomSkill = SkillStates.Near;
             _animator.SetInteger("nearAttackSkill", Random.Range(0, 3));
@@ -136,37 +151,53 @@ public class Dragon : MonoBehaviour
             _animator.SetInteger("farAttackSkill", Random.Range(0, 4));
         }
         return randomSkill;
-    }
+    }*/
 
     /// <summary>
     /// 감지 반경내에 들어온 타겟을 감지 한다.
     /// </summary>
     /// <returns></returns>
     public bool DetectingTarget()
-	{
+    {
         // 감지 반경안에 들어온 오브젝트들의 콜라이더를 가져온다.
         Collider[] colliders = Physics.OverlapSphere(this.transform.position, _detectingRange);
 
-        foreach(var col in colliders)
-		{
+        foreach (var col in colliders)
+        {
             // 반경안에 들어온 오브젝트의 collider.gameObject의 이름이 Magician_RIO 인지 확인한다.
-			if (col.name.Contains("Magician_RIO"))
-			{
+            if (col.name.Contains("Magician_RIO"))
+            {
                 // 타겟 발견
                 _targetTr = col.transform;  // 감지된 타겟을 targeting한다.
                 return true;
 
-			}
-		}
+            }
+        }
 
         return false;   // 감지 반경내에 감지 target이 없음
-	}
+    }
 
     /// <summary>
     /// 추적 반경안에 있는 체크
     /// </summary>
     /// <returns></returns>
-    public BossState CheckChaseRange()
+    /// 
+    public bool CheckChaseRange()
+    {
+        // 타겟과의 거리를 계산한다. 
+        float distance = Vector3.Distance(this.transform.position, _targetTr.position);
+
+        // 타겟과의 거리가 추적반경보다 같거나 작으면 추적을 시작한다.
+        if (_targetTr != null && Vector3.Distance(this.transform.position, _targetTr.position) <= _chaseRange)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    #region CheckChaseRange_Method_Modify
+    /*
+	public BossState CheckChaseRange()
     {
         float distance = Vector3.Distance(this.transform.position, _targetTr.position);
         BossState state = BossState.Idle;
@@ -181,12 +212,27 @@ public class Dragon : MonoBehaviour
 
         return state;
     }
+    */
+    #endregion
 
     /// <summary>
     /// 근거리 공격 반경안에 있는 체크
     /// </summary>
     /// <returns></returns>
-    public BossState CheckNearAttackRange()
+    /// 
+
+    public bool CheckNearAttackRange()
+    {
+
+        if (_targetTr != null && Vector3.Distance(this.transform.position, _targetTr.position) <= _attackNearRange)
+        {
+            return true;
+        }
+
+        return false;
+    }
+    /*
+	public BossState CheckNearAttackRange()
 	{
         BossState state = BossState.Idle;
         if (_targetTr != null && Vector3.Distance(this.transform.position, _targetTr.position) <= _attackNearRange )
@@ -199,11 +245,25 @@ public class Dragon : MonoBehaviour
 		}
         return state;
 	}
+    */
 
     /// <summary>
     /// 원거리 공격 반경안에 있는지 체크
     /// </summary>
     /// <returns></returns>
+    /// 
+    public bool CheckFarAttackRange()
+    {
+        if (Vector3.Distance(this.transform.position, _targetTr.position) <= _attackFarRange)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+
+    /*
     public BossState CheckFarAttackRange()
 	{
         BossState state = BossState.Idle;
@@ -230,24 +290,25 @@ public class Dragon : MonoBehaviour
 
         return state;
     }
+    */
 
     /// <summary>
     /// 타겟을 추적한다.
     /// </summary>
     public void MoveChase()
-	{
-        if(_targetTr != null)
+    {
+        if (_targetTr != null)
         {
+            _animator.SetBool("chase", true);
             Vector3 direct = (_targetTr.position - this.transform.position).normalized;
             this.transform.rotation = Quaternion.LookRotation(direct);
             if (Vector3.Distance(transform.position, _targetTr.position) > _currentDistance)
-                transform.position = Vector3.MoveTowards(transform.position, _targetTr.position, speed * Time.deltaTime);     
-            else
             {
-                ChangeAttackState();
+                transform.position = Vector3.MoveTowards(transform.position, _targetTr.position, speed * Time.deltaTime);
             }
+
         }
-	}
+    }
 
     public void MoveRetreat()
     {
@@ -275,40 +336,41 @@ public class Dragon : MonoBehaviour
     /// 있던 위치로 귀환한다.
     /// </summary>
     public void MoveReturnBase()
-	{
-        if(_targetTr != null)
-		{
+    {
+        if (_targetTr != null)
+        {
             Vector3 direct = (_returnPosition - this.transform.position).normalized;
             this.transform.rotation = Quaternion.LookRotation(direct);  // 드래곤을 추적방향으로 회전.
             this.transform.Translate(direct * _moveSpeed * Time.smoothDeltaTime, Space.World);
-		}
-	}
+        }
+    }
 
     /// <summary>
     /// 귀환 해야 하는지 체크
     /// </summary>
     /// <returns></returns>
     public bool CheckReturnBase()
-	{
+    {
         float ReturnDistance = (_returnPosition - this.transform.position).magnitude;
         Debug.Log("ReturnDistance : " + ReturnDistance);
-        if(ReturnDistance >= _returnDistance)
-		{
+        if (ReturnDistance >= _returnDistance)
+        {
             return true;
-		}else
-		{
+        }
+        else
+        {
             return false;
-		}
-	}
+        }
+    }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-	private void FixedUpdate() // 0.02초마다 호출
-	{
+    private void FixedUpdate() // 0.02초마다 호출
+    {
         // 상태기계머쉰의 UPdate함수를 매 프레임마다 호출
         _fsm.DoOperateUpdate();
 
