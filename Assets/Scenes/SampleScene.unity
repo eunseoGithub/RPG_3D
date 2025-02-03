@@ -455,6 +455,61 @@ Transform:
   m_Father: {fileID: 3762465397611562104}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &420399635
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 420399636}
+  - component: {fileID: 420399637}
+  m_Layer: 0
+  m_Name: TakeOffPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &420399636
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 420399635}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3762465397611562104}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &420399637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 420399635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33716e058ba3eb94b994f56032603710, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  warningPrefab: {fileID: 7960950102477711452, guid: 3d9182bedbf8f7b4abb8905a625ff64a,
+    type: 3}
+  explosionPrefab: {fileID: 5354017713581990497, guid: dfed37c1e9c5a4149834642b976b9253,
+    type: 3}
+  coliderPrefab: {fileID: 8895096547138057401, guid: 7e91a02f8ec6dd2408d0143c3da51467,
+    type: 3}
+  bossTransform: {fileID: 3762465397611562104}
+  warningDuration: 2
+  spawnRange: 15
+  minDistanceFromBoss: 5
+  explosionCount: 10
+  delayBetweenExplosions: 0.5
 --- !u!1 &470549999
 GameObject:
   m_ObjectHideFlags: 0
@@ -5981,6 +6036,7 @@ MonoBehaviour:
   firePoint: {fileID: 0}
   Attack01Prefab: {fileID: 0}
   Attack02Prefab: {fileID: 0}
+  Attack03Prefab: {fileID: 0}
   maxSpeed: 2
 --- !u!54 &992773208
 Rigidbody:
@@ -15193,61 +15249,6 @@ Transform:
   m_Father: {fileID: 1635252059}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1356998849
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1356998851}
-  - component: {fileID: 1356998850}
-  m_Layer: 0
-  m_Name: TakeOffPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1356998850
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1356998849}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33716e058ba3eb94b994f56032603710, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  warningPrefab: {fileID: 7960950102477711452, guid: 3d9182bedbf8f7b4abb8905a625ff64a,
-    type: 3}
-  explosionPrefab: {fileID: 5354017713581990497, guid: dfed37c1e9c5a4149834642b976b9253,
-    type: 3}
-  coliderPrefab: {fileID: 8895096547138057401, guid: 7e91a02f8ec6dd2408d0143c3da51467,
-    type: 3}
-  bossTransform: {fileID: 3762465397611562104}
-  warningDuration: 2
-  spawnRange: 15
-  minDistanceFromBoss: 5
-  explosionCount: 10
-  delayBetweenExplosions: 0.5
---- !u!4 &1356998851
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1356998849}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 3762465397611562104}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1378048038 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 35c44a97c30e4e946a0f4d3310613b95,
@@ -15273,6 +15274,8 @@ MonoBehaviour:
   Attack01Prefab: {fileID: 4396152543647129104, guid: 0a6a4ce55d0000341a5f7c023bc0427e,
     type: 3}
   Attack02Prefab: {fileID: 5198841151950466017, guid: ed94c94620f45714c940f30969cc1d35,
+    type: 3}
+  Attack03Prefab: {fileID: 1131020738249579951, guid: 53d40f6a3b25cba4194fec4bd9399e76,
     type: 3}
   maxSpeed: 2
 --- !u!114 &1402053304
@@ -37562,7 +37565,7 @@ PrefabInstance:
     - target: {fileID: 1131020738249146767, guid: 53d40f6a3b25cba4194fec4bd9399e76,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 806.08203
+      value: 816.65
       objectReference: {fileID: 0}
     - target: {fileID: 1131020738249146767, guid: 53d40f6a3b25cba4194fec4bd9399e76,
         type: 3}
@@ -37598,6 +37601,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1131020738249579937, guid: 53d40f6a3b25cba4194fec4bd9399e76,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1131020738249579939, guid: 53d40f6a3b25cba4194fec4bd9399e76,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1131020738249579941, guid: 53d40f6a3b25cba4194fec4bd9399e76,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1131020738249579943, guid: 53d40f6a3b25cba4194fec4bd9399e76,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1131020738249579951, guid: 53d40f6a3b25cba4194fec4bd9399e76,
         type: 3}
@@ -38707,7 +38730,7 @@ MonoBehaviour:
   _sleepAttack_Obj: {fileID: 1439425003}
   _defendAttackCol: {fileID: 217507003}
   _clawAttackCol: {fileID: 2079804878}
-  _takeoffAttack_Obj: {fileID: 1356998849}
+  _takeoffAttack_Obj: {fileID: 0}
 --- !u!114 &3762465397611384094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39854,7 +39877,7 @@ Transform:
   - {fileID: 3762465397611621696}
   - {fileID: 411266644}
   - {fileID: 1439425005}
-  - {fileID: 1356998851}
+  - {fileID: 420399636}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

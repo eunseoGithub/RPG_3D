@@ -14,6 +14,11 @@ public class Attack02Skill : MonoBehaviour
         rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
     }
 
+    private void Start()
+    {
+        Destroy(this.gameObject, 5.0f);
+    }
+
     public void Launch(Vector3 direction)
     {
         Vector3 directionNoY = new Vector3(direction.x, 0, direction.z).normalized;

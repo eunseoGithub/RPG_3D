@@ -13,6 +13,10 @@ public class Attack01Skill : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
     }
+    private void Start()
+    {
+        Destroy(this.gameObject, 5.0f);
+    }
 
     public void Launch(Vector3 direction)
     {
@@ -20,11 +24,5 @@ public class Attack01Skill : MonoBehaviour
         // 발사 방향으로 속도 설정
         rb.velocity = directionNoY * speed;
     }
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.CompareTag("Enemy"))
-        {
-            Destroy(this);
-        }
-    }
+    
 }

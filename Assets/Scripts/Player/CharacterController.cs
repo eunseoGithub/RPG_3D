@@ -13,6 +13,7 @@ public class CharacterController : MonoBehaviour
     public Transform firePoint;
     public GameObject Attack01Prefab;
     public GameObject Attack02Prefab;
+    public GameObject Attack03Prefab;
     Vector3 currentTargetPosition;
     public enum CharState
     {
@@ -114,6 +115,10 @@ public class CharacterController : MonoBehaviour
     {
         FireAtMousePosition_Attack02();
     }
+    public void Attack03_Fire()
+    {
+        FireAtMousePosition_Attack03();
+    }
     void FireAtMousePosition_Attack01()
     {
         Vector3 direction = (currentTargetPosition - firePoint.position).normalized;
@@ -128,6 +133,22 @@ public class CharacterController : MonoBehaviour
         GameObject fireball = Instantiate(Attack02Prefab, firePoint.position, Quaternion.LookRotation(-direction));
         fireball.GetComponent<Attack02Skill>().Launch(direction);
     }
+
+    void FireAtMousePosition_Attack03()
+    {
+        Vector3 direction = new Vector3(currentTargetPosition.x, 1.0f, currentTargetPosition.z);
+        GameObject fire = Instantiate(Attack03Prefab, direction, Quaternion.identity);
+        /*Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        Vector3 direction;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            direction = new Vector3(hit.point.x, 0.3f, hit.point.z);
+            GameObject fire = Instantiate(Attack03Prefab, direction, Quaternion.identity);
+        }*/
+    }
+
     private void LookAtBoss()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

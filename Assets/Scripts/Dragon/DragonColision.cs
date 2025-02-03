@@ -15,6 +15,7 @@ public class DragonColision : MonoBehaviour
         {
             //데미지 처리
             Debug.Log($"[{gameObject.name}] player attack");
+            Destroy(other.gameObject);
         }
         else
         {
