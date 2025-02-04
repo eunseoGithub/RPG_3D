@@ -14,7 +14,9 @@ public class CharacterController : MonoBehaviour
     public GameObject Attack01Prefab;
     public GameObject Attack02Prefab;
     public GameObject Attack03Prefab;
+    public GameObject Attack04Prefab;
     Vector3 currentTargetPosition;
+    public GameObject Boss;
     public enum CharState
     {
         Idle,
@@ -119,6 +121,10 @@ public class CharacterController : MonoBehaviour
     {
         FireAtMousePosition_Attack03();
     }
+    public void Attack04_Fire()
+    {
+        FireAtMousePosition_Attack04();
+    }
     void FireAtMousePosition_Attack01()
     {
         Vector3 direction = (currentTargetPosition - firePoint.position).normalized;
@@ -138,17 +144,32 @@ public class CharacterController : MonoBehaviour
     {
         Vector3 direction = new Vector3(currentTargetPosition.x, 1.0f, currentTargetPosition.z);
         GameObject fire = Instantiate(Attack03Prefab, direction, Quaternion.identity);
-        /*Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        Vector3 direction;
-
-        if (Physics.Raycast(ray, out hit))
+        float distanceToBoss = Vector3.Distance(fire.transform.position, Boss.transform.position);
+        if (distanceToBoss < 5.0f) // 거리 1.5 이하이면 히트 판정
         {
-            direction = new Vector3(hit.point.x, 0.3f, hit.point.z);
-            GameObject fire = Instantiate(Attack03Prefab, direction, Quaternion.identity);
-        }*/
+            /*Boss bossComponent = boss.GetComponent<Boss>();
+            if (bossComponent != null)
+            {
+                bossComponent.TakeDamage(10); // 보스에게 10의 데미지
+            }*/
+            Debug.Log("보스 데미지 입음");
+        }
     }
-
+    void FireAtMousePosition_Attack04()
+    {
+        Vector3 direction = new Vector3(currentTargetPosition.x, 1.0f, currentTargetPosition.z);
+        GameObject fire = Instantiate(Attack04Prefab, direction, Quaternion.identity);
+        float distanceToBoss = Vector3.Distance(fire.transform.position, Boss.transform.position);
+        if (distanceToBoss < 5.0f) // 거리 1.5 이하이면 히트 판정
+        {
+            /*Boss bossComponent = boss.GetComponent<Boss>();
+            if (bossComponent != null)
+            {
+                bossComponent.TakeDamage(10); // 보스에게 10의 데미지
+            }*/
+            Debug.Log("보스 데미지 입음 Attack 04");
+        }
+    }
     private void LookAtBoss()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
