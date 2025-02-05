@@ -11,11 +11,11 @@ public class Character : MonoBehaviour
     {
         Hp = 100;
     }
-    void SetHp(float hp)
+    public void SetHp(float hp)
     {
         Hp = hp;
     }
-    float GetHp()
+    public float GetHp()
     {
         return Hp;
     }

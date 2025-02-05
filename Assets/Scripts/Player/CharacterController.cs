@@ -15,6 +15,7 @@ public class CharacterController : MonoBehaviour
     public GameObject Attack02Prefab;
     public GameObject Attack03Prefab;
     public GameObject Attack04Prefab;
+    public GameObject Attack05Particle;
     Vector3 currentTargetPosition;
     public GameObject Boss;
     public enum CharState
@@ -124,6 +125,10 @@ public class CharacterController : MonoBehaviour
     public void Attack04_Fire()
     {
         FireAtMousePosition_Attack04();
+    }
+    public void Attack05_Fire()
+    {
+        Attack05Particle.SetActive(true);
     }
     void FireAtMousePosition_Attack01()
     {
@@ -274,7 +279,12 @@ public class CharacterController : MonoBehaviour
                 sm.SetState(dicState[CharState.Idle]);
             }
         }
-
+        float hp =this.GetComponent<Character>().GetHp();
+        if (hp >= 100)
+        {
+            Attack05Particle.SetActive(false);
+            
+        }
         sm.DoOperateUpdate();
     }
 }
