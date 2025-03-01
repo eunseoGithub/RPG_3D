@@ -19,7 +19,7 @@ public class DragonColision : MonoBehaviour
         }
         else
         {
-            Debug.Log("!1111111111");
+            //Debug.Log("!1111111111");
         }
     }
     // Update is called once per frame

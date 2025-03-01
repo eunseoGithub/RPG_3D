@@ -51,7 +51,7 @@ public class DragonAnimationEvent : MonoBehaviour
                     _flameAttack_FirePoint.SetActive(true);
             }
             _flameAttackCount--;
-            Debug.Log("FlameAttack Start" + _flameAttackCount);
+            //Debug.Log("FlameAttack Start" + _flameAttackCount);
         }
         
     }
@@ -97,7 +97,7 @@ public class DragonAnimationEvent : MonoBehaviour
                 BasicAttack_Fireballl_Attack();
             }
             _basicAttackCount--;
-            Debug.Log("BasicAttack Start" + _basicAttackCount);
+            //Debug.Log("BasicAttack Start" + _basicAttackCount);
 
         }
     }
@@ -110,7 +110,7 @@ public class DragonAnimationEvent : MonoBehaviour
             _basicAttackCount = 3;
             if (_basicAttack_FirePoint.activeSelf == true)
                 _basicAttack_FirePoint.SetActive(false);
-            Debug.Log("BasicAttack End" + _basicAttackCount);
+            //Debug.Log("BasicAttack End" + _basicAttackCount);
         }
     }
     void ScreamStart()
@@ -120,7 +120,7 @@ public class DragonAnimationEvent : MonoBehaviour
             if (_screamAttack_Obj.activeSelf == false)
                 _screamAttack_Obj.SetActive(true);
             _screamCount--;
-            Debug.Log("Scream Start " + _screamCount);
+            //Debug.Log("Scream Start " + _screamCount);
         }
     }
     void ScreamEnd()
@@ -132,7 +132,7 @@ public class DragonAnimationEvent : MonoBehaviour
             _screamCount = 3;
             if (_screamAttack_Obj.activeSelf == true)
                 _screamAttack_Obj.SetActive(false);
-            Debug.Log("Scream End " + _screamCount);
+            //Debug.Log("Scream End " + _screamCount);
         }
     }
     void SleepStart()
@@ -193,7 +193,7 @@ public class DragonAnimationEvent : MonoBehaviour
             if (_takeoffAttack_Obj.activeSelf == false)
                 _takeoffAttack_Obj.SetActive(true);
             _takeoffCount--;
-            Debug.Log("_takeoffCount Start" + _basicAttackCount);
+            //Debug.Log("_takeoffCount Start" + _basicAttackCount);
         }
     }
     void TakeOffEnd()
@@ -206,7 +206,7 @@ public class DragonAnimationEvent : MonoBehaviour
             if (_takeoffAttack_Obj.activeSelf == true)
                 _takeoffAttack_Obj.SetActive(false);
             _takeoffCount = 3;
-            Debug.Log("_takeoffCount End" + _basicAttackCount);
+            //Debug.Log("_takeoffCount End" + _basicAttackCount);
         }
     }
     // Update is called once per frame
