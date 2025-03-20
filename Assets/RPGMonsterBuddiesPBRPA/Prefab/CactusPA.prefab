@@ -193,9 +193,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7758383863938560452}
+  - component: {fileID: 5589840821531139936}
   m_Layer: 0
   m_Name: cactus_rightHand
-  m_TagString: Untagged
+  m_TagString: EnemyAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -215,6 +216,19 @@ Transform:
   m_Father: {fileID: 1010455874766843891}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &5589840821531139936
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4685271716732413841}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.16
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5185272457225295587
 GameObject:
   m_ObjectHideFlags: 0
@@ -224,9 +238,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6666825689414306869}
+  - component: {fileID: 1686961306887414856}
   m_Layer: 0
   m_Name: cactus_leftHand
-  m_TagString: Untagged
+  m_TagString: EnemyAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -246,6 +261,19 @@ Transform:
   m_Father: {fileID: 3613870848530396509}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &1686961306887414856
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5185272457225295587}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.16
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5591641605830659732
 GameObject:
   m_ObjectHideFlags: 0
@@ -543,6 +571,9 @@ MonoBehaviour:
   createPoint: {x: 0, y: 0, z: 0}
   returnCheck: 0
   hp: 0
+  hpBarPrefab: {fileID: 3766826013427609195, guid: 5338e7640ce06c347bc9962bb9576c75,
+    type: 3}
+  hpBarOffset: {x: -0.5, y: 2.4, z: 0}
 --- !u!136 &7570684946353654274
 CapsuleCollider:
   m_ObjectHideFlags: 0

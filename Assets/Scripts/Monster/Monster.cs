@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Monster : MonoBehaviour
 {
@@ -20,10 +21,18 @@ public class Monster : MonoBehaviour
     private bool die;
     private float dieCount;//죽고 시간 체크
     private bool isDeadHandled = false; // Watching()에서 이미 처리했는지 확인하는 변수
-   
+    public GameObject hpBarPrefab;
+    public Vector3 hpBarOffset = new Vector3(-0.5f, 2.4f, 0);
+    private Canvas monsterCanvas;
+    private Image hpBarImage;
+    private LogManager logManager;
+    private Character player;
+    private float exp;
     // Start is called before the first frame update
     void Awake()
     {
+        logManager = LogManager.Instance;
+        player = Character.Instance;
         _attackState = new MonsterAttackState(this);
         _idleState = new MonsterIdleState(this);
         _chaseState = new MonsterChaseState(this);
@@ -36,9 +45,21 @@ public class Monster : MonoBehaviour
         createPoint = this.transform.position; 
         returnCheck = true;
         hp = 100.0f;
+        exp = 100.0f;
         die = false;
         dieCount = 3.0f;
         isDeadHandled = false;
+        
+        if(monsterCanvas == null)
+        {
+            monsterCanvas = GameObject.Find("MonsterHpCanvas").GetComponent<Canvas>();
+        }
+        GameObject hpBar = Instantiate<GameObject>(hpBarPrefab, monsterCanvas.transform);
+
+        MonsterHpBar _hpbar = hpBar.GetComponent<MonsterHpBar>();
+        _hpbar.enemyTr = this.gameObject.transform;
+        _hpbar.offset = hpBarOffset;
+        hpBarImage = hpBar.GetComponent<Image>();
     }
     public bool GetDie()
     {
@@ -83,11 +104,12 @@ public class Monster : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (!returnCheck)
+        if (!returnCheck || _fsm.curState == _idleState)
             return;
         if(other.CompareTag("PlayerAttack"))
         {
             Debug.Log("데미지 입음");
+            GeDamage(50.0f);
         }
     }
     void OnTriggerExitCustom()
@@ -107,18 +129,51 @@ public class Monster : MonoBehaviour
     {
         MonsterInit();
     }
+    void GeDamage(float damage)
+    {
+        if (hp <= 0) return;
+        hp -= damage;
+        if (hp < 0)
+            hp = 0;
+        UpdateHpBar();
+    }
+    void UpdateHpBar()
+    {
+        if (hpBarImage != null)
+        {
+            hpBarImage.fillAmount = hp / 100.0f; // HP 비율 반영
+        }
+    }
+    bool RandomItem()
+    {
+        bool result = false;
+
+        int ran = Random.Range(0, 100);
+        if(ran<10)
+        {
+            result = true;
+        }
+        return result;
+    }
     // Update is called once per frame
     void Update()
     {
         if (_target == null) return;  // 플레이어가 없으면 실행 X
         if (hp <= 0)
         {
+           
             if (!die)
             {
                 die = true;
                 _animator.SetTrigger("Die");
-
-                //StartCoroutine(SetOrigin());
+                logManager.AddLog("경험치 "+ exp +"를 획득하셨습니다.");
+                float addExp = player.GetExp();
+                player.SetExp(addExp + exp);
+                player.UpdateExp();
+                if (RandomItem())
+                {
+                    logManager.AddLog("Key를 획득하셨습니다.");
+                }
             }
             dieCount -= Time.deltaTime;
             if (dieCount <= 0.0f)
@@ -161,7 +216,8 @@ public class Monster : MonoBehaviour
     private void FixedUpdate() // 0.02초마다 호출
     {
         // 상태기계머쉰의 UPdate함수를 매 프레임마다 호출
-        _fsm.DoOperateUpdate();
+        if(!die)
+            _fsm.DoOperateUpdate();
 
     }
 }

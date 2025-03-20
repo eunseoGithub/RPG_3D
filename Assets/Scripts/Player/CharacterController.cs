@@ -18,6 +18,15 @@ public class CharacterController : MonoBehaviour
     public GameObject Attack05Particle;
     Vector3 currentTargetPosition;
     public GameObject Boss;
+
+    private Dictionary<KeyCode, float> skillCooldowns = new Dictionary<KeyCode, float>();
+    private Dictionary<KeyCode, float> lastSkillUseTime = new Dictionary<KeyCode, float>();
+
+    public float Attack01CoolDown = 2.0f;
+    public float Attack02CoolDown = 3.0f;
+    public float Attack03CoolDown = 4.0f;
+    public float Attack04CoolDown = 5.0f;
+    public Character characterSetting;
     public enum CharState
     {
         Idle,
@@ -41,6 +50,7 @@ public class CharacterController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        characterSetting = this.GetComponent<Character>();
         IState<CharacterController> idle = new CharacterIdle();
         IState<CharacterController> move = new CharacterMove();
         IState<CharacterController> attack = new CharacterAttack();
@@ -52,6 +62,17 @@ public class CharacterController : MonoBehaviour
         sm = new StateMachine<CharacterController>(this, dicState[CharState.Idle]);
 
         charAnimator = GetComponent<Animator>();
+
+        skillCooldowns[KeyCode.Q] = Attack01CoolDown;
+        skillCooldowns[KeyCode.W] = Attack02CoolDown;
+        skillCooldowns[KeyCode.E] = Attack03CoolDown;
+        skillCooldowns[KeyCode.R] = Attack04CoolDown;
+
+        lastSkillUseTime[KeyCode.Q] = -Attack01CoolDown;
+        lastSkillUseTime[KeyCode.W] = -Attack02CoolDown;
+        lastSkillUseTime[KeyCode.E] = -Attack03CoolDown;
+        lastSkillUseTime[KeyCode.R] = -Attack04CoolDown;
+
     }
     //animation event
     public void StartAttack()
@@ -189,6 +210,10 @@ public class CharacterController : MonoBehaviour
             transform.rotation = targetRotation;
         }
     }
+    private bool CanUseSkill(KeyCode key)
+    {
+        return Time.time >= lastSkillUseTime[key] + skillCooldowns[key];
+    }
     public void SetAttackNum()
     {
         if(isAttacking==true)
@@ -196,40 +221,56 @@ public class CharacterController : MonoBehaviour
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q) && CanUseSkill(KeyCode.Q))
         {
+            lastSkillUseTime[KeyCode.Q] = Time.time;
             charAnimator.SetInteger("Attack_num", 1);
             shouldMove = false;
             sm.SetState(dicState[CharState.Attack]);
             LookAtBoss();
+            characterSetting.UseMp(10.0f);
         }
-        else if (Input.GetKeyDown(KeyCode.W))
+        else if (Input.GetKeyDown(KeyCode.W) && CanUseSkill(KeyCode.W))
         {
+            lastSkillUseTime[KeyCode.W] = Time.time;
             charAnimator.SetInteger("Attack_num", 2);
             shouldMove = false;
             sm.SetState(dicState[CharState.Attack]);
             LookAtBoss();
+            characterSetting.UseMp(10.0f);
         }
-        else if(Input.GetKeyDown(KeyCode.E))
+        else if(Input.GetKeyDown(KeyCode.E) && CanUseSkill(KeyCode.E))
         {
+            lastSkillUseTime[KeyCode.E] = Time.time;
             charAnimator.SetInteger("Attack_num", 3);
             shouldMove = false;
             sm.SetState(dicState[CharState.Attack]);
             LookAtBoss();
+            characterSetting.UseMp(10.0f);
         }
-        else if(Input.GetKeyDown(KeyCode.R))
+        else if(Input.GetKeyDown(KeyCode.R) && CanUseSkill(KeyCode.R))
         {
+            lastSkillUseTime[KeyCode.R] = Time.time;
             charAnimator.SetInteger("Attack_num", 4);
             shouldMove = false;
             sm.SetState(dicState[CharState.Attack]);
             LookAtBoss();
+            characterSetting.UseMp(10.0f);
         }
         else
         {
             
         }
     }
+    public Dictionary<KeyCode, float> GetSkillCooldowns()
+    {
+        return skillCooldowns;
+    }
 
+    public Dictionary<KeyCode, float> GetLastSkillUseTimes()
+    {
+        return lastSkillUseTime;
+    }
     void Update()
     {
         //attack

@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 639928985217862936}
   - component: {fileID: 5081319683814515312}
   - component: {fileID: 3570693300142395275}
+  - component: {fileID: 3417568372035214176}
+  - component: {fileID: 5111170038357784260}
   m_Layer: 0
   m_Name: MushroomSmilePA
   m_TagString: Untagged
@@ -27,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 264213370537990050}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
   - {fileID: 3219824336992946466}
   - {fileID: 6696433624460359304}
@@ -68,6 +70,44 @@ MonoBehaviour:
   _animator: {fileID: 0}
   _target: {fileID: 0}
   speed: 1
+  triggerRange: 10
+  attackRange: 2
+  createPoint: {x: 0, y: 0, z: 0}
+  returnCheck: 0
+  hp: 0
+  hpBarPrefab: {fileID: 3766826013427609195, guid: 5338e7640ce06c347bc9962bb9576c75,
+    type: 3}
+  hpBarOffset: {x: -0.5, y: 2.4, z: 0}
+--- !u!136 &3417568372035214176
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 264213370537990050}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.63
+  m_Height: 1.7295265
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.36476249, z: 0}
+--- !u!54 &5111170038357784260
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 264213370537990050}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1029362807284367314
 GameObject:
   m_ObjectHideFlags: 0
@@ -607,9 +647,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3735827278866657680}
+  - component: {fileID: 6675731317494421100}
   m_Layer: 0
   m_Name: mushroom_head
-  m_TagString: Untagged
+  m_TagString: EnemyAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -632,6 +673,19 @@ Transform:
   m_Father: {fileID: 8906446930557002035}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &6675731317494421100
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7249288963876293953}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.57, y: 1, z: 1}
+  m_Center: {x: 0.02, y: -0.000000006159672, z: -0.00000001554453}
 --- !u!1 &7313703226938096112
 GameObject:
   m_ObjectHideFlags: 0

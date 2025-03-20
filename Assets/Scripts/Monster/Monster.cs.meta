@@ -3,7 +3,11 @@ guid: c666e68efe4d8634eb1e901959062b3c
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - _animator: {instanceID: 0}
+  - _target: {instanceID: 0}
+  - hpBarPrefab: {fileID: 3766826013427609195, guid: 5338e7640ce06c347bc9962bb9576c75,
+      type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
