@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class Dragon : MonoBehaviour
 {
     // Dragon의 fsm 상태 객체 저장용
@@ -18,6 +18,9 @@ public class Dragon : MonoBehaviour
     public float _currentDistance;
     // 상태 컨트롤 객체
     StateMachine<Dragon> _fsm;
+    private float hp;
+    public Image hpBarImage;
+    public Text hpText;
     public enum SkillStates
     {
         None,
@@ -72,6 +75,7 @@ public class Dragon : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        hp = 500.0f;
         // 상태 객체 생성
         _attackState = new DragonAttackState(this);
         _idleState = new DragonIdleState(this);
@@ -91,7 +95,23 @@ public class Dragon : MonoBehaviour
         // 애니메이터컴포넌트를 가지고 온다.
         _animator = GetComponent<Animator>();
     }
-
+    public void GetDamage(float damage)
+    {
+        hp -= damage;
+        UpdateHpBar();
+    }
+    public float GetHp()
+    {
+        return hp;
+    }
+    void UpdateHpBar()
+    {
+        if (hpBarImage != null && hpText != null)
+        {
+            hpBarImage.fillAmount = hp / 100.0f;
+            hpText.text = $"HP : ({hp} / 500)";
+        }
+    }
     // 상태 변경함수
     public void ChangeIdleState()
     {

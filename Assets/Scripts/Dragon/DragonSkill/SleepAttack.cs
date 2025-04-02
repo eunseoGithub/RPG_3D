@@ -12,10 +12,23 @@ public class SleepAttack : MonoBehaviour
     public float minDistanceFromBoss = 5f;  // 보스와 너무 가까운 위치는 제외
     public int explosionCount = 10;         // 총 폭발 횟수
     public float delayBetweenExplosions = 0.5f; // 각 폭발 간 시간 지연
+    private List<GameObject> spawnObjects = new List<GameObject>();
 
     private void OnEnable()
     {
         StartCoroutine(SpawnExplosions());
+    }
+
+    private void OnDisable()
+    {
+        foreach (GameObject obj in spawnObjects)
+        {
+            if (obj != null)
+            {
+                Destroy(obj);
+            }
+        }
+        spawnObjects.Clear();
     }
 
     private IEnumerator SpawnExplosions()
@@ -27,12 +40,18 @@ public class SleepAttack : MonoBehaviour
 
             // 2. 경고 원 생성
             GameObject warningCircle = Instantiate(warningCirclePrefab, randomPosition, Quaternion.Euler(90f, 0f, 0f));
+            spawnObjects.Add(warningCircle);
 
             // 3. 경고 시간이 지난 후 원 제거 및 폭발 파티클 생성
             yield return new WaitForSeconds(warningDuration);
-            Destroy(warningCircle);
-            Instantiate(explosionPrefab, randomPosition, Quaternion.identity);
+            if (warningCircle != null)
+            {
+                Destroy(warningCircle);
+                spawnObjects.Remove(warningCircle);
+            }
 
+            GameObject explosion = Instantiate(explosionPrefab, randomPosition, Quaternion.identity);
+            spawnObjects.Add(explosion);
             // 4. 다음 폭발까지 대기
             yield return new WaitForSeconds(delayBetweenExplosions);
         }
@@ -51,7 +70,7 @@ public class SleepAttack : MonoBehaviour
 
             randomPosition = new Vector3(
                 bossTransform.position.x + randomX,
-                bossTransform.position.y + 0.1f, // Y축은 보스와 동일한 높이로
+                bossTransform.position.y + 0.5f, // Y축은 보스와 동일한 높이로
                 bossTransform.position.z + randomZ
             );
 

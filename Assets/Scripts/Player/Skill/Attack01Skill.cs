@@ -17,7 +17,13 @@ public class Attack01Skill : MonoBehaviour
     {
         Destroy(this.gameObject, 5.0f);
     }
-
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Enemy"))
+        {
+            Destroy(this.gameObject);
+        }
+    }
     public void Launch(Vector3 direction)
     {
         Vector3 directionNoY = new Vector3(direction.x, 0, direction.z).normalized;

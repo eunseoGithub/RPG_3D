@@ -20,14 +20,19 @@ public class Character : MonoBehaviour
     private float exp;
     private StatManger stat;
     [SerializeField]
-    int level;
+    private int level;
+    public bool healOn;
+    private float healTime;
+    public float regenerateTime = 1.0f;
+    public int healCount = 0;
+    public bool key;
+
     // Start is called before the first frame update
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            //DontDestroyOnLoad(gameObject); // 씬이 바뀌어도 유지
         }
         else
         {
@@ -41,6 +46,11 @@ public class Character : MonoBehaviour
         mp = 100;
         exp = 0;
         level = 1;
+        healOn = false;
+        healTime = 5.0f;
+        regenerateTime = 1.0f;
+        healCount = 0;
+        key = false;
     }
     public void SetHp(float _hp)
     {
@@ -65,6 +75,14 @@ public class Character : MonoBehaviour
     public float GetExp()
     {
         return exp;
+    }
+    public void SetLevel(int _level)
+    {
+        level = _level;
+    }
+    public int GetLevel()
+    {
+        return level;
     }
     public void GetDamage(float damage)
     {
@@ -128,9 +146,49 @@ public class Character : MonoBehaviour
             UpdateLevel();
         }
     }
+
     // Update is called once per frame
     void Update()
     {
         CheckLevelUp();
+
+        if (healOn && healCount < 5)
+        {
+            healTime -= Time.deltaTime;
+            if (healTime <= 0.0f)
+            {
+                float maxHp = stat.statData.stat[level - 1].hp;
+                hp = Mathf.Min(hp + 10.0f, maxHp); // HP가 maxHp를 넘지 않도록 제한
+                healCount++;
+                healTime = 1.0f; // 1초마다 회복
+                UpdateHpBar();
+            }
+        }
+
+        if (healOn && healCount >= 5)
+        {
+            healOn = false;
+        }
+
+        if (!healOn)
+        {
+            healTime = 5.0f;
+            healCount = 0;
+        }
+
+        regenerateTime -= Time.deltaTime;
+        if (regenerateTime <= 0.0f)
+        {
+            float maxHp = stat.statData.stat[level - 1].hp;
+            float maxMp = stat.statData.stat[level - 1].mp;
+
+            hp = Mathf.Min(hp + 1.0f, maxHp);  // HP가 maxHp를 넘지 않도록 제한
+            mp = Mathf.Min(mp + 2.0f, maxMp);  // MP가 maxMp를 넘지 않도록 제한
+
+            regenerateTime = 1.0f; // 다시 1초로 초기화
+            UpdateHpBar();
+            UpdateMpBar();
+        }
+
     }
 }

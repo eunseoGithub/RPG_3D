@@ -39,11 +39,11 @@ public class StatManger : MonoBehaviour
         TextAsset textAsset = Resources.Load<TextAsset>("StatData");
         if (textAsset != null)
         {
-            statData = JsonUtility.FromJson<StatData>(textAsset.text); // JSON을 StatData로 파싱
-            // 데이터 출력 확인
+            statData = JsonUtility.FromJson<StatData>(textAsset.text); 
+            
             foreach (var stat in statData.stat)
             {
-                Debug.Log($"Level: {stat.level}, HP: {stat.hp}, MP: {stat.mp}, EXP: {stat.exp}");
+                //Debug.Log($"Level: {stat.level}, HP: {stat.hp}, MP: {stat.mp}, EXP: {stat.exp}");
             }
         }
         else

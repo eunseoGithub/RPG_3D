@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
-
 public class Monster : MonoBehaviour
 {
     StateMachine<Monster> _fsm;
@@ -28,6 +28,8 @@ public class Monster : MonoBehaviour
     private LogManager logManager;
     private Character player;
     private float exp;
+    public static event Action<Monster> OnMonsterDeath;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -60,6 +62,12 @@ public class Monster : MonoBehaviour
         _hpbar.enemyTr = this.gameObject.transform;
         _hpbar.offset = hpBarOffset;
         hpBarImage = hpBar.GetComponent<Image>();
+        
+    }
+    
+    void OnDestroy()
+    {
+        Destroy(hpBarImage);
     }
     public bool GetDie()
     {
@@ -124,11 +132,14 @@ public class Monster : MonoBehaviour
         _animator.SetTrigger("Alive");
         die = false;
         isDeadHandled = false;
+        UpdateHpBar();
     }
+
     private void OnEnable()
     {
         MonsterInit();
     }
+
     void GeDamage(float damage)
     {
         if (hp <= 0) return;
@@ -137,6 +148,7 @@ public class Monster : MonoBehaviour
             hp = 0;
         UpdateHpBar();
     }
+
     void UpdateHpBar()
     {
         if (hpBarImage != null)
@@ -144,16 +156,30 @@ public class Monster : MonoBehaviour
             hpBarImage.fillAmount = hp / 100.0f; // HP 비율 반영
         }
     }
+
     bool RandomItem()
     {
         bool result = false;
 
-        int ran = Random.Range(0, 100);
+        int ran = UnityEngine.Random.Range(0, 100);
         if(ran<10)
         {
             result = true;
         }
         return result;
+    }
+    void MushroomAttackSound()
+    {
+        SFXManager.Instance.PlaySound(SFXManager.Instance.mushroomAttack);
+    }
+    void CatusAttackSound()
+    {
+        SFXManager.Instance.PlaySound(SFXManager.Instance.catusAttack);
+    }
+    private IEnumerator HandleDeath()
+    {
+        yield return new WaitForSeconds(dieCount);
+        this.gameObject.SetActive(false);
     }
     // Update is called once per frame
     void Update()
@@ -166,6 +192,7 @@ public class Monster : MonoBehaviour
             {
                 die = true;
                 _animator.SetTrigger("Die");
+                
                 logManager.AddLog("경험치 "+ exp +"를 획득하셨습니다.");
                 float addExp = player.GetExp();
                 player.SetExp(addExp + exp);
@@ -173,14 +200,18 @@ public class Monster : MonoBehaviour
                 if (RandomItem())
                 {
                     logManager.AddLog("Key를 획득하셨습니다.");
+                    Character.Instance.key = true;
                 }
+                OnMonsterDeath?.Invoke(this);
+                StartCoroutine(HandleDeath());
             }
-            dieCount -= Time.deltaTime;
+            
+            /*dieCount -= Time.deltaTime;
             if (dieCount <= 0.0f)
             {
-                this.gameObject.SetActive(false);
                 isDeadHandled = true;
-            }
+                this.gameObject.SetActive(false);
+            }*/
         }
             
         float createDistance = Vector3.Distance(transform.position, createPoint);

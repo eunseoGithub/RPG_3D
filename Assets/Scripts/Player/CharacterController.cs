@@ -150,6 +150,7 @@ public class CharacterController : MonoBehaviour
     public void Attack05_Fire()
     {
         Attack05Particle.SetActive(true);
+        SFXManager.Instance.PlaySound(SFXManager.Instance.playerAttack_R);
     }
     void FireAtMousePosition_Attack01()
     {
@@ -157,6 +158,7 @@ public class CharacterController : MonoBehaviour
 
         GameObject fireball = Instantiate(Attack01Prefab, firePoint.position, Quaternion.identity);
         fireball.GetComponent<Attack01Skill>().Launch(direction);
+        SFXManager.Instance.PlaySound(SFXManager.Instance.playerAttack_leftclick);
     }
     void FireAtMousePosition_Attack02()
     {
@@ -164,6 +166,7 @@ public class CharacterController : MonoBehaviour
 
         GameObject fireball = Instantiate(Attack02Prefab, firePoint.position, Quaternion.LookRotation(-direction));
         fireball.GetComponent<Attack02Skill>().Launch(direction);
+        SFXManager.Instance.PlaySound(SFXManager.Instance.playerAttack_Q);
     }
 
     void FireAtMousePosition_Attack03()
@@ -173,13 +176,13 @@ public class CharacterController : MonoBehaviour
         float distanceToBoss = Vector3.Distance(fire.transform.position, Boss.transform.position);
         if (distanceToBoss < 5.0f) // 거리 1.5 이하이면 히트 판정
         {
-            /*Boss bossComponent = boss.GetComponent<Boss>();
+            Dragon bossComponent = Boss.GetComponent<Dragon>();
             if (bossComponent != null)
             {
-                bossComponent.TakeDamage(10); // 보스에게 10의 데미지
-            }*/
-            Debug.Log("보스 데미지 입음");
+                bossComponent.GetDamage(10); // 보스에게 10의 데미지
+            }
         }
+        SFXManager.Instance.PlaySound(SFXManager.Instance.playerAttack_W);
     }
     void FireAtMousePosition_Attack04()
     {
@@ -188,13 +191,13 @@ public class CharacterController : MonoBehaviour
         float distanceToBoss = Vector3.Distance(fire.transform.position, Boss.transform.position);
         if (distanceToBoss < 5.0f) // 거리 1.5 이하이면 히트 판정
         {
-            /*Boss bossComponent = boss.GetComponent<Boss>();
+            Dragon bossComponent = Boss.GetComponent<Dragon>();
             if (bossComponent != null)
             {
-                bossComponent.TakeDamage(10); // 보스에게 10의 데미지
-            }*/
-            Debug.Log("보스 데미지 입음 Attack 04");
+                bossComponent.GetDamage(10); // 보스에게 10의 데미지
+            }
         }
+        SFXManager.Instance.PlaySound(SFXManager.Instance.playerAttack_E);
     }
     private void LookAtBoss()
     {
@@ -256,6 +259,7 @@ public class CharacterController : MonoBehaviour
             sm.SetState(dicState[CharState.Attack]);
             LookAtBoss();
             characterSetting.UseMp(10.0f);
+            characterSetting.healOn = true;
         }
         else
         {
@@ -321,7 +325,7 @@ public class CharacterController : MonoBehaviour
             }
         }
         float hp =this.GetComponent<Character>().GetHp();
-        if (hp >= 100)
+        if (characterSetting.healOn==false && Attack05Particle.activeSelf == true)
         {
             Attack05Particle.SetActive(false);
             

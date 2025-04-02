@@ -38,6 +38,7 @@ public class DragonAnimationEvent : MonoBehaviour
         GameObject fireball = Instantiate(_basicAttack_firballlPrefab, _basicAttack_FirePoint.transform.position, Quaternion.identity);
         Vector3 fireDirection = transform.forward;
         fireball.GetComponent<BasicAttackSkill>().Initialize(fireDirection);
+        SFXManager.Instance.PlaySound(SFXManager.Instance.BossSkill2);
         //BasicAttackSkill fireballScript = _basicAttack_firballlPrefab.GetComponent<BasicAttackSkill>();
         //fireballScript.SetDirection(transform.forward);
     }
@@ -49,6 +50,7 @@ public class DragonAnimationEvent : MonoBehaviour
             {
                 if (_flameAttack_FirePoint.activeSelf == false)
                     _flameAttack_FirePoint.SetActive(true);
+                SFXManager.Instance.PlaySound(SFXManager.Instance.BossSkill4);
             }
             _flameAttackCount--;
             //Debug.Log("FlameAttack Start" + _flameAttackCount);
@@ -120,6 +122,7 @@ public class DragonAnimationEvent : MonoBehaviour
             if (_screamAttack_Obj.activeSelf == false)
                 _screamAttack_Obj.SetActive(true);
             _screamCount--;
+            SFXManager.Instance.PlaySound(SFXManager.Instance.BossSkill1);
             //Debug.Log("Scream Start " + _screamCount);
         }
     }
@@ -154,7 +157,6 @@ public class DragonAnimationEvent : MonoBehaviour
                 _sleepAttack_Obj.SetActive(false);
             _sleepCount = 2;
         }
-        
     }
     void LandEnd()
     {
@@ -193,6 +195,7 @@ public class DragonAnimationEvent : MonoBehaviour
             if (_takeoffAttack_Obj.activeSelf == false)
                 _takeoffAttack_Obj.SetActive(true);
             _takeoffCount--;
+            SFXManager.Instance.PlaySound(SFXManager.Instance.BossSkill3);
             //Debug.Log("_takeoffCount Start" + _basicAttackCount);
         }
     }

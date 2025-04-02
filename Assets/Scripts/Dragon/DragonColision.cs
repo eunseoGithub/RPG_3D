@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class DragonColision : MonoBehaviour
 {
+    GameObject DragonObj;
+    Dragon dragon;
     // Start is called before the first frame update
     void Start()
     {
-        
+        DragonObj = transform.root.gameObject;
+        dragon = DragonObj.GetComponent<Dragon>();
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -15,11 +18,12 @@ public class DragonColision : MonoBehaviour
         {
             //데미지 처리
             Debug.Log($"[{gameObject.name}] player attack");
+            dragon.GetDamage(10);
             Destroy(other.gameObject);
         }
         else
         {
-            //Debug.Log("!1111111111");
+
         }
     }
     // Update is called once per frame

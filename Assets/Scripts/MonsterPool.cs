@@ -11,6 +11,7 @@ public class MonsterPool : MonoBehaviour
     public int currentActive;//현재 active 상태인 몬스터 개수
     public float spawnRadius = 5.0f; // 스폰 반경
     public float minDistance = 1.5f; // 몬스터 간 최소 거리
+    private List<bool> poolLive = new List<bool>();
     // Start is called before the first frame update
     void Start()
     {
@@ -23,16 +24,52 @@ public class MonsterPool : MonoBehaviour
             {
                 Vector3 spawnPosition = GetRandomSpawnPosition();
                 GameObject mon = Instantiate(monsterPrefab, spawnPosition, Quaternion.identity);
-                //GameObject mon = Instantiate(monsterPrefab);
                 mon.gameObject.SetActive(false);
                 currentActive--;
                 pools.Add(mon);
+                poolLive.Add(true);
             }
         }
         for(int i = 0; i < active; i++)
         {
             pools[i].SetActive(true);
             currentActive++;
+        }
+        //StartCoroutine(WatchingLoop());
+    }
+    void OnEnable()
+    {
+        Monster.OnMonsterDeath += OnMonsterDie;
+    }
+
+    void OnDisable()
+    {
+        Monster.OnMonsterDeath -= OnMonsterDie;
+    }
+    public void OnMonsterDie(Monster monster)
+    {
+        int index = pools.IndexOf(monster.gameObject);
+        if (index != -1)
+        {
+            poolLive[index] = true;
+            currentActive--;
+
+            for (int k = 0; k < poolSize; k++)
+            {
+                if (!pools[k].activeSelf)
+                {
+                    pools[k].SetActive(true);
+                    currentActive++;
+                    break;
+                }
+            }
+        }
+    }
+    public void RemoveMonster()
+    {
+        for(int i = 0; i<pools.Count;i++)
+        {
+            Destroy(pools[i]);
         }
     }
     Vector3 GetRandomSpawnPosition()
@@ -74,7 +111,7 @@ public class MonsterPool : MonoBehaviour
 
         return spawnPosition;
     }
-    void Watching()
+    /*void Watching()
     {
         for(int i = 0; i<poolSize;i++)
         {
@@ -83,8 +120,7 @@ public class MonsterPool : MonoBehaviour
             {
                 if(pools[i].activeSelf)
                 {
-                    //pools[i].SetActive(false);
-                    //Debug.Log($"{pools[i].name} 상태: {pools[i].activeSelf}");
+                    poolLive[i] = true;
                     monster.SetIsDeadHandled(true);
                     currentActive--;
                     for(int k = 0; k<poolSize;k++)
@@ -100,22 +136,18 @@ public class MonsterPool : MonoBehaviour
             }
         }
     }
+    
+    IEnumerator WatchingLoop()
+    {
+        while (true)
+        {
+            Watching();
+            yield return new WaitForSeconds(0.5f);
+        }
+    }*/
     // Update is called once per frame
     void Update()
     {
-        Watching();
-        //if (currentActive < active)
-        //{
-        //    for(int i=0;i< poolSize;i++)
-        //    {
-        //        if(!pools[i].activeSelf)
-        //        {
-        //            pools[i].SetActive(true);
-        //            currentActive++;
-        //            break;
-        //        }
-        //    }
-        //}
 
     }
 }
