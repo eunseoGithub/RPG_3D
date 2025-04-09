@@ -11,7 +11,6 @@ public class DragonFarAttackState : IState<Dragon>
     }
     public void OperateEnter(Dragon sender)
     {
-        //_owner._animator.SetBool("nearAttack", true);
     }
 
     public void OperateUpdate(Dragon sender)
@@ -44,6 +43,5 @@ public class DragonFarAttackState : IState<Dragon>
 
     public void OperateExit(Dragon Sender)
     {
-        //_owner._animator.SetBool("nearAttack", false);        
     }
 }

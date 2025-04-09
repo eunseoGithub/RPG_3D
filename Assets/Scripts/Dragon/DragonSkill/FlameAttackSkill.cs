@@ -13,10 +13,8 @@ public class FlameAttackSkill : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("other : " + other);
         if (other.CompareTag("Player"))
         {
-            Debug.Log("player attack <Flame Attack>");
             other.GetComponent<Character>().GetDamage(damage);
         }
     }

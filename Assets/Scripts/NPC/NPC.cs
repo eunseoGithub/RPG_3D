@@ -46,7 +46,6 @@ public class NPC : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.G))
             {
-                //NPC_Panel.SetActive(true);
                 dialogueManager.StartDialogue(); // 대화 시작
             }
         }

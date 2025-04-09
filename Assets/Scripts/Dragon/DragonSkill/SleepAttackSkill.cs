@@ -15,7 +15,6 @@ public class SleepAttackSkill : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("player attack <Sleep Attack>");
             other.GetComponent<Character>().GetDamage(damage);
         }
         if (other.CompareTag("Land"))

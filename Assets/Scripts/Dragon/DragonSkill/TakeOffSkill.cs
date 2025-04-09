@@ -16,7 +16,6 @@ public class TakeOffSkill : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("player attack <TakeOff Attack>");
             other.GetComponent<Character>().GetDamage(damage);
         }
     }

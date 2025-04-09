@@ -87,7 +87,6 @@ public class Monster : MonoBehaviour
 
         Vector3 direction = (_target.transform.position - transform.position).normalized;
 
-        // 부드러운 회전 적용 (회전 속도는 5f, 필요하면 조정 가능)
         Quaternion targetRotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
 
@@ -99,14 +98,12 @@ public class Monster : MonoBehaviour
     {
         Vector3 direction = (createPoint - transform.position).normalized;
 
-        // 부드러운 회전 적용 (회전 속도는 5f, 필요하면 조정 가능)
         Quaternion targetRotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
         transform.position += direction * speed * Time.deltaTime;
     }
     void OnTriggerEnterCustom()
     {
-        //Debug.Log("플레이어가 몬스터 범위 안에 들어옴!");
         if(_fsm.curState != _chaseState)
             _fsm.SetState(_chaseState);
     }
@@ -116,13 +113,11 @@ public class Monster : MonoBehaviour
             return;
         if(other.CompareTag("PlayerAttack"))
         {
-            Debug.Log("데미지 입음");
             GeDamage(50.0f);
         }
     }
     void OnTriggerExitCustom()
     {
-        //Debug.Log("플레이어가 몬스터 범위를 벗어남!");
         if(_fsm.curState != _idleState)
             _fsm.SetState(_idleState);
     }
@@ -206,12 +201,6 @@ public class Monster : MonoBehaviour
                 StartCoroutine(HandleDeath());
             }
             
-            /*dieCount -= Time.deltaTime;
-            if (dieCount <= 0.0f)
-            {
-                isDeadHandled = true;
-                this.gameObject.SetActive(false);
-            }*/
         }
             
         float createDistance = Vector3.Distance(transform.position, createPoint);
@@ -246,7 +235,6 @@ public class Monster : MonoBehaviour
 
     private void FixedUpdate() // 0.02초마다 호출
     {
-        // 상태기계머쉰의 UPdate함수를 매 프레임마다 호출
         if(!die)
             _fsm.DoOperateUpdate();
 

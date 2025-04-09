@@ -37,11 +37,9 @@ public class SFXManager : MonoBehaviour
     {
         if (audioClip == null)
         {
-            Debug.LogError("PlaySound was called with a null AudioClip!");
             return;
         }
 
-        Debug.Log("Playing sound: " + audioClip.name);
         audioSource.PlayOneShot(audioClip);
     }
 }

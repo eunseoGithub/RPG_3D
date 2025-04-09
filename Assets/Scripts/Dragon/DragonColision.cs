@@ -17,7 +17,6 @@ public class DragonColision : MonoBehaviour
         if(other.CompareTag("PlayerAttack"))
         {
             //데미지 처리
-            Debug.Log($"[{gameObject.name}] player attack");
             dragon.GetDamage(10);
             Destroy(other.gameObject);
         }

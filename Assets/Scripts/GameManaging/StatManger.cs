@@ -41,10 +41,6 @@ public class StatManger : MonoBehaviour
         {
             statData = JsonUtility.FromJson<StatData>(textAsset.text); 
             
-            foreach (var stat in statData.stat)
-            {
-                //Debug.Log($"Level: {stat.level}, HP: {stat.hp}, MP: {stat.mp}, EXP: {stat.exp}");
-            }
         }
         else
         {

@@ -5,18 +5,18 @@ using UnityEngine.UI;
 public class Dragon : MonoBehaviour
 {
     // Dragon의 fsm 상태 객체 저장용
-    DragonAttackState _attackState;  //  공격상태관리
-    DragonIdleState _idleState;     // Idle 상태 관리
-    DragonChaseState _chaseState;   // 추적상태관리
-    DragonMoveState _moveState;     // 이동 상태 관리
-    DragonReturnBaseState _returnBaseState; // 귀환 상태 관리
-    DragonRetreatState _retreatState;
-    DragonNearAttackState _nearAttackState; // 근거리 공격 상태.
-    DragonFarAttackState _farAttackState;   // 원거리 공격 상태
+    DragonAttackState _attackState;                       //공격상태관리
+    DragonIdleState _idleState;                               //Idle 상태 관리
+    DragonChaseState _chaseState;                        //추적상태관리
+    DragonMoveState _moveState;                         //이동 상태 관리
+    DragonReturnBaseState _returnBaseState;     //귀환 상태 관리
+    DragonRetreatState _retreatState;                  //생성 위치 귀환 관리
+    DragonNearAttackState _nearAttackState;     //근거리 공격 상태 관리
+    DragonFarAttackState _farAttackState;          //원거리 공격 상태 관리
 
     public SkillStates _currentState;
     public float _currentDistance;
-    // 상태 컨트롤 객체
+    
     StateMachine<Dragon> _fsm;
     private float hp;
     public Image hpBarImage;
@@ -152,31 +152,6 @@ public class Dragon : MonoBehaviour
         _fsm.SetState(_farAttackState);
     }
 
-   /* /// <summary>
-    /// 랜덤으로 보스 공격 범위를 지정한다
-    /// </summary>
-    /// <returns></returns>
-    public SkillStates RandomSkiilState()
-    {
-        SkillStates randomSkill;
-        int random = Random.Range(0, 2);
-        if (random == 1)
-        {
-            randomSkill = SkillStates.Near;
-            _animator.SetInteger("nearAttackSkill", Random.Range(0, 3));
-        }
-        else
-        {
-            randomSkill = SkillStates.Far;
-            _animator.SetInteger("farAttackSkill", Random.Range(0, 4));
-        }
-        return randomSkill;
-    }*/
-
-    /// <summary>
-    /// 감지 반경내에 들어온 타겟을 감지 한다.
-    /// </summary>
-    /// <returns></returns>
     public bool DetectingTarget()
     {
         // 감지 반경안에 들어온 오브젝트들의 콜라이더를 가져온다.
@@ -197,11 +172,6 @@ public class Dragon : MonoBehaviour
         return false;   // 감지 반경내에 감지 target이 없음
     }
 
-    /// <summary>
-    /// 추적 반경안에 있는 체크
-    /// </summary>
-    /// <returns></returns>
-    /// 
     public bool CheckChaseRange()
     {
         // 타겟과의 거리를 계산한다. 
@@ -215,31 +185,6 @@ public class Dragon : MonoBehaviour
         return false;
     }
 
-    #region CheckChaseRange_Method_Modify
-    /*
-	public BossState CheckChaseRange()
-    {
-        float distance = Vector3.Distance(this.transform.position, _targetTr.position);
-        BossState state = BossState.Idle;
-        if (_targetTr != null && Vector3.Distance(this.transform.position, _targetTr.position) <= _chaseRange)
-        {
-            state = BossState.Chase;
-        }
-        else
-        {
-            state = BossState.Idle;
-        }
-
-        return state;
-    }
-    */
-    #endregion
-
-    /// <summary>
-    /// 근거리 공격 반경안에 있는 체크
-    /// </summary>
-    /// <returns></returns>
-    /// 
 
     public bool CheckNearAttackRange()
     {
@@ -251,27 +196,7 @@ public class Dragon : MonoBehaviour
 
         return false;
     }
-    /*
-	public BossState CheckNearAttackRange()
-	{
-        BossState state = BossState.Idle;
-        if (_targetTr != null && Vector3.Distance(this.transform.position, _targetTr.position) <= _attackNearRange )
-		{
-            state = BossState.Attack;
-		}
-		else
-		{
-            state = BossState.Chase;
-		}
-        return state;
-	}
-    */
 
-    /// <summary>
-    /// 원거리 공격 반경안에 있는지 체크
-    /// </summary>
-    /// <returns></returns>
-    /// 
     public bool CheckFarAttackRange()
     {
         if (Vector3.Distance(this.transform.position, _targetTr.position) <= _attackFarRange)
@@ -282,39 +207,6 @@ public class Dragon : MonoBehaviour
         return false;
     }
 
-
-    /*
-    public BossState CheckFarAttackRange()
-	{
-        BossState state = BossState.Idle;
-        
-        if (_targetTr == null)
-        {
-            state = BossState.None;
-            return state;
-        }
-
-        if(Vector3.Distance(this.transform.position, _targetTr.position) <= _attackNearRange)//보스 거리가 near attack 범위 내일땐 후퇴
-        {
-            state = BossState.Retreat;
-        }
-        else if(Vector3.Distance(this.transform.position, _targetTr.position) > _attackNearRange //보스 거리가 Far attack 범위 일 경우 attack
-            && Vector3.Distance(this.transform.position, _targetTr.position) <= _attackFarRange)
-        {
-            state = BossState.Attack;
-        }
-        else//보스 거리가 far attack 범위보다 멀 경우 chase
-        {
-            state = BossState.Chase;
-        }
-
-        return state;
-    }
-    */
-
-    /// <summary>
-    /// 타겟을 추적한다.
-    /// </summary>
     public void MoveChase()
     {
         if (_targetTr != null)
@@ -352,9 +244,7 @@ public class Dragon : MonoBehaviour
             }
         }
     }
-    /// <summary>
-    /// 있던 위치로 귀환한다.
-    /// </summary>
+    
     public void MoveReturnBase()
     {
         if (_targetTr != null)
@@ -365,10 +255,7 @@ public class Dragon : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 귀환 해야 하는지 체크
-    /// </summary>
-    /// <returns></returns>
+   
     public bool CheckReturnBase()
     {
         float ReturnDistance = (_returnPosition - this.transform.position).magnitude;
@@ -383,7 +270,6 @@ public class Dragon : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
 

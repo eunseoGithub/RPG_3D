@@ -15,7 +15,6 @@ public class DefendAttackSkill : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("player attack <Defend Attack>");
             other.GetComponent<Character>().GetDamage(damage);
         }
     }

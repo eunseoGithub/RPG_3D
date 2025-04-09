@@ -17,9 +17,7 @@ public class MonsterAttack : MonoBehaviour
         if(rootAni.GetBool("Attack"))
         {
             if (other.CompareTag("Player"))
-            {
-                Debug.Log("Player Attack : " + this.name);
-                
+            {  
                 other.gameObject.GetComponent<Character>().GetDamage(10);
             }
         }

@@ -9,10 +9,6 @@ public class CharacterIdle : IState<CharacterController>
     public void OperateEnter(CharacterController sender)
     {
         charController = sender;
-        if (charController != null)
-        {
-            //_bikeController.CurrentSpeed = 0;
-        }
     }
 
     public void OperateExit(CharacterController sender)

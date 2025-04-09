@@ -35,14 +35,11 @@ public class SleepAttack : MonoBehaviour
     {
         for (int i = 0; i < explosionCount; i++)
         {
-            // 1. 보스 근처의 랜덤 위치를 얻음 (보스와 최소 거리 유지)
             Vector3 randomPosition = GetValidRandomPosition();
 
-            // 2. 경고 원 생성
             GameObject warningCircle = Instantiate(warningCirclePrefab, randomPosition, Quaternion.Euler(90f, 0f, 0f));
             spawnObjects.Add(warningCircle);
 
-            // 3. 경고 시간이 지난 후 원 제거 및 폭발 파티클 생성
             yield return new WaitForSeconds(warningDuration);
             if (warningCircle != null)
             {
@@ -52,7 +49,7 @@ public class SleepAttack : MonoBehaviour
 
             GameObject explosion = Instantiate(explosionPrefab, randomPosition, Quaternion.identity);
             spawnObjects.Add(explosion);
-            // 4. 다음 폭발까지 대기
+
             yield return new WaitForSeconds(delayBetweenExplosions);
         }
     }
@@ -64,7 +61,6 @@ public class SleepAttack : MonoBehaviour
 
         do
         {
-            // X, Z 축에서 랜덤 좌표 생성 (보스 위치를 중심으로)
             float randomX = Random.Range(-spawnRange, spawnRange);
             float randomZ = Random.Range(-spawnRange, spawnRange);
 

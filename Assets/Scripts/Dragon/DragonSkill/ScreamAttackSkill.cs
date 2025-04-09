@@ -15,7 +15,6 @@ public class ScreamAttackSkill : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("player attack <Scream Attack>");
             other.GetComponent<Character>().GetDamage(damage);
         }
         if (other.CompareTag("Land"))
