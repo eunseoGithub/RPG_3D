@@ -13,6 +13,6 @@ public class Attack04Skill : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

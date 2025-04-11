@@ -14,11 +14,11 @@ public class NPC : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
             pButtonUI.gameObject.SetActive(true);
             isPlayerNear = true;

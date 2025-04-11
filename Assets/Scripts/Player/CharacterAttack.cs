@@ -14,14 +14,14 @@ public class CharacterAttack : IState<CharacterController>
 
     public void OperateExit(CharacterController sender)
     {
-        
+
     }
 
     public void OperateUpdate(CharacterController sender)
     {
         if (charController != null)
         {
-            
+
         }
     }
 }

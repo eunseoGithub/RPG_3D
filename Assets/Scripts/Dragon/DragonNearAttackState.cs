@@ -15,15 +15,15 @@ public class DragonNearAttackState : IState<Dragon>
 
     public void OperateUpdate(Dragon sender)
     {
-		if (_owner.CheckNearAttackRange())
-		{
+        if (_owner.CheckNearAttackRange())
+        {
             // 공격
-            if(!(_owner._animator.GetBool("nearAttack")))
+            if (!(_owner._animator.GetBool("nearAttack")))
             {
                 _owner._animator.SetInteger("nearAttackSkill", Random.Range(0, 3));
                 _owner._animator.SetBool("nearAttack", true);
             }
-		}
+        }
         else  // 근거리 공격 상태인데 아직 근거리 공격 반경에 있지 않으면 
         {
             // 근거리 공격상태인데 근거리 공격 반경안에 없는경우
@@ -39,8 +39,8 @@ public class DragonNearAttackState : IState<Dragon>
                     _owner.ChangeReturnBaseState();
                 }
             }
-                
-            
+
+
         }
 
     }

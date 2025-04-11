@@ -7,7 +7,7 @@ public class ActiveBossHP : MonoBehaviour
     public GameObject bossHP;
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
             bossHP.SetActive(true);
         }
@@ -15,12 +15,12 @@ public class ActiveBossHP : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

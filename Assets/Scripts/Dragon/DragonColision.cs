@@ -14,7 +14,7 @@ public class DragonColision : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("PlayerAttack"))
+        if (other.CompareTag("PlayerAttack"))
         {
             //데미지 처리
             dragon.GetDamage(10);
@@ -28,6 +28,6 @@ public class DragonColision : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

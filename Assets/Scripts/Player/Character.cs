@@ -116,7 +116,7 @@ public class Character : MonoBehaviour
     {
         if (expBarImage != null && expText != null)
         {
-            if(level <= 10)
+            if (level <= 10)
             {
                 int nextLevelExp = stat.statData.stat[level - 1].exp;
                 expBarImage.fillAmount = Mathf.Clamp01(exp / nextLevelExp);
@@ -136,7 +136,7 @@ public class Character : MonoBehaviour
     }
     void CheckLevelUp()
     {
-        if(exp >= stat.statData.stat[level - 1].exp)
+        if (exp >= stat.statData.stat[level - 1].exp)
         {
             exp -= stat.statData.stat[level - 1].exp;
             level++;

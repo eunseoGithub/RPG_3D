@@ -44,15 +44,15 @@ public class Monster : MonoBehaviour
 
         _fsm = new StateMachine<Monster>(this, _idleState);
         _target = GameObject.FindWithTag("Player");
-        createPoint = this.transform.position; 
+        createPoint = this.transform.position;
         returnCheck = true;
         hp = 100.0f;
         exp = 100.0f;
         die = false;
         dieCount = 3.0f;
         isDeadHandled = false;
-        
-        if(monsterCanvas == null)
+
+        if (monsterCanvas == null)
         {
             monsterCanvas = GameObject.Find("MonsterHpCanvas").GetComponent<Canvas>();
         }
@@ -62,9 +62,9 @@ public class Monster : MonoBehaviour
         _hpbar.enemyTr = this.gameObject.transform;
         _hpbar.offset = hpBarOffset;
         hpBarImage = hpBar.GetComponent<Image>();
-        
+
     }
-    
+
     void OnDestroy()
     {
         Destroy(hpBarImage);
@@ -104,21 +104,21 @@ public class Monster : MonoBehaviour
     }
     void OnTriggerEnterCustom()
     {
-        if(_fsm.curState != _chaseState)
+        if (_fsm.curState != _chaseState)
             _fsm.SetState(_chaseState);
     }
     private void OnTriggerEnter(Collider other)
     {
         if (!returnCheck || _fsm.curState == _idleState)
             return;
-        if(other.CompareTag("PlayerAttack"))
+        if (other.CompareTag("PlayerAttack"))
         {
             GeDamage(50.0f);
         }
     }
     void OnTriggerExitCustom()
     {
-        if(_fsm.curState != _idleState)
+        if (_fsm.curState != _idleState)
             _fsm.SetState(_idleState);
     }
     public void MonsterInit()
@@ -157,7 +157,7 @@ public class Monster : MonoBehaviour
         bool result = false;
 
         int ran = UnityEngine.Random.Range(0, 100);
-        if(ran<10)
+        if (ran < 10)
         {
             result = true;
         }
@@ -182,13 +182,13 @@ public class Monster : MonoBehaviour
         if (_target == null) return;  // 플레이어가 없으면 실행 X
         if (hp <= 0)
         {
-           
+
             if (!die)
             {
                 die = true;
                 _animator.SetTrigger("Die");
-                
-                logManager.AddLog("경험치 "+ exp +"를 획득하셨습니다.");
+
+                logManager.AddLog("경험치 " + exp + "를 획득하셨습니다.");
                 float addExp = player.GetExp();
                 player.SetExp(addExp + exp);
                 player.UpdateExp();
@@ -200,26 +200,26 @@ public class Monster : MonoBehaviour
                 OnMonsterDeath?.Invoke(this);
                 StartCoroutine(HandleDeath());
             }
-            
+
         }
-            
+
         float createDistance = Vector3.Distance(transform.position, createPoint);
-        if(createDistance > 15.0f)
+        if (createDistance > 15.0f)
         {
-            if(_fsm.curState != _returnState)
-            _fsm.SetState(_returnState);
+            if (_fsm.curState != _returnState)
+                _fsm.SetState(_returnState);
             returnCheck = false;
         }
         if (returnCheck)
             _fsm.SetState(_idleState);
-        if(_fsm.curState !=_returnState)
+        if (_fsm.curState != _returnState)
         {
             float distance = Vector3.Distance(transform.position, _target.transform.position); // 거리 계산
             if (distance <= triggerRange)
             {
-                if( distance <= attackRange)
+                if (distance <= attackRange)
                 {
-                    if(_fsm.curState != _attackState)
+                    if (_fsm.curState != _attackState)
                         _fsm.SetState(_attackState);
                 }
                 else
@@ -230,12 +230,12 @@ public class Monster : MonoBehaviour
                 OnTriggerExitCustom();
             }
         }
-        
+
     }
 
     private void FixedUpdate() // 0.02초마다 호출
     {
-        if(!die)
+        if (!die)
             _fsm.DoOperateUpdate();
 
     }

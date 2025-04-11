@@ -16,7 +16,7 @@ public class Dragon : MonoBehaviour
 
     public SkillStates _currentState;
     public float _currentDistance;
-    
+
     StateMachine<Dragon> _fsm;
     private float hp;
     public Image hpBarImage;
@@ -244,7 +244,7 @@ public class Dragon : MonoBehaviour
             }
         }
     }
-    
+
     public void MoveReturnBase()
     {
         if (_targetTr != null)
@@ -255,7 +255,7 @@ public class Dragon : MonoBehaviour
         }
     }
 
-   
+
     public bool CheckReturnBase()
     {
         float ReturnDistance = (_returnPosition - this.transform.position).magnitude;

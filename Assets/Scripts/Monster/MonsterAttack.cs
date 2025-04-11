@@ -14,10 +14,10 @@ public class MonsterAttack : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(rootAni.GetBool("Attack"))
+        if (rootAni.GetBool("Attack"))
         {
             if (other.CompareTag("Player"))
-            {  
+            {
                 other.gameObject.GetComponent<Character>().GetDamage(10);
             }
         }
@@ -25,6 +25,6 @@ public class MonsterAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

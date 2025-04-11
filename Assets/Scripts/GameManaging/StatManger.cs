@@ -5,7 +5,7 @@ using UnityEngine;
 public class StatManger : MonoBehaviour
 {
     public static StatManger Instance { get; private set; }
-    
+
     [System.Serializable]
     public class Stats
     {
@@ -39,8 +39,8 @@ public class StatManger : MonoBehaviour
         TextAsset textAsset = Resources.Load<TextAsset>("StatData");
         if (textAsset != null)
         {
-            statData = JsonUtility.FromJson<StatData>(textAsset.text); 
-            
+            statData = JsonUtility.FromJson<StatData>(textAsset.text);
+
         }
         else
         {
@@ -51,6 +51,6 @@ public class StatManger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterMove :  IState<CharacterController>
+public class CharacterMove : IState<CharacterController>
 {
     private CharacterController charController;
-  
+
     public void OperateEnter(CharacterController sender)
     {
         charController = sender;
@@ -14,7 +14,7 @@ public class CharacterMove :  IState<CharacterController>
 
     public void OperateUpdate(CharacterController sender)
     {
-       
+
     }
 
     public void OperateExit(CharacterController sender)

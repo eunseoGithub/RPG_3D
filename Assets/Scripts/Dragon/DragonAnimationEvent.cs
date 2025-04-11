@@ -38,7 +38,7 @@ public class DragonAnimationEvent : MonoBehaviour
     }
     void FlameAttackStart()
     {
-        if(_owner._animator.GetBool("nearAttack")==true)
+        if (_owner._animator.GetBool("nearAttack") == true)
         {
             if (_flameAttackCount >= 2)
             {
@@ -48,11 +48,11 @@ public class DragonAnimationEvent : MonoBehaviour
             }
             _flameAttackCount--;
         }
-        
+
     }
     void FlameAttackEnd()
     {
-        if(_flameAttackCount <=0)
+        if (_flameAttackCount <= 0)
         {
             _owner.ChangeIdleState();
             _owner._animator.SetBool("nearAttack", false);
@@ -60,7 +60,7 @@ public class DragonAnimationEvent : MonoBehaviour
                 _flameAttack_FirePoint.SetActive(false);
             _flameAttackCount = 2;
         }
-        
+
     }
     void ClawAttackEnd()
     {
@@ -77,7 +77,7 @@ public class DragonAnimationEvent : MonoBehaviour
         _owner._animator.SetBool("nearAttack", false);
         if (_defendAttack_Obj.activeSelf == true)
             _defendAttack_Obj.SetActive(false);
-        if(_defendAttackCol.activeSelf == true)
+        if (_defendAttackCol.activeSelf == true)
             _defendAttackCol.SetActive(false);
     }
     void BasicAttackStart()
@@ -96,7 +96,7 @@ public class DragonAnimationEvent : MonoBehaviour
     }
     void BasicAttackEnd()
     {
-        if(_basicAttackCount <=0)
+        if (_basicAttackCount <= 0)
         {
             _owner.ChangeIdleState();
             _owner._animator.SetBool("farAttack", false);
@@ -117,7 +117,7 @@ public class DragonAnimationEvent : MonoBehaviour
     }
     void ScreamEnd()
     {
-        if(_screamCount <=0)
+        if (_screamCount <= 0)
         {
             _owner.ChangeIdleState();
             _owner._animator.SetBool("farAttack", false);
@@ -137,7 +137,7 @@ public class DragonAnimationEvent : MonoBehaviour
     }
     void SleepEnd()
     {
-        if(_sleepCount <=0)
+        if (_sleepCount <= 0)
         {
             _owner.ChangeIdleState();
             _owner._animator.SetBool("farAttack", false);
@@ -170,7 +170,7 @@ public class DragonAnimationEvent : MonoBehaviour
 
     void ClawAttack()
     {
-        if(_clawAttackCol.activeSelf == false)
+        if (_clawAttackCol.activeSelf == false)
         {
             _clawAttackCol.SetActive(true);
         }
@@ -201,6 +201,6 @@ public class DragonAnimationEvent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-      
+
     }
 }

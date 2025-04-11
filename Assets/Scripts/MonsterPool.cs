@@ -18,9 +18,9 @@ public class MonsterPool : MonoBehaviour
         poolSize = 10;
         active = 3;
         currentActive = 10;
-        if(monsterPrefab != null)
+        if (monsterPrefab != null)
         {
-            for(int i = 0; i < poolSize; i++)
+            for (int i = 0; i < poolSize; i++)
             {
                 Vector3 spawnPosition = GetRandomSpawnPosition();
                 GameObject mon = Instantiate(monsterPrefab, spawnPosition, Quaternion.identity);
@@ -30,7 +30,7 @@ public class MonsterPool : MonoBehaviour
                 poolLive.Add(true);
             }
         }
-        for(int i = 0; i < active; i++)
+        for (int i = 0; i < active; i++)
         {
             pools[i].SetActive(true);
             currentActive++;
@@ -67,7 +67,7 @@ public class MonsterPool : MonoBehaviour
     }
     public void RemoveMonster()
     {
-        for(int i = 0; i<pools.Count;i++)
+        for (int i = 0; i < pools.Count; i++)
         {
             Destroy(pools[i]);
         }

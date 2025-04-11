@@ -20,7 +20,7 @@ public class ScreamAttack : MonoBehaviour
 
     private void OnDisable()
     {
-        foreach(GameObject obj in spawnObjects)
+        foreach (GameObject obj in spawnObjects)
         {
             if (obj != null)
             {
@@ -39,8 +39,8 @@ public class ScreamAttack : MonoBehaviour
             spawnObjects.Add(warningCircle);
 
             yield return new WaitForSeconds(warningDuration);
-            
-            if(warningCircle != null)
+
+            if (warningCircle != null)
             {
                 Destroy(warningCircle);
                 spawnObjects.Remove(warningCircle);
@@ -65,13 +65,13 @@ public class ScreamAttack : MonoBehaviour
 
             randomPosition = new Vector3(
                 bossTransform.position.x + randomX,
-                bossTransform.position.y+0.5f, // Y축은 보스와 동일한 높이로
+                bossTransform.position.y + 0.5f, // Y축은 보스와 동일한 높이로
                 bossTransform.position.z + randomZ
             );
 
             distance = Vector3.Distance(bossTransform.position, randomPosition);
         }
-        while (distance < minDistanceFromBoss); 
+        while (distance < minDistanceFromBoss);
 
         return randomPosition;
     }

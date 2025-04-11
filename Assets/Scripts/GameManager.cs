@@ -31,9 +31,9 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!nextStep&&character.GetLevel()>=10&&character.key==true)
+        if (!nextStep && character.GetLevel() >= 10 && character.key == true)
         {
-            for(int i = 0; i<monsterPool.Count; i++)
+            for (int i = 0; i < monsterPool.Count; i++)
             {
                 monsterPool[i].GetComponent<MonsterPool>().RemoveMonster();
                 monsterPool[i].SetActive(false);
@@ -44,18 +44,18 @@ public class GameManager : MonoBehaviour
             door.SetActive(false);
             nextStep = true;
         }
-        if(dialogue.finishDialogue)
+        if (dialogue.finishDialogue)
         {
             if (!skill2.activeSelf)
             {
                 ActiveSkill();
             }
         }
-        if(character.GetHp()<=0.0f)
+        if (character.GetHp() <= 0.0f)
         {
             GameOverPanel.SetActive(true);
         }
-        if(Boss.GetComponent<Dragon>().GetHp()<=0.0f)
+        if (Boss.GetComponent<Dragon>().GetHp() <= 0.0f)
         {
             GameClearPanel.SetActive(true);
         }

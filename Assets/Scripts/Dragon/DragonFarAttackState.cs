@@ -18,7 +18,7 @@ public class DragonFarAttackState : IState<Dragon>
         if (_owner.CheckFarAttackRange())
         {
             // 공격
-            if(!(_owner._animator.GetBool("farAttack")))
+            if (!(_owner._animator.GetBool("farAttack")))
             {
                 _owner._animator.SetInteger("farAttackSkill", Random.Range(0, 4));
                 _owner._animator.SetBool("farAttack", true);
@@ -35,7 +35,7 @@ public class DragonFarAttackState : IState<Dragon>
                     _owner.ChangeChaseState();
                 }
             }
-               
+
 
         }
 

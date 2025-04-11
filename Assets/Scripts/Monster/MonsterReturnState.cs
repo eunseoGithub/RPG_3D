@@ -22,7 +22,7 @@ public class MonsterReturnState : IState<Monster>
         {
             _owner.returnCheck = true;
         }
-        
+
     }
     public void OperateExit(Monster Sender)
     {

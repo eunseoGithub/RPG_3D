@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CharacterController : MonoBehaviour
 {
-    public float Speed = 4.0f;     
+    public float Speed = 4.0f;
     public float rotateSpeed = 10.0f;
     public Animator charAnimator;
     private Vector3 destinationPoint;
@@ -219,7 +219,7 @@ public class CharacterController : MonoBehaviour
     }
     public void SetAttackNum()
     {
-        if(isAttacking==true)
+        if (isAttacking == true)
         {
             return;
         }
@@ -242,7 +242,7 @@ public class CharacterController : MonoBehaviour
             LookAtBoss();
             characterSetting.UseMp(10.0f);
         }
-        else if(Input.GetKeyDown(KeyCode.E) && CanUseSkill(KeyCode.E))
+        else if (Input.GetKeyDown(KeyCode.E) && CanUseSkill(KeyCode.E))
         {
             lastSkillUseTime[KeyCode.E] = Time.time;
             charAnimator.SetInteger("Attack_num", 3);
@@ -251,7 +251,7 @@ public class CharacterController : MonoBehaviour
             LookAtBoss();
             characterSetting.UseMp(10.0f);
         }
-        else if(Input.GetKeyDown(KeyCode.R) && CanUseSkill(KeyCode.R))
+        else if (Input.GetKeyDown(KeyCode.R) && CanUseSkill(KeyCode.R))
         {
             lastSkillUseTime[KeyCode.R] = Time.time;
             charAnimator.SetInteger("Attack_num", 4);
@@ -263,7 +263,7 @@ public class CharacterController : MonoBehaviour
         }
         else
         {
-            
+
         }
     }
     public Dictionary<KeyCode, float> GetSkillCooldowns()
@@ -278,7 +278,7 @@ public class CharacterController : MonoBehaviour
     void Update()
     {
         //attack
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -296,7 +296,7 @@ public class CharacterController : MonoBehaviour
             //FireAtMousePosition();
         }
         SetAttackNum();
-        
+
         //move
         if (Input.GetMouseButtonDown(1))
         {
@@ -324,11 +324,11 @@ public class CharacterController : MonoBehaviour
                 sm.SetState(dicState[CharState.Idle]);
             }
         }
-        float hp =this.GetComponent<Character>().GetHp();
-        if (characterSetting.healOn==false && Attack05Particle.activeSelf == true)
+        float hp = this.GetComponent<Character>().GetHp();
+        if (characterSetting.healOn == false && Attack05Particle.activeSelf == true)
         {
             Attack05Particle.SetActive(false);
-            
+
         }
         sm.DoOperateUpdate();
     }

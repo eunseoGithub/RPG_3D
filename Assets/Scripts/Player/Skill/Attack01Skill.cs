@@ -19,7 +19,7 @@ public class Attack01Skill : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy"))
         {
             Destroy(this.gameObject);
         }
@@ -30,5 +30,5 @@ public class Attack01Skill : MonoBehaviour
         // 발사 방향으로 속도 설정
         rb.velocity = directionNoY * speed;
     }
-    
+
 }

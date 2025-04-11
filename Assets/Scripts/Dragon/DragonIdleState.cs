@@ -12,13 +12,13 @@ public class DragonIdleState : IState<Dragon>
 
     public void OperateEnter(Dragon sender)
     {
-        
+
     }
 
 
     public void OperateExit(Dragon Sender)
     {
-       
+
     }
 
     public void OperateUpdate(Dragon sender)

@@ -11,7 +11,7 @@ public class SFXManager : MonoBehaviour
     public AudioClip playerAttack_W;
     public AudioClip playerAttack_E;
     public AudioClip playerAttack_R;
-    
+
     public AudioClip catusAttack;
     public AudioClip mushroomAttack;
 

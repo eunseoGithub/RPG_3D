@@ -25,7 +25,7 @@ public class BasicAttackSkill : MonoBehaviour
             Destroy(gameObject); // 땅에 닿으면 파이어볼 제거
         }
     }
-    
+
     void Update()
     {
         transform.position += direction * speed * Time.deltaTime;
