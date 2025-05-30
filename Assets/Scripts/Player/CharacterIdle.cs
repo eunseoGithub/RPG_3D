@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterIdle : IState<CharacterController>
+public class CharacterIdle : IState<CharacterControl>
 {
-    private CharacterController charController;
+    private CharacterControl charController;
 
-    public void OperateEnter(CharacterController sender)
+    public void OperateEnter(CharacterControl sender)
     {
         charController = sender;
     }
 
-    public void OperateExit(CharacterController sender)
+    public void OperateExit(CharacterControl sender)
     {
         charController.charAnimator.SetBool("Walk", false);
     }
 
-    public void OperateUpdate(CharacterController sender)
+    public void OperateUpdate(CharacterControl sender)
     {
 
     }

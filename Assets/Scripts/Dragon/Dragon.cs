@@ -18,9 +18,11 @@ public class Dragon : MonoBehaviour
     public float _currentDistance;
 
     StateMachine<Dragon> _fsm;
+    [SerializeField]
     private float hp;
     public Image hpBarImage;
     public Text hpText;
+    private bool isDead;
     public enum SkillStates
     {
         None,
@@ -94,6 +96,7 @@ public class Dragon : MonoBehaviour
 
         // 애니메이터컴포넌트를 가지고 온다.
         _animator = GetComponent<Animator>();
+        isDead = false;
     }
     public void GetDamage(float damage)
     {
@@ -272,7 +275,14 @@ public class Dragon : MonoBehaviour
 
     void Update()
     {
-
+        if(hp<=0.0f)
+        {
+            if (!isDead)
+            {
+                isDead = true;
+                _animator.SetTrigger("Die");
+            }
+        }
     }
 
     private void FixedUpdate() // 0.02초마다 호출

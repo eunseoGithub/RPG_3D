@@ -111,40 +111,7 @@ public class MonsterPool : MonoBehaviour
 
         return spawnPosition;
     }
-    /*void Watching()
-    {
-        for(int i = 0; i<poolSize;i++)
-        {
-            Monster monster = pools[i].GetComponent<Monster>();
-            if (monster.GetDie() && !monster.GetIsDeadHandled())
-            {
-                if(pools[i].activeSelf)
-                {
-                    poolLive[i] = true;
-                    monster.SetIsDeadHandled(true);
-                    currentActive--;
-                    for(int k = 0; k<poolSize;k++)
-                    {
-                        if(!pools[k].activeSelf)
-                        {
-                            pools[k].SetActive(true);
-                            currentActive++;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }
     
-    IEnumerator WatchingLoop()
-    {
-        while (true)
-        {
-            Watching();
-            yield return new WaitForSeconds(0.5f);
-        }
-    }*/
     // Update is called once per frame
     void Update()
     {

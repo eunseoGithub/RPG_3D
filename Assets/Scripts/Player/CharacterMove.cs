@@ -2,22 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterMove : IState<CharacterController>
+public class CharacterMove : IState<CharacterControl>
 {
-    private CharacterController charController;
+    private CharacterControl charController;
 
-    public void OperateEnter(CharacterController sender)
+    public void OperateEnter(CharacterControl sender)
     {
         charController = sender;
         charController.charAnimator.SetBool("Walk", true);
     }
 
-    public void OperateUpdate(CharacterController sender)
+    public void OperateUpdate(CharacterControl sender)
     {
 
     }
 
-    public void OperateExit(CharacterController sender)
+    public void OperateExit(CharacterControl sender)
     {
         if (charController != null)
         {

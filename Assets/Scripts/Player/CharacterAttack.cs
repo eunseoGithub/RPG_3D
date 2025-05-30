@@ -2,22 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterAttack : IState<CharacterController>
+public class CharacterAttack : IState<CharacterControl>
 {
-    private CharacterController charController;
+    private CharacterControl charController;
 
-    public void OperateEnter(CharacterController sender)
+    public void OperateEnter(CharacterControl sender)
     {
         charController = sender;
         charController.charAnimator.SetTrigger("Attack");
     }
 
-    public void OperateExit(CharacterController sender)
+    public void OperateExit(CharacterControl sender)
     {
 
     }
 
-    public void OperateUpdate(CharacterController sender)
+    public void OperateUpdate(CharacterControl sender)
     {
         if (charController != null)
         {

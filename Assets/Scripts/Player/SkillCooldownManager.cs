@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class SkillCooldownManager : MonoBehaviour
 {
-    public CharacterController characterController;
+    public CharacterControl characterController;
 
     [System.Serializable]
     public class SkillUI

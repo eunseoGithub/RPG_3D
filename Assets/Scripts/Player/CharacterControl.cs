@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterController : MonoBehaviour
+public class CharacterControl : MonoBehaviour
 {
     public float Speed = 4.0f;
     public float rotateSpeed = 10.0f;
@@ -27,6 +27,8 @@ public class CharacterController : MonoBehaviour
     public float Attack03CoolDown = 4.0f;
     public float Attack04CoolDown = 5.0f;
     public Character characterSetting;
+
+    private bool isDead;
     public enum CharState
     {
         Idle,
@@ -44,22 +46,22 @@ public class CharacterController : MonoBehaviour
         Right = 1,
     }
 
-    private Dictionary<CharState, IState<CharacterController>> dicState = new Dictionary<CharState, IState<CharacterController>>();
-    private StateMachine<CharacterController> sm;
+    private Dictionary<CharState, IState<CharacterControl>> dicState = new Dictionary<CharState, IState<CharacterControl>>();
+    private StateMachine<CharacterControl> sm;
 
     // Start is called before the first frame update
     void Start()
     {
         characterSetting = this.GetComponent<Character>();
-        IState<CharacterController> idle = new CharacterIdle();
-        IState<CharacterController> move = new CharacterMove();
-        IState<CharacterController> attack = new CharacterAttack();
+        IState<CharacterControl> idle = new CharacterIdle();
+        IState<CharacterControl> move = new CharacterMove();
+        IState<CharacterControl> attack = new CharacterAttack();
 
         dicState.Add(CharState.Idle, idle);
         dicState.Add(CharState.Move, move);
         dicState.Add(CharState.Attack, attack);
 
-        sm = new StateMachine<CharacterController>(this, dicState[CharState.Idle]);
+        sm = new StateMachine<CharacterControl>(this, dicState[CharState.Idle]);
 
         charAnimator = GetComponent<Animator>();
 
@@ -72,6 +74,7 @@ public class CharacterController : MonoBehaviour
         lastSkillUseTime[KeyCode.W] = -Attack02CoolDown;
         lastSkillUseTime[KeyCode.E] = -Attack03CoolDown;
         lastSkillUseTime[KeyCode.R] = -Attack04CoolDown;
+        isDead = false;
 
     }
     //animation event
@@ -329,6 +332,15 @@ public class CharacterController : MonoBehaviour
         {
             Attack05Particle.SetActive(false);
 
+        }
+        if(hp<=0.0f)
+        {
+            if(!isDead)
+            {
+                isDead = true;
+                charAnimator.SetTrigger("Die");
+            }
+            
         }
         sm.DoOperateUpdate();
     }
