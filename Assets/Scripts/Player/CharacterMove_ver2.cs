@@ -12,7 +12,11 @@ public class CharacterMove_ver2 : MonoBehaviour
     private bool shouldMove;
     public float Speed = 4.0f;
     public float rotateSpeed = 10.0f;
-    public LayerMask clickLayer;
+    private LayerMask clickLayer;
+    public float gravity = -9.81f;
+    private float verticalVelocity;
+    public float groundCheckDistance = 0.2f;
+    public LayerMask groundLayer;
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -32,12 +36,12 @@ public class CharacterMove_ver2 : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            Debug.DrawRay(ray.origin, ray.direction * 100, Color.red, 1f);
+            //Debug.DrawRay(ray.origin, ray.direction * 100, Color.red, 1f);
 
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, 100f, clickLayer))
             {
-                Debug.Log($"Clicked: {hit.collider.name}");
+                //Debug.Log($"Clicked: {hit.collider.name}");
                 destinationPoint = new Vector3(hit.point.x, transform.position.y, hit.point.z);
                 shouldMove = true;
             }
@@ -46,6 +50,15 @@ public class CharacterMove_ver2 : MonoBehaviour
 
     void HandleMovement()
     {
+        if (characterCon.isGrounded)
+        {
+            verticalVelocity = -2f;
+        }
+        else
+        {
+            verticalVelocity += gravity * Time.deltaTime;
+        }
+
         if (shouldMove)
         {
             Vector3 direction = destinationPoint - transform.position;
@@ -53,19 +66,24 @@ public class CharacterMove_ver2 : MonoBehaviour
 
             if (direction.magnitude > 0.1f)
             {
-                // 회전
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
 
-                // 이동
                 moveDirection = direction.normalized * Speed;
-                characterCon.Move(moveDirection * Time.deltaTime);
             }
             else
             {
+                moveDirection = Vector3.zero;
                 shouldMove = false;
-                //anim.SetTrigger("Idle"); // 필요시 애니메이션 전환
             }
         }
+        else
+        {
+            moveDirection = Vector3.zero;
+        }
+
+        // 최종 이동 벡터 = 평면 이동 + 중력 적용
+        Vector3 finalMove = moveDirection + Vector3.up * verticalVelocity;
+        characterCon.Move(finalMove * Time.deltaTime);
     }
 }
