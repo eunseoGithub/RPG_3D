@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.AI;
+
 public class Monster : MonoBehaviour
 {
     StateMachine<Monster> _fsm;
@@ -29,7 +31,8 @@ public class Monster : MonoBehaviour
     private Character player;
     private float exp;
     public static event Action<Monster> OnMonsterDeath;
-
+    public GameObject MonsterAttackColider;
+    private NavMeshAgent agent;
     // Start is called before the first frame update
     void Awake()
     {
@@ -62,7 +65,7 @@ public class Monster : MonoBehaviour
         _hpbar.enemyTr = this.gameObject.transform;
         _hpbar.offset = hpBarOffset;
         hpBarImage = hpBar.GetComponent<Image>();
-
+        agent = GetComponent<NavMeshAgent>();
     }
 
     void OnDestroy()
@@ -163,6 +166,7 @@ public class Monster : MonoBehaviour
         }
         return result;
     }
+    //Monster Animation event Function
     void MushroomAttackSound()
     {
         SFXManager.Instance.PlaySound(SFXManager.Instance.mushroomAttack);
@@ -170,6 +174,14 @@ public class Monster : MonoBehaviour
     void CatusAttackSound()
     {
         SFXManager.Instance.PlaySound(SFXManager.Instance.catusAttack);
+    }
+    void AttackColiderOn()
+    {
+        MonsterAttackColider.SetActive(true);
+    }
+    void AttackColiderOff()
+    {
+        MonsterAttackColider.SetActive(false);
     }
     private IEnumerator HandleDeath()
     {
@@ -180,6 +192,7 @@ public class Monster : MonoBehaviour
     void Update()
     {
         if (_target == null) return;  // 플레이어가 없으면 실행 X
+        //hp가 0이되면 하는 작업의 과정
         if (hp <= 0)
         {
 
@@ -202,34 +215,34 @@ public class Monster : MonoBehaviour
             }
 
         }
-
-        float createDistance = Vector3.Distance(transform.position, createPoint);
-        if (createDistance > 15.0f)
-        {
-            if (_fsm.curState != _returnState)
-                _fsm.SetState(_returnState);
-            returnCheck = false;
-        }
-        if (returnCheck)
-            _fsm.SetState(_idleState);
-        if (_fsm.curState != _returnState)
-        {
-            float distance = Vector3.Distance(transform.position, _target.transform.position); // 거리 계산
-            if (distance <= triggerRange)
-            {
-                if (distance <= attackRange)
-                {
-                    if (_fsm.curState != _attackState)
-                        _fsm.SetState(_attackState);
-                }
-                else
-                    OnTriggerEnterCustom();
-            }
-            else if (distance > triggerRange)
-            {
-                OnTriggerExitCustom();
-            }
-        }
+        agent.SetDestination(_target.transform.position);
+        //float createDistance = Vector3.Distance(transform.position, createPoint);
+        //if (createDistance > 15.0f)
+        //{
+        //    if (_fsm.curState != _returnState)
+        //        _fsm.SetState(_returnState);
+        //    returnCheck = false;
+        //}
+        //if (returnCheck)
+        //    _fsm.SetState(_idleState);
+        //if (_fsm.curState != _returnState)
+        //{
+        //    float distance = Vector3.Distance(transform.position, _target.transform.position); // 거리 계산
+        //    if (distance <= triggerRange)
+        //    {
+        //        if (distance <= attackRange)
+        //        {
+        //            if (_fsm.curState != _attackState)
+        //                _fsm.SetState(_attackState);
+        //        }
+        //        else
+        //            OnTriggerEnterCustom();
+        //    }
+        //    else if (distance > triggerRange)
+        //    {
+        //        OnTriggerExitCustom();
+        //    }
+        //}
 
     }
 

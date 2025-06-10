@@ -18,7 +18,7 @@ public class BasicAttackSkill : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            other.GetComponent<Character>().GetDamage(damage);
+            //other.GetComponent<Character>().GetDamage(damage);
         }
         if (other.CompareTag("Land"))
         {

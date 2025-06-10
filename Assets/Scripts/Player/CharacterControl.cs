@@ -9,14 +9,9 @@ public class CharacterControl : MonoBehaviour
     public Animator charAnimator;
     private Vector3 destinationPoint;
     private bool shouldMove = false;
-    private bool isAttacking = false;
-    public Transform firePoint;
-    public GameObject Attack01Prefab;
-    public GameObject Attack02Prefab;
-    public GameObject Attack03Prefab;
-    public GameObject Attack04Prefab;
+    public bool isAttacking = false;
     public GameObject Attack05Particle;
-    Vector3 currentTargetPosition;
+    public Vector3 currentTargetPosition;
     public GameObject Boss;
 
     private Dictionary<KeyCode, float> skillCooldowns = new Dictionary<KeyCode, float>();
@@ -27,8 +22,14 @@ public class CharacterControl : MonoBehaviour
     public float Attack03CoolDown = 4.0f;
     public float Attack04CoolDown = 5.0f;
     public Character characterSetting;
-
+    CharacterController characterCon;
+    private Vector3 moveDirection;
+    private LayerMask clickLayer;
+    private float verticalVelocity;
+    public float gravity = -9.81f;
     private bool isDead;
+
+
     public enum CharState
     {
         Idle,
@@ -76,132 +77,17 @@ public class CharacterControl : MonoBehaviour
         lastSkillUseTime[KeyCode.R] = -Attack04CoolDown;
         isDead = false;
 
-    }
-    //animation event
-    public void StartAttack()
-    {
-        isAttacking = true;
+        characterCon = GetComponent<CharacterController>();
+        clickLayer = LayerMask.GetMask("Terrains");
+
     }
 
-    public void EndAttack()
+    public void ChangeToIdleState()
     {
         sm.SetState(dicState[CharState.Idle]);
         isAttacking = false;
     }
 
-    public void Attack01_Start()
-    {
-        StartAttack();
-    }
-    public void Attack01_End()
-    {
-        EndAttack();
-    }
-
-    public void Attack02_Start()
-    {
-        StartAttack();
-    }
-    public void Attack02_End()
-    {
-        EndAttack();
-    }
-
-    public void Attack03_Start()
-    {
-        StartAttack();
-    }
-    public void Attack03_End()
-    {
-        EndAttack();
-    }
-
-    public void Attack04_Start()
-    {
-        StartAttack();
-    }
-    public void Attack04_End()
-    {
-        EndAttack();
-    }
-
-    public void Defend_Start()
-    {
-        StartAttack();
-    }
-    public void Defend_End()
-    {
-        EndAttack();
-    }
-
-    public void Attack01_Fire()
-    {
-        FireAtMousePosition_Attack01();
-    }
-    public void Attack02_Fire()
-    {
-        FireAtMousePosition_Attack02();
-    }
-    public void Attack03_Fire()
-    {
-        FireAtMousePosition_Attack03();
-    }
-    public void Attack04_Fire()
-    {
-        FireAtMousePosition_Attack04();
-    }
-    public void Attack05_Fire()
-    {
-        Attack05Particle.SetActive(true);
-        SFXManager.Instance.PlaySound(SFXManager.Instance.playerAttack_R);
-    }
-    void FireAtMousePosition_Attack01()
-    {
-        Vector3 direction = (currentTargetPosition - firePoint.position).normalized;
-
-        GameObject fireball = Instantiate(Attack01Prefab, firePoint.position, Quaternion.identity);
-        fireball.GetComponent<Attack01Skill>().Launch(direction);
-        SFXManager.Instance.PlaySound(SFXManager.Instance.playerAttack_leftclick);
-    }
-    void FireAtMousePosition_Attack02()
-    {
-        Vector3 direction = (currentTargetPosition - firePoint.position).normalized;
-
-        GameObject fireball = Instantiate(Attack02Prefab, firePoint.position, Quaternion.LookRotation(-direction));
-        fireball.GetComponent<Attack02Skill>().Launch(direction);
-        SFXManager.Instance.PlaySound(SFXManager.Instance.playerAttack_Q);
-    }
-
-    void FireAtMousePosition_Attack03()
-    {
-        Vector3 direction = new Vector3(currentTargetPosition.x, 1.0f, currentTargetPosition.z);
-        GameObject fire = Instantiate(Attack03Prefab, direction, Quaternion.identity);
-        float distanceToBoss = Vector3.Distance(fire.transform.position, Boss.transform.position);
-        if (distanceToBoss < 5.0f) // 거리 1.5 이하이면 히트 판정
-        {
-            Dragon bossComponent = Boss.GetComponent<Dragon>();
-            if (bossComponent != null)
-            {
-                bossComponent.GetDamage(10); // 보스에게 10의 데미지
-            }
-        }
-        SFXManager.Instance.PlaySound(SFXManager.Instance.playerAttack_W);
-    }
-    void FireAtMousePosition_Attack04()
-    {
-        Vector3 direction = new Vector3(currentTargetPosition.x, 1.0f, currentTargetPosition.z);
-        GameObject fire = Instantiate(Attack04Prefab, direction, Quaternion.identity);
-        float distanceToBoss = Vector3.Distance(fire.transform.position, Boss.transform.position);
-        if (distanceToBoss < 5.0f) // 거리 1.5 이하이면 히트 판정
-        {
-            Dragon bossComponent = Boss.GetComponent<Dragon>();
-            if (bossComponent != null)
-            {
-                bossComponent.GetDamage(10); // 보스에게 10의 데미지
-            }
-        }
-        SFXManager.Instance.PlaySound(SFXManager.Instance.playerAttack_E);
-    }
     private void LookAtBoss()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -278,9 +164,9 @@ public class CharacterControl : MonoBehaviour
     {
         return lastSkillUseTime;
     }
-    void Update()
+
+    private void PlayerAttack()
     {
-        //attack
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -299,34 +185,74 @@ public class CharacterControl : MonoBehaviour
             //FireAtMousePosition();
         }
         SetAttackNum();
-
-        //move
+    }
+    private void PlayerMove()
+    {
         if (Input.GetMouseButtonDown(1))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 100f))
-            {
-                destinationPoint = new Vector3(hit.point.x, transform.position.y, hit.point.z);
+            //Debug.DrawRay(ray.origin, ray.direction * 100, Color.red, 1f);
 
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 100f, clickLayer))
+            {
+                //Debug.Log($"Clicked: {hit.collider.name}");
+                destinationPoint = new Vector3(hit.point.x, transform.position.y, hit.point.z);
                 shouldMove = true;
             }
+        }
+    }
+    private void PlayerMoveHandle()
+    {
+        if (characterCon.isGrounded)
+        {
+            verticalVelocity = -2f;
+        }
+        else
+        {
+            verticalVelocity += gravity * Time.deltaTime;
         }
 
         if (shouldMove && !isAttacking)
         {
-            sm.SetState(dicState[CharState.Move]);
-            Quaternion targetRotation = Quaternion.LookRotation(destinationPoint - transform.position);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+            Vector3 direction = destinationPoint - transform.position;
+            direction.y = 0;
 
-            transform.position = Vector3.MoveTowards(transform.position, destinationPoint, Speed * Time.deltaTime);
-
-            if (transform.position == destinationPoint)
+            if (direction.magnitude > 0.1f)
             {
-                shouldMove = false;
-                sm.SetState(dicState[CharState.Idle]);
+                sm.SetState(dicState[CharState.Move]);
+                Quaternion targetRotation = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+
+                moveDirection = direction.normalized * Speed;
+            }
+            else
+            {
+                moveDirection = Vector3.zero;
             }
         }
+        else
+        {
+            moveDirection = Vector3.zero;
+        }
+
+        // 최종 이동 벡터 = 평면 이동 + 중력 적용
+        Vector3 finalMove = moveDirection + Vector3.up * verticalVelocity;
+        characterCon.Move(finalMove * Time.deltaTime);
+
+        if (shouldMove && Vector3.Distance(transform.position, destinationPoint) < 0.1f)
+        {
+            shouldMove = false;
+            sm.SetState(dicState[CharState.Idle]);
+        }
+    }
+
+    void Update()
+    {
+        PlayerAttack();
+        PlayerMove();
+        PlayerMoveHandle();
+
         float hp = this.GetComponent<Character>().GetHp();
         if (characterSetting.healOn == false && Attack05Particle.activeSelf == true)
         {

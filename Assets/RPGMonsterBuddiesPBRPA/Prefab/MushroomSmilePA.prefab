@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 3570693300142395275}
   - component: {fileID: 3417568372035214176}
   - component: {fileID: 5111170038357784260}
-  m_Layer: 0
+  - component: {fileID: 1883816438905131008}
+  m_Layer: 9
   m_Name: MushroomSmilePA
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -78,6 +79,7 @@ MonoBehaviour:
   hpBarPrefab: {fileID: 3766826013427609195, guid: 5338e7640ce06c347bc9962bb9576c75,
     type: 3}
   hpBarOffset: {x: -0.5, y: 2.4, z: 0}
+  MonsterAttackColider: {fileID: 4724383948190615846}
 --- !u!136 &3417568372035214176
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -88,10 +90,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.63
-  m_Height: 1.7295265
+  m_Radius: 0.48
+  m_Height: 1.37
   m_Direction: 1
-  m_Center: {x: 0, y: 0.36476249, z: 0}
+  m_Center: {x: 0, y: 0.66, z: 0}
 --- !u!54 &5111170038357784260
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -108,6 +110,28 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!195 &1883816438905131008
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 264213370537990050}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &1029362807284367314
 GameObject:
   m_ObjectHideFlags: 0
@@ -117,7 +141,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9188965638655172257}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: mushroom_skirt01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,7 +172,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8906446930557002035}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: mushroom_spine03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -179,7 +203,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 531800151631017571}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: mushroom_spine02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -214,7 +238,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4441803377896351966}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: mushroom_skirt08
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -244,7 +268,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6696433624460359304}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: mushroom_root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -275,7 +299,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9034493485164872135}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: mushroom_mouthAngry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -305,7 +329,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7834005409407447420}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: mushroom_rightEye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -326,6 +350,64 @@ Transform:
   m_Father: {fileID: 531800151631017571}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4724383948190615846
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1962299200772461719}
+  - component: {fileID: 994194628498716640}
+  - component: {fileID: 3315127277135765048}
+  m_Layer: 9
+  m_Name: MonsterAttackColider
+  m_TagString: EnemyAttack
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1962299200772461719
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4724383948190615846}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3735827278866657680}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &994194628498716640
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4724383948190615846}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.55, y: 1, z: 1}
+  m_Center: {x: -0.09, y: 0, z: 0}
+--- !u!114 &3315127277135765048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4724383948190615846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e18693291297bdd41808cfa8e39ed93d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 5
 --- !u!1 &5093889288529411952
 GameObject:
   m_ObjectHideFlags: 0
@@ -336,7 +418,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3219824336992946466}
   - component: {fileID: 3005208582850972646}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: mushroom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -434,7 +516,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8077275620622202060}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: mushroom_skirt06
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -464,7 +546,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7509051420704008440}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: mushroom_skirt02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -494,7 +576,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1102099590014100871}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: mushroom_skirt05
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -525,7 +607,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4875778555059705834}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: mushroom_skirt07
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -556,7 +638,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2308263646172241269}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: mushroom_skirt03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -587,7 +669,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6631359705490423829}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: mushroom_skirt04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -617,7 +699,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2862705525978735860}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: mushroom_mouthSmile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -647,10 +729,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3735827278866657680}
-  - component: {fileID: 6675731317494421100}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: mushroom_head
-  m_TagString: EnemyAttack
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -670,22 +751,10 @@ Transform:
   - {fileID: 2308263646172241269}
   - {fileID: 1102099590014100871}
   - {fileID: 4875778555059705834}
+  - {fileID: 1962299200772461719}
   m_Father: {fileID: 8906446930557002035}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &6675731317494421100
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7249288963876293953}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.57, y: 1, z: 1}
-  m_Center: {x: 0.02, y: -0.000000006159672, z: -0.00000001554453}
 --- !u!1 &7313703226938096112
 GameObject:
   m_ObjectHideFlags: 0
@@ -695,7 +764,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9184706393014638539}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: mushroom_leftEye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -725,7 +794,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2056305392288162713}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: mushroom_spine01
   m_TagString: Untagged
   m_Icon: {fileID: 0}

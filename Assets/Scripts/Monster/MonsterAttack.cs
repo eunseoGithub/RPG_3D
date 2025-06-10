@@ -18,7 +18,7 @@ public class MonsterAttack : MonoBehaviour
         {
             if (other.CompareTag("Player"))
             {
-                other.gameObject.GetComponent<Character>().GetDamage(10);
+                //other.gameObject.GetComponent<Character>().GetDamage(10);
             }
         }
     }

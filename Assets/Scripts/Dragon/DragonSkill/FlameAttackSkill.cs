@@ -15,7 +15,7 @@ public class FlameAttackSkill : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            other.GetComponent<Character>().GetDamage(damage);
+            //other.GetComponent<Character>().GetDamage(damage);
         }
     }
     // Update is called once per frame

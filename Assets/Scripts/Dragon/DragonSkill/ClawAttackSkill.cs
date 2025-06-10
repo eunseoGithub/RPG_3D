@@ -16,7 +16,7 @@ public class ClawAttackSkill : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            other.GetComponent<Character>().GetDamage(damage);
+            //other.GetComponent<Character>().GetDamage(damage);
         }
     }
 

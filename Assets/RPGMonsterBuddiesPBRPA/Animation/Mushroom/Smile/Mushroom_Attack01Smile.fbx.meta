@@ -64,6 +64,22 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.51199996
+        functionName: AttackColiderOn
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: c666e68efe4d8634eb1e901959062b3c,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 1
+        functionName: AttackColiderOff
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: c666e68efe4d8634eb1e901959062b3c,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
