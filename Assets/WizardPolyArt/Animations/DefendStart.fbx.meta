@@ -477,7 +477,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0
-        functionName: Defend_Start
+        functionName: Attack05_Start
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: bf946c10de13edc45a4a8fdfbe91ea89,
           type: 3}

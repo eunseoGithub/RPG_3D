@@ -17,10 +17,10 @@ public class CharacterControl : MonoBehaviour
     private Dictionary<KeyCode, float> skillCooldowns = new Dictionary<KeyCode, float>();
     private Dictionary<KeyCode, float> lastSkillUseTime = new Dictionary<KeyCode, float>();
 
-    public float Attack01CoolDown = 2.0f;
-    public float Attack02CoolDown = 3.0f;
-    public float Attack03CoolDown = 4.0f;
-    public float Attack04CoolDown = 5.0f;
+    public float Attack02CoolDown = 2.0f;
+    public float Attack03CoolDown = 3.0f;
+    public float Attack04CoolDown = 4.0f;
+    public float Attack05CoolDown = 5.0f;
     public Character characterSetting;
     CharacterController characterCon;
     private Vector3 moveDirection;
@@ -28,8 +28,8 @@ public class CharacterControl : MonoBehaviour
     private float verticalVelocity;
     public float gravity = -9.81f;
     private bool isDead;
-
-
+    public GameObject clickParticlePrefab;
+    public GameObject Attack06Prefab;
     public enum CharState
     {
         Idle,
@@ -66,15 +66,15 @@ public class CharacterControl : MonoBehaviour
 
         charAnimator = GetComponent<Animator>();
 
-        skillCooldowns[KeyCode.Q] = Attack01CoolDown;
-        skillCooldowns[KeyCode.W] = Attack02CoolDown;
-        skillCooldowns[KeyCode.E] = Attack03CoolDown;
-        skillCooldowns[KeyCode.R] = Attack04CoolDown;
+        skillCooldowns[KeyCode.Q] = Attack02CoolDown;
+        skillCooldowns[KeyCode.W] = Attack03CoolDown;
+        skillCooldowns[KeyCode.E] = Attack04CoolDown;
+        skillCooldowns[KeyCode.R] = Attack05CoolDown;
 
-        lastSkillUseTime[KeyCode.Q] = -Attack01CoolDown;
-        lastSkillUseTime[KeyCode.W] = -Attack02CoolDown;
-        lastSkillUseTime[KeyCode.E] = -Attack03CoolDown;
-        lastSkillUseTime[KeyCode.R] = -Attack04CoolDown;
+        lastSkillUseTime[KeyCode.Q] = -Attack02CoolDown;
+        lastSkillUseTime[KeyCode.W] = -Attack03CoolDown;
+        lastSkillUseTime[KeyCode.E] = -Attack04CoolDown;
+        lastSkillUseTime[KeyCode.R] = -Attack05CoolDown;
         isDead = false;
 
         characterCon = GetComponent<CharacterController>();
@@ -199,6 +199,12 @@ public class CharacterControl : MonoBehaviour
                 //Debug.Log($"Clicked: {hit.collider.name}");
                 destinationPoint = new Vector3(hit.point.x, transform.position.y, hit.point.z);
                 shouldMove = true;
+                
+                //click 파티클 생성
+                Vector3 point = hit.point;
+                if(point.y<0)
+                    point.y = 0.2f;
+                Instantiate(clickParticlePrefab, point, Quaternion.identity);
             }
         }
     }
@@ -268,7 +274,16 @@ public class CharacterControl : MonoBehaviour
             }
             
         }
-        sm.DoOperateUpdate();
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 100f))
+            {
+                Instantiate(Attack06Prefab, hit.point, Quaternion.identity);
+            }
+        }
+            sm.DoOperateUpdate();
     }
 }
 

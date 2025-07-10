@@ -3,11 +3,21 @@ using System.Collections;
 
 public class csDestroyEffect : MonoBehaviour {
 
-	void Update ()
+    private ParticleSystem[] particleSystems;
+
+    void Start()
     {
-	    if(Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.C))
+        particleSystems = GetComponentsInChildren<ParticleSystem>();
+    }
+
+    void Update()
+    {
+        foreach (var ps in particleSystems)
         {
-            Destroy(gameObject);
+            if (ps != null && ps.IsAlive())
+                return;
         }
-	}
+
+        Destroy(gameObject); 
+    }
 }

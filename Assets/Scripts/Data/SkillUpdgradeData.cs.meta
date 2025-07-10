@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 7f1763c163efb5c40b3f4fc3ae39b8c5
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - SkillUpgradeTable: {fileID: 11400000, guid: 175d61e1a09bf4e42838e8273852cbe6,
+      type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

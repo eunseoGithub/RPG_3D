@@ -5,7 +5,39 @@ using UnityEngine;
 public class StatManger : MonoBehaviour
 {
     public static StatManger Instance { get; private set; }
+    
+    public float AADamage;
+    public float QDamage;
+    public float WDamage;
+    public float EDamage;
+    public float RDamage;
 
+    public float wSnareDuration = 2f;
+    public float qSnareDuration = 0.3f;
+    
+    public float eDotDamage = 2f;
+    public float eDotDuration = 5f;
+    public float eDotInterval = 1f;
+    
+    public float qSlowAmount = 0.0f;
+    public float qSlowDuration = 0.0f;
+    
+    public float wSlowAmount = 0.0f;
+    public float wSlowDuration = 0.0f;
+    
+    public int qMaxPenetration = 1;
+    
+    public bool qDoubleFireEnabled = false;
+    
+    public float wDotDamage = 2f;
+    public float wDotDuration = 3f;
+    public float wDotInterval = 1f;
+
+    public bool eStackEnabled = false;
+    public int eMaxStack = 2;
+    public int eCurrentStack = 2;
+
+    public bool rDoubleFireEnabled = false;
     [System.Serializable]
     public class Stats
     {
@@ -46,6 +78,11 @@ public class StatManger : MonoBehaviour
         {
             Debug.LogError("StatData 파일을 찾을 수 없습니다.");
         }
+        AADamage = 10.0f;
+        QDamage = 15.0f;
+        WDamage = 15.0f;
+        EDamage = 15.0f;
+        RDamage = 50.0f;
     }
 
     // Update is called once per frame

@@ -55,6 +55,14 @@ public class SkillCooldownManager : MonoBehaviour
                 {
                     skill.cooldownImage.fillAmount = 0; // 쿨타임 종료 시 숨김
                 }
+                if(skill.key == KeyCode.E)
+                {
+                    if(StatManger.Instance.eCurrentStack < StatManger.Instance.eMaxStack && elapsedTime >= cooldown)//e 스택형일때 스택 회복
+                    {
+                        StatManger.Instance.eCurrentStack++;
+                        lastSkillUseTime[skill.key] = Time.time;
+                    }
+                }
             }
         }
     }

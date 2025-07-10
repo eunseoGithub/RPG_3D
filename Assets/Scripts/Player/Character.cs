@@ -26,7 +26,7 @@ public class Character : MonoBehaviour
     public float regenerateTime = 1.0f;
     public int healCount = 0;
     public bool key;
-
+    public bool isInvincible;//무적 판정
     // Start is called before the first frame update
     private void Awake()
     {
@@ -51,6 +51,7 @@ public class Character : MonoBehaviour
         regenerateTime = 1.0f;
         healCount = 0;
         key = false;
+        isInvincible = false;
     }
     public void SetHp(float _hp)
     {
@@ -94,7 +95,7 @@ public class Character : MonoBehaviour
         mp -= _mp;
         UpdateMpBar();
     }
-    void UpdateHpBar()
+    public void UpdateHpBar()
     {
         if (hpBarImage != null && hpText != null)
         {
@@ -103,7 +104,7 @@ public class Character : MonoBehaviour
             hpText.text = $"HP : ({hp} / {currentMaxHp})";
         }
     }
-    void UpdateMpBar()
+    public void UpdateMpBar()
     {
         if (mpBarImage != null && mpText != null)
         {
@@ -146,7 +147,21 @@ public class Character : MonoBehaviour
             UpdateLevel();
         }
     }
-
+    public void SetInvincible(float duration)
+    {
+        StartCoroutine(InvincibleCoroutine(duration));
+    }
+    private IEnumerator InvincibleCoroutine(float duration)
+    {
+        isInvincible = true;
+        yield return new WaitForSeconds(duration);
+        isInvincible = false;
+    }
+    public float GetMaxHp()
+    {
+        float maxHp = stat.statData.stat[level - 1].hp;
+        return maxHp;
+    }
     // Update is called once per frame
     void Update()
     {

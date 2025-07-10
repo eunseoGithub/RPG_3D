@@ -7,7 +7,7 @@ public class Attack01Skill : MonoBehaviour
     public float speed = 10f; // 발사체 속도
 
     private Rigidbody rb;
-
+    private int hitCount = 0;
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -21,7 +21,14 @@ public class Attack01Skill : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            Destroy(this.gameObject);
+            hitCount++;
+            
+            int maxPenetration = StatManger.Instance.qMaxPenetration;
+            
+            if(hitCount>=maxPenetration)
+            {
+                Destroy(this.gameObject);
+            }
         }
     }
     public void Launch(Vector3 direction)

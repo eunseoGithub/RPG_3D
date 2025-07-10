@@ -16,12 +16,16 @@ public class MonsterReturnState : IState<Monster>
     }
     public void OperateUpdate(Monster sender)
     {
-        _owner.MoveCreatePoint();
-        float distance = Vector3.Distance(_owner.transform.position, _owner.createPoint);
-        if (distance <= 0.3f)
+        if(!_owner.GetDie())
         {
-            _owner.returnCheck = true;
+            _owner.MoveCreatePoint();
+            float distance = Vector3.Distance(_owner.transform.position, _owner.createPoint);
+            if (distance <= 0.3f)
+            {
+                _owner.returnCheck = true;
+            }
         }
+        
 
     }
     public void OperateExit(Monster Sender)

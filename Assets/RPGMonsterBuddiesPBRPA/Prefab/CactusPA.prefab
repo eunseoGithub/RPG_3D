@@ -260,6 +260,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
+  snare: 0
+  dot: 0
 --- !u!135 &2124573492816340548
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -541,6 +543,7 @@ GameObject:
   - component: {fileID: 7570684946353654274}
   - component: {fileID: 957831748352665466}
   - component: {fileID: 3333632619410896893}
+  - component: {fileID: 563296459189772392}
   m_Layer: 9
   m_Name: CactusPA
   m_TagString: Enemy
@@ -607,6 +610,8 @@ MonoBehaviour:
     type: 3}
   hpBarOffset: {x: -0.5, y: 2.4, z: 0}
   MonsterAttackColider: {fileID: 5056117666782100474}
+  agent: {fileID: 0}
+  returnDistance: 15
 --- !u!136 &7570684946353654274
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -647,7 +652,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 1
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -659,6 +664,20 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &563296459189772392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7427070853888570003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea9efb38fe4f15e43854f03f0388d4e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  immuneToSnare: 0
+  immuneToDot: 0
 --- !u!1 &7712155012871449178
 GameObject:
   m_ObjectHideFlags: 0

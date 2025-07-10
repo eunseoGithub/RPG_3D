@@ -13,6 +13,8 @@ public class CharacterTrigger : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("player trigger"+other.name);
+        if (character.isInvincible)
+            return;
         if (other.CompareTag("EnemyAttack"))
         {
             float damage = other.GetComponent<SkillDamage>().damage;

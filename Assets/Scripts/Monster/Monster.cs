@@ -1,10 +1,9 @@
-﻿using System.Collections;
+﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 using System;
-using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.AI;
-
 public class Monster : MonoBehaviour
 {
     StateMachine<Monster> _fsm;
@@ -32,7 +31,9 @@ public class Monster : MonoBehaviour
     private float exp;
     public static event Action<Monster> OnMonsterDeath;
     public GameObject MonsterAttackColider;
-    private NavMeshAgent agent;
+    public NavMeshAgent agent;
+    public float returnDistance = 15f;
+    public MonsterDamageable damageable;
     // Start is called before the first frame update
     void Awake()
     {
@@ -48,7 +49,7 @@ public class Monster : MonoBehaviour
         _fsm = new StateMachine<Monster>(this, _idleState);
         _target = GameObject.FindWithTag("Player");
         createPoint = this.transform.position;
-        returnCheck = true;
+        returnCheck = false;
         hp = 100.0f;
         exp = 100.0f;
         die = false;
@@ -66,6 +67,7 @@ public class Monster : MonoBehaviour
         _hpbar.offset = hpBarOffset;
         hpBarImage = hpBar.GetComponent<Image>();
         agent = GetComponent<NavMeshAgent>();
+        damageable = GetComponent<MonsterDamageable>();
     }
 
     void OnDestroy()
@@ -86,43 +88,84 @@ public class Monster : MonoBehaviour
     }
     public void MoveChase()
     {
-        if (_target == null) return;
-
-        Vector3 direction = (_target.transform.position - transform.position).normalized;
-
-        Quaternion targetRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
-
-        // 타겟과의 거리 계산
-        float distance = Vector3.Distance(transform.position, _target.transform.position);
-        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        agent.SetDestination(_target.transform.position);
     }
     public void MoveCreatePoint()
     {
-        Vector3 direction = (createPoint - transform.position).normalized;
-
-        Quaternion targetRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
-        transform.position += direction * speed * Time.deltaTime;
+        agent.SetDestination(createPoint);
     }
-    void OnTriggerEnterCustom()
+    void PlayerDetectOn()
     {
         if (_fsm.curState != _chaseState)
+        {
             _fsm.SetState(_chaseState);
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (!returnCheck || _fsm.curState == _idleState)
+        if (_fsm.curState == _returnState || _fsm.curState == _idleState )
             return;
         if (other.CompareTag("PlayerAttack"))
         {
-            GeDamage(50.0f);
+            SkillDamage skill = other.GetComponent<SkillDamage>();
+            if(skill != null)
+            {
+                GetDamage(skill.damage);
+                Skill skilltype = other.GetComponent<SkillDamage>().skill;
+                if (skill.snare)
+                {
+                    switch (skilltype)
+                    {
+                        case Skill.Q:
+                            int result = UnityEngine.Random.Range(0, 10);
+                            if(result >0)
+                            {
+                                damageable.ApplySnare(StatManger.Instance.qSnareDuration);
+                            }
+                            break;
+                        case Skill.W:
+                            damageable.ApplySnare(StatManger.Instance.wSnareDuration);
+                            break;
+                    }
+                    
+                }
+                    if (skill.dot)
+                {
+                    switch (skilltype)
+                    {
+                        case Skill.W:
+                            damageable.ApplyDot(StatManger.Instance.wDotDamage, StatManger.Instance.wDotInterval,
+                        StatManger.Instance.wDotDuration);
+                            break;
+                        case Skill.E:
+                            damageable.ApplyDot(StatManger.Instance.eDotDamage, StatManger.Instance.eDotInterval,
+                        StatManger.Instance.eDotDuration);
+                            break;
+                    }
+                }
+                    
+                if(skill.slow)
+                {
+                    switch(skilltype)
+                    {
+                        case Skill.Q:
+                            damageable.ApplySlow(StatManger.Instance.qSlowAmount, StatManger.Instance.qSlowDuration);
+                            break;
+                        case Skill.W:
+                            damageable.ApplySlow(StatManger.Instance.wSlowAmount, StatManger.Instance.wSlowDuration);
+                            break;
+                    }
+                }
+            }
         }
     }
-    void OnTriggerExitCustom()
+    void PlayerDetectOff()
     {
         if (_fsm.curState != _idleState)
+        {
             _fsm.SetState(_idleState);
+            agent.ResetPath();
+        }
     }
     public void MonsterInit()
     {
@@ -131,14 +174,25 @@ public class Monster : MonoBehaviour
         die = false;
         isDeadHandled = false;
         UpdateHpBar();
+        returnCheck = false;
     }
 
     private void OnEnable()
     {
         MonsterInit();
+
+        if (_target != null)
+        {
+            float distance = Vector3.Distance(transform.position, _target.transform.position);
+            if (distance <= triggerRange && !_fsm.curState.Equals(_chaseState))
+            {
+                Debug.Log("11");
+                _fsm.SetState(_chaseState);
+            }
+        }
     }
 
-    void GeDamage(float damage)
+    public void GetDamage(float damage)
     {
         if (hp <= 0) return;
         hp -= damage;
@@ -188,8 +242,57 @@ public class Monster : MonoBehaviour
         yield return new WaitForSeconds(dieCount);
         this.gameObject.SetActive(false);
     }
+    private void MonsterMovement()
+    {
+        if (die)
+            return;
+        float createDistance = Vector3.Distance(transform.position, createPoint);
+
+        // 생성 위치에서 너무 멀어졌으면 복귀
+        if (createDistance > returnDistance)
+        {
+            if (_fsm.curState != _returnState)
+            {
+                _fsm.SetState(_returnState);
+            }
+            returnCheck = false;
+            return;
+        }
+
+        if (returnCheck)
+        {
+            _fsm.SetState(_idleState);
+            return;
+        }
+
+        if (_fsm.curState != _returnState)
+        {
+            
+            float distance = Vector3.Distance(transform.position, _target.transform.position);
+
+            if (distance <= triggerRange)
+            {
+                if (distance <= attackRange)
+                {
+                    if (_fsm.curState != _attackState)
+                    {
+                        _fsm.SetState(_attackState);
+                        agent.ResetPath(); // 공격 중엔 멈춤
+                    }
+                }
+                else
+                {
+                    PlayerDetectOn(); // 추적
+                }
+            }
+            else
+            {
+                PlayerDetectOff(); // 플레이어 사라짐
+            }
+        }
+    }
     // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
         if (_target == null) return;  // 플레이어가 없으면 실행 X
         //hp가 0이되면 하는 작업의 과정
@@ -199,6 +302,7 @@ public class Monster : MonoBehaviour
             if (!die)
             {
                 die = true;
+                agent.ResetPath();
                 _animator.SetTrigger("Die");
 
                 logManager.AddLog("경험치 " + exp + "를 획득하셨습니다.");
@@ -215,41 +319,10 @@ public class Monster : MonoBehaviour
             }
 
         }
-        agent.SetDestination(_target.transform.position);
-        //float createDistance = Vector3.Distance(transform.position, createPoint);
-        //if (createDistance > 15.0f)
-        //{
-        //    if (_fsm.curState != _returnState)
-        //        _fsm.SetState(_returnState);
-        //    returnCheck = false;
-        //}
-        //if (returnCheck)
-        //    _fsm.SetState(_idleState);
-        //if (_fsm.curState != _returnState)
-        //{
-        //    float distance = Vector3.Distance(transform.position, _target.transform.position); // 거리 계산
-        //    if (distance <= triggerRange)
-        //    {
-        //        if (distance <= attackRange)
-        //        {
-        //            if (_fsm.curState != _attackState)
-        //                _fsm.SetState(_attackState);
-        //        }
-        //        else
-        //            OnTriggerEnterCustom();
-        //    }
-        //    else if (distance > triggerRange)
-        //    {
-        //        OnTriggerExitCustom();
-        //    }
-        //}
-
-    }
-
-    private void FixedUpdate() // 0.02초마다 호출
-    {
+        MonsterMovement();
+        
         if (!die)
             _fsm.DoOperateUpdate();
-
     }
+
 }

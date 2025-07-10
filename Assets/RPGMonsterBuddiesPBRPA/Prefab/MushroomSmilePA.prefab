@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3417568372035214176}
   - component: {fileID: 5111170038357784260}
   - component: {fileID: 1883816438905131008}
+  - component: {fileID: 6486574916363919884}
   m_Layer: 9
   m_Name: MushroomSmilePA
   m_TagString: Enemy
@@ -80,6 +81,8 @@ MonoBehaviour:
     type: 3}
   hpBarOffset: {x: -0.5, y: 2.4, z: 0}
   MonsterAttackColider: {fileID: 4724383948190615846}
+  agent: {fileID: 0}
+  returnDistance: 15
 --- !u!136 &3417568372035214176
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -120,7 +123,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 1
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -132,6 +135,20 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &6486574916363919884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 264213370537990050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea9efb38fe4f15e43854f03f0388d4e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  immuneToSnare: 0
+  immuneToDot: 0
 --- !u!1 &1029362807284367314
 GameObject:
   m_ObjectHideFlags: 0
@@ -408,6 +425,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 5
+  snare: 0
+  dot: 0
 --- !u!1 &5093889288529411952
 GameObject:
   m_ObjectHideFlags: 0

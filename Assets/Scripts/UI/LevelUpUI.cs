@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Attack03Skill : MonoBehaviour
+public class LevelUpUI : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
-        //Destroy(this.gameObject, 5.0f);
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 }
