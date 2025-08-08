@@ -13,6 +13,7 @@ public class CloseUI : MonoBehaviour
     public void XButton_CloseUI()
     {
         this.gameObject.transform.parent.gameObject.SetActive(false);
+        PauseManager.Instance.GameResume();
     }
     // Update is called once per frame
     void Update()

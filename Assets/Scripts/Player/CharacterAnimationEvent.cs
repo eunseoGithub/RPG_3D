@@ -11,6 +11,7 @@ public class CharacterAnimationEvent : MonoBehaviour
     public GameObject Attack03Prefab;
     public GameObject Attack04Prefab;
     public GameObject Attack05Prefab;
+    public GameObject potionHealPrefab;
     public GameObject Boss;
     Character character;
     public bool rSkillInvincibleOn = false;
@@ -21,7 +22,8 @@ public class CharacterAnimationEvent : MonoBehaviour
     }
     public void StartAttack()
     {
-        characterControl.isAttacking = true;
+        if(!characterControl.isAttacking)
+            characterControl.isAttacking = true;
     }
 
     public void EndAttack()
@@ -29,51 +31,10 @@ public class CharacterAnimationEvent : MonoBehaviour
         characterControl.ChangeToIdleState();
     }
 
-    public void Attack01_Start()
-    {
-        StartAttack();
-    }
-    public void Attack01_End()
-    {
-        EndAttack();
-    }
-
-    public void Attack02_Start()
-    {
-        StartAttack();
-    }
-    public void Attack02_End()
-    {
-        EndAttack();
-    }
-
-    public void Attack03_Start()
-    {
-        StartAttack();
-    }
-    public void Attack03_End()
-    {
-        EndAttack();
-    }
-
-    public void Attack04_Start()
-    {
-        StartAttack();
-    }
-    public void Attack04_End()
-    {
-        EndAttack();
-    }
-
     public void Attack05_Start()
     {
-        StartAttack();
         if (rSkillInvincibleOn)
             character.SetInvincible(0.5f);
-    }
-    public void Attack05_End()
-    {
-        EndAttack();
     }
 
     public void Attack01_Fire()
@@ -94,7 +55,11 @@ public class CharacterAnimationEvent : MonoBehaviour
     }
     public void Attack05_Fire()
     {
-        Attack05Prefab.SetActive(true);
+        FireAtMousePosition_Attack05();
+    }
+    public void PotionHeal()
+    {
+        potionHealPrefab.SetActive(true);
         SFXManager.Instance.PlaySound(SFXManager.Instance.playerAttack_R);
     }
     void FireAtMousePosition_Attack01()
@@ -146,8 +111,8 @@ public class CharacterAnimationEvent : MonoBehaviour
         }
         Vector3 direction = new Vector3(characterControl.currentTargetPosition.x, 1.0f, characterControl.currentTargetPosition.z);
         GameObject fire = Instantiate(Attack03Prefab, direction, Quaternion.identity);
-        fire.GetComponent<SkillDamage>().damage = StatManger.Instance.WDamage;
-        fire.GetComponent<SkillDamage>().skill = Skill.W;
+        fire.GetComponentInChildren<SkillDamage>().damage = StatManger.Instance.WDamage;
+        fire.GetComponentInChildren<SkillDamage>().skill = Skill.W;
         SFXManager.Instance.PlaySound(SFXManager.Instance.playerAttack_W);
 
     }
@@ -155,24 +120,15 @@ public class CharacterAnimationEvent : MonoBehaviour
     {
         Vector3 direction = new Vector3(characterControl.currentTargetPosition.x, 1.0f, characterControl.currentTargetPosition.z);
         GameObject fire = Instantiate(Attack04Prefab, direction, Quaternion.identity);
-        fire.GetComponent<SkillDamage>().damage = StatManger.Instance.EDamage;
-        fire.GetComponent<SkillDamage>().skill = Skill.E;
-        //float distanceToBoss = Vector3.Distance(fire.transform.position, Boss.transform.position);
-        //if (distanceToBoss < 5.0f) // 거리 1.5 이하이면 히트 판정
-        //{
-        //    Dragon bossComponent = Boss.GetComponent<Dragon>();
-        //    if (bossComponent != null)
-        //    {
-        //        bossComponent.GetDamage(10); // 보스에게 10의 데미지
-        //    }
-        //}
+        fire.GetComponentInChildren<SkillDamage>().damage = StatManger.Instance.EDamage;
+        fire.GetComponentInChildren<SkillDamage>().skill = Skill.E;
         SFXManager.Instance.PlaySound(SFXManager.Instance.playerAttack_E);
     }
     void FireAtMousePosition_Attack05()
     {
         Vector3 direction = new Vector3(characterControl.currentTargetPosition.x, 1.0f, characterControl.currentTargetPosition.z);
         GameObject fire = Instantiate(Attack05Prefab, direction, Quaternion.identity);
-        fire.GetComponent<SkillDamage>().damage = StatManger.Instance.EDamage;
+        fire.GetComponent<SkillDamage>().damage = StatManger.Instance.RDamage;
         fire.GetComponent<SkillDamage>().skill = Skill.R;
         SFXManager.Instance.PlaySound(SFXManager.Instance.playerAttack_E);
 
@@ -186,7 +142,7 @@ public class CharacterAnimationEvent : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
         GameObject fire = Instantiate(Attack05Prefab, direction, Quaternion.identity);
-        fire.GetComponent<SkillDamage>().damage = StatManger.Instance.EDamage;
+        fire.GetComponent<SkillDamage>().damage = StatManger.Instance.RDamage;
         fire.GetComponent<SkillDamage>().skill = Skill.R;
         SFXManager.Instance.PlaySound(SFXManager.Instance.playerAttack_E);
     }

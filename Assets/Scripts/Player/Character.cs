@@ -27,6 +27,9 @@ public class Character : MonoBehaviour
     public int healCount = 0;
     public bool key;
     public bool isInvincible;//무적 판정
+    public LevelUpUI levelUpUI;
+    public int posionCount;
+    public Text posionCountText;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -145,6 +148,7 @@ public class Character : MonoBehaviour
             UpdateHpBar();
             UpdateMpBar();
             UpdateLevel();
+            levelUpUI.ShowLevelUpUI();
         }
     }
     public void SetInvincible(float duration)

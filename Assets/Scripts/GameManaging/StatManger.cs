@@ -53,7 +53,7 @@ public class StatManger : MonoBehaviour
         public List<Stats> stat = new List<Stats>();
     }
     public StatData statData;
-
+    public List<SkillUpgradeChoice> playerChoices;
     private void Awake()
     {
         if (Instance == null)
@@ -78,7 +78,7 @@ public class StatManger : MonoBehaviour
         {
             Debug.LogError("StatData 파일을 찾을 수 없습니다.");
         }
-        AADamage = 10.0f;
+        AADamage = 100.0f;
         QDamage = 15.0f;
         WDamage = 15.0f;
         EDamage = 15.0f;

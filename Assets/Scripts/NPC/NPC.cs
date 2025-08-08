@@ -34,7 +34,8 @@ public class NPC : MonoBehaviour
     }
     void OnDisable()
     {
-        pButtonUI.gameObject.SetActive(false);
+        if(pButtonUI!=null)
+            pButtonUI.gameObject.SetActive(false);
     }
     // Update is called once per frame
     void Update()

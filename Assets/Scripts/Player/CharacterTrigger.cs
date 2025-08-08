@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class CharacterTrigger : MonoBehaviour
 {
     Character character;
@@ -19,6 +19,12 @@ public class CharacterTrigger : MonoBehaviour
         {
             float damage = other.GetComponent<SkillDamage>().damage;
             character.GetDamage(damage);
+        }
+        if(other.CompareTag("item"))
+        {
+            Destroy(other.gameObject);
+            character.posionCount++;
+            character.posionCountText.text = character.posionCount.ToString();
         }
     }
     // Update is called once per frame

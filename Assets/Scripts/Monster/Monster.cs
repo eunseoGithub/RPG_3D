@@ -33,7 +33,8 @@ public class Monster : MonoBehaviour
     public GameObject MonsterAttackColider;
     public NavMeshAgent agent;
     public float returnDistance = 15f;
-    public MonsterDamageable damageable;
+    private MonsterDamageable damageable;
+    public GameObject potionPrefab;
     // Start is called before the first frame update
     void Awake()
     {
@@ -43,7 +44,6 @@ public class Monster : MonoBehaviour
         _idleState = new MonsterIdleState(this);
         _chaseState = new MonsterChaseState(this);
         _returnState = new MonsterReturnState(this);
-
         _animator = GetComponent<Animator>();
 
         _fsm = new StateMachine<Monster>(this, _idleState);
@@ -108,10 +108,11 @@ public class Monster : MonoBehaviour
         if (other.CompareTag("PlayerAttack"))
         {
             SkillDamage skill = other.GetComponent<SkillDamage>();
-            if(skill != null)
+            Skill skilltype;
+            if (skill != null)
             {
                 GetDamage(skill.damage);
-                Skill skilltype = other.GetComponent<SkillDamage>().skill;
+                skilltype = other.GetComponent<SkillDamage>().skill;
                 if (skill.snare)
                 {
                     switch (skilltype)
@@ -129,7 +130,7 @@ public class Monster : MonoBehaviour
                     }
                     
                 }
-                    if (skill.dot)
+                if (skill.dot)
                 {
                     switch (skilltype)
                     {
@@ -146,7 +147,7 @@ public class Monster : MonoBehaviour
                     
                 if(skill.slow)
                 {
-                    switch(skilltype)
+                    switch (skilltype)
                     {
                         case Skill.Q:
                             damageable.ApplySlow(StatManger.Instance.qSlowAmount, StatManger.Instance.qSlowDuration);
@@ -175,6 +176,7 @@ public class Monster : MonoBehaviour
         isDeadHandled = false;
         UpdateHpBar();
         returnCheck = false;
+        this.GetComponent<CapsuleCollider>().enabled = true;
     }
 
     private void OnEnable()
@@ -186,7 +188,6 @@ public class Monster : MonoBehaviour
             float distance = Vector3.Distance(transform.position, _target.transform.position);
             if (distance <= triggerRange && !_fsm.curState.Equals(_chaseState))
             {
-                Debug.Log("11");
                 _fsm.SetState(_chaseState);
             }
         }
@@ -304,7 +305,7 @@ public class Monster : MonoBehaviour
                 die = true;
                 agent.ResetPath();
                 _animator.SetTrigger("Die");
-
+                this.GetComponent<CapsuleCollider>().enabled = false;
                 logManager.AddLog("경험치 " + exp + "를 획득하셨습니다.");
                 float addExp = player.GetExp();
                 player.SetExp(addExp + exp);
@@ -313,6 +314,15 @@ public class Monster : MonoBehaviour
                 {
                     logManager.AddLog("Key를 획득하셨습니다.");
                     Character.Instance.key = true;
+                }
+                if(RandomItem())
+                {
+                    if(potionPrefab != null)
+                    {
+                        Vector3 dropPosition = transform.position + Vector3.up * 0.5f;
+                        Instantiate(potionPrefab, dropPosition, Quaternion.identity);
+                        logManager.AddLog("체력 포션을 획득하셨습니다.");
+                    }
                 }
                 OnMonsterDeath?.Invoke(this);
                 StartCoroutine(HandleDeath());

@@ -26,6 +26,30 @@ public class MonsterDamageable : MonoBehaviour
     {
         this.GetComponent<Monster>().GetDamage(amount);
     }
+    public void setSnare(bool result)
+    {
+        immuneToSnare = result;
+    }
+    public bool getSnare()
+    {
+        return immuneToSnare;
+    }
+    public void setDot(bool result)
+    {
+        immuneToDot = result;
+    }
+    public bool getDot()
+    {
+        return immuneToDot;
+    }
+    public void setSlow(bool result)
+    {
+        immuneToSlow = result;
+    }
+    public bool getSlow()
+    {
+        return immuneToSlow;
+    }
 
     public void ApplySnare(float duration)
     {
@@ -51,15 +75,13 @@ public class MonsterDamageable : MonoBehaviour
     {
         if (immuneToDot || dotCoroutine != null)
             return;
-
         dotCoroutine = StartCoroutine(DotCoroutine(tick, interval, duration));
     }
 
     IEnumerator DotCoroutine(float damage, float interval, float duration)
     {
         float elapsed = 0f;
-
-        while(elapsed < duration)
+        while (elapsed < duration)
         {
             TakeDamage(damage);
             yield return new WaitForSeconds(interval);

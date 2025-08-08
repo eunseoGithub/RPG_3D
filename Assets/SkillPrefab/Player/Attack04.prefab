@@ -18842,7 +18842,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2369614816108543660}
   - component: {fileID: 1544390126418290983}
-  - component: {fileID: 5117381752261721979}
   m_Layer: 0
   m_Name: Attack04
   m_TagString: PlayerAttack
@@ -18881,21 +18880,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7794c33cb087bc44947938f6f33fe47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5117381752261721979
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2369614816108176012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e18693291297bdd41808cfa8e39ed93d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 0
-  snare: 0
-  dot: 1
 --- !u!1 &4776779967243464603
 GameObject:
   m_ObjectHideFlags: 0
@@ -18907,6 +18891,7 @@ GameObject:
   - component: {fileID: 5724222639997575883}
   - component: {fileID: 8278650445456852174}
   - component: {fileID: 6162206607721918188}
+  - component: {fileID: 2985209189656313237}
   m_Layer: 0
   m_Name: Colider
   m_TagString: PlayerAttack
@@ -18957,3 +18942,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2985209189656313237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4776779967243464603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e18693291297bdd41808cfa8e39ed93d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0
+  snare: 0
+  dot: 1
+  slow: 0
+  skill: 3

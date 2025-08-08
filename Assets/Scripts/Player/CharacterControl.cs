@@ -8,7 +8,7 @@ public class CharacterControl : MonoBehaviour
     public float rotateSpeed = 10.0f;
     public Animator charAnimator;
     private Vector3 destinationPoint;
-    private bool shouldMove = false;
+    public bool shouldMove = false;
     public bool isAttacking = false;
     public GameObject Attack05Particle;
     public Vector3 currentTargetPosition;
@@ -29,7 +29,7 @@ public class CharacterControl : MonoBehaviour
     public float gravity = -9.81f;
     private bool isDead;
     public GameObject clickParticlePrefab;
-    public GameObject Attack06Prefab;
+    private CharacterAnimationEvent characterAnimationEvent;
     public enum CharState
     {
         Idle,
@@ -80,12 +80,14 @@ public class CharacterControl : MonoBehaviour
         characterCon = GetComponent<CharacterController>();
         clickLayer = LayerMask.GetMask("Terrains");
 
+        characterAnimationEvent = GetComponent<CharacterAnimationEvent>();
     }
 
     public void ChangeToIdleState()
     {
         sm.SetState(dicState[CharState.Idle]);
-        isAttacking = false;
+        if(isAttacking)
+            isAttacking = false;
     }
 
     private void LookAtBoss()
@@ -108,11 +110,6 @@ public class CharacterControl : MonoBehaviour
     }
     public void SetAttackNum()
     {
-        if (isAttacking == true)
-        {
-            return;
-        }
-
         if (Input.GetKeyDown(KeyCode.Q) && CanUseSkill(KeyCode.Q))
         {
             lastSkillUseTime[KeyCode.Q] = Time.time;
@@ -148,11 +145,15 @@ public class CharacterControl : MonoBehaviour
             sm.SetState(dicState[CharState.Attack]);
             LookAtBoss();
             characterSetting.UseMp(10.0f);
-            characterSetting.healOn = true;
         }
-        else
+        else if(Input.GetKeyDown(KeyCode.T))
         {
-
+            if (characterSetting.posionCount <= 0)
+                return;
+            characterSetting.healOn = true;
+            characterAnimationEvent.PotionHeal();
+            characterSetting.posionCount--;
+            characterSetting.posionCountText.text = characterSetting.posionCount.ToString();
         }
     }
     public Dictionary<KeyCode, float> GetSkillCooldowns()
@@ -167,6 +168,11 @@ public class CharacterControl : MonoBehaviour
 
     private void PlayerAttack()
     {
+        if (isAttacking == true)
+        {
+            return;
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -191,12 +197,10 @@ public class CharacterControl : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            //Debug.DrawRay(ray.origin, ray.direction * 100, Color.red, 1f);
 
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, 100f, clickLayer))
             {
-                //Debug.Log($"Clicked: {hit.collider.name}");
                 destinationPoint = new Vector3(hit.point.x, transform.position.y, hit.point.z);
                 shouldMove = true;
                 
@@ -229,7 +233,6 @@ public class CharacterControl : MonoBehaviour
                 sm.SetState(dicState[CharState.Move]);
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
-
                 moveDirection = direction.normalized * Speed;
             }
             else
@@ -258,7 +261,6 @@ public class CharacterControl : MonoBehaviour
         PlayerAttack();
         PlayerMove();
         PlayerMoveHandle();
-
         float hp = this.GetComponent<Character>().GetHp();
         if (characterSetting.healOn == false && Attack05Particle.activeSelf == true)
         {
@@ -274,16 +276,16 @@ public class CharacterControl : MonoBehaviour
             }
             
         }
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 100f))
-            {
-                Instantiate(Attack06Prefab, hit.point, Quaternion.identity);
-            }
-        }
-            sm.DoOperateUpdate();
+        //if (Input.GetKeyDown(KeyCode.T))
+        //{
+        //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //    RaycastHit hit;
+        //    if (Physics.Raycast(ray, out hit, 100f))
+        //    {
+        //        Instantiate(Attack06Prefab, hit.point, Quaternion.identity);
+        //    }
+        //}
+        sm.DoOperateUpdate();
     }
 }
 

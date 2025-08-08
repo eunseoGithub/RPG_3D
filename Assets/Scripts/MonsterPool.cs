@@ -103,7 +103,7 @@ public class MonsterPool : MonoBehaviour
             attempts++;
             if (attempts > 20) // 무한 루프 방지 (20번 시도 후 그냥 배치)
             {
-                Debug.LogWarning("Too many spawn attempts! Placing monster anyway.");
+                Debug.LogWarning("무한 루프 방지입니다.");
                 break;
             }
 

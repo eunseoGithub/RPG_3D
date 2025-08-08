@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - PlayerAttack
   - EnemyAttack
+  - item
   layers:
   - Default
   - TransparentFX

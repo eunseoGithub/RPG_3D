@@ -9,6 +9,8 @@ public class CharacterIdle : IState<CharacterControl>
     public void OperateEnter(CharacterControl sender)
     {
         charController = sender;
+        if (charController.isAttacking)
+            charController.isAttacking = false;
     }
 
     public void OperateExit(CharacterControl sender)
