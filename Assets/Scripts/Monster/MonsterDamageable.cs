@@ -15,7 +15,7 @@ public class MonsterDamageable : MonoBehaviour
     private bool isSnared = false;
     private Coroutine dotCoroutine;
     private Coroutine slowCoroutine;
-    
+    public bool isBoss=false;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,21 +24,33 @@ public class MonsterDamageable : MonoBehaviour
 
     public void TakeDamage(float amount)
     {
-        this.GetComponent<Monster>().GetDamage(amount);
+        if(isBoss)
+        {
+            Dragon boss = GetComponent<Dragon>();
+            if (boss != null)
+                boss.GetDamage(amount);
+        }
+        else
+        {
+            Monster mon = GetComponent<Monster>();
+            if (mon != null)
+                mon.GetDamage(amount);
+        }
     }
-    public void setSnare(bool result)
+
+    public void setImmuneSnare(bool result)
     {
         immuneToSnare = result;
     }
-    public bool getSnare()
+    public bool getImmuneSnare()
     {
         return immuneToSnare;
     }
-    public void setDot(bool result)
+    public void setImmuneDot(bool result)
     {
         immuneToDot = result;
     }
-    public bool getDot()
+    public bool getImmuneDot()
     {
         return immuneToDot;
     }
@@ -55,9 +67,12 @@ public class MonsterDamageable : MonoBehaviour
     {
         if (immuneToSnare || isSnared)
             return;
-        StartCoroutine(SnareCoroutine(duration));
-    }
 
+        if (isBoss)
+            StartCoroutine(SnareCoroutineBoss(duration));
+        else
+            StartCoroutine(SnareCoroutine(duration));
+    }
     IEnumerator SnareCoroutine(float duration)
     {
         isSnared = true;
@@ -68,6 +83,24 @@ public class MonsterDamageable : MonoBehaviour
 
         if (agent)
             agent.isStopped = false;
+        isSnared = false;
+    }
+
+    IEnumerator SnareCoroutineBoss(float duration)
+    {
+        isSnared = true;
+        Dragon boss = GetComponent<Dragon>();
+        float originalSpeed = 0f;
+        if(boss != null)
+        {
+            originalSpeed = boss.speed;
+            boss.speed = 0f;
+        }
+        yield return new WaitForSeconds(duration);
+
+        if (boss != null)
+            boss.speed = originalSpeed;
+
         isSnared = false;
     }
 
@@ -95,7 +128,10 @@ public class MonsterDamageable : MonoBehaviour
         if (immuneToSlow || slowCoroutine != null)
             return;
 
-        slowCoroutine = StartCoroutine(SlowCoroutine(slowAmount, duration));
+        if(isBoss)
+            slowCoroutine = StartCoroutine(SlowCoroutineBoss(slowAmount, duration));
+        else
+            slowCoroutine = StartCoroutine(SlowCoroutine(slowAmount, duration));
     }
 
     IEnumerator SlowCoroutine(float slowAmount, float duration)
@@ -115,7 +151,22 @@ public class MonsterDamageable : MonoBehaviour
 
         slowCoroutine = null;
     }
+    IEnumerator SlowCoroutineBoss(float slowAmount, float duration)
+    {
+        Dragon boss = GetComponent<Dragon>();
+        float originalSpeed = 0f;
+        if(boss != null)
+        {
+            originalSpeed = boss.speed;
+            boss.speed = boss.speed * (1f - slowAmount);
+        }
+        
+        yield return new WaitForSeconds(duration);
 
+        if (boss != null)
+            boss.speed = originalSpeed;
+        slowCoroutine = null;
+    }
     // Update is called once per frame
     void Update()
     {

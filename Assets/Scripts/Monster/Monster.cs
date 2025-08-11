@@ -35,6 +35,9 @@ public class Monster : MonoBehaviour
     public float returnDistance = 15f;
     private MonsterDamageable damageable;
     public GameObject potionPrefab;
+    public GameObject damagePopupPrefeb;
+    public Transform popupSpawnPoint;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -197,6 +200,10 @@ public class Monster : MonoBehaviour
     {
         if (hp <= 0) return;
         hp -= damage;
+        GameObject popup = Instantiate(damagePopupPrefeb, monsterCanvas.transform);
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(popupSpawnPoint.position);
+        popup.transform.position = screenPos;
+        popup.GetComponent<DamagePopup>().Setup(damage);
         if (hp < 0)
             hp = 0;
         UpdateHpBar();

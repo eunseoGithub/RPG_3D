@@ -184,6 +184,36 @@ Transform:
   m_Father: {fileID: 5436476740146464623}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4637711905703763751
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8591823264243073661}
+  m_Layer: 9
+  m_Name: DamagePopupPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8591823264243073661
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4637711905703763751}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.4, y: 0.86, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7807431114919716905}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4685271716732413841
 GameObject:
   m_ObjectHideFlags: 0
@@ -262,6 +292,8 @@ MonoBehaviour:
   damage: 10
   snare: 0
   dot: 0
+  slow: 0
+  skill: 0
 --- !u!135 &2124573492816340548
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -564,6 +596,7 @@ Transform:
   m_Children:
   - {fileID: 2947016869698456476}
   - {fileID: 5436476740146464623}
+  - {fileID: 8591823264243073661}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -612,6 +645,11 @@ MonoBehaviour:
   MonsterAttackColider: {fileID: 5056117666782100474}
   agent: {fileID: 0}
   returnDistance: 15
+  potionPrefab: {fileID: 7162748861593786302, guid: d634a06eded730d4fbd4d12983933f00,
+    type: 3}
+  damagePopupPrefeb: {fileID: 4403066706423240910, guid: b54064479b719e34194335ff3675982e,
+    type: 3}
+  popupSpawnPoint: {fileID: 8591823264243073661}
 --- !u!136 &7570684946353654274
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -678,6 +716,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   immuneToSnare: 0
   immuneToDot: 0
+  immuneToSlow: 0
 --- !u!1 &7712155012871449178
 GameObject:
   m_ObjectHideFlags: 0

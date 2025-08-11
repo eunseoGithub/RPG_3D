@@ -73,7 +73,10 @@ public class Dragon : MonoBehaviour
 
     public Animator _animator;
 
-
+    public HashSet<string> AttackIds = new HashSet<string>();
+    public GameObject damagePopupPrefeb;
+    public Transform popupSpawnPoint;
+    private Canvas monsterCanvas;
     // Start is called before the first frame update
     void Start()
     {
@@ -97,10 +100,18 @@ public class Dragon : MonoBehaviour
         // 애니메이터컴포넌트를 가지고 온다.
         _animator = GetComponent<Animator>();
         isDead = false;
+        if (monsterCanvas == null)
+        {
+            monsterCanvas = GameObject.Find("MonsterHpCanvas").GetComponent<Canvas>();
+        }
     }
     public void GetDamage(float damage)
     {
         hp -= damage;
+        GameObject popup = Instantiate(damagePopupPrefeb, monsterCanvas.transform);
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(popupSpawnPoint.position);
+        popup.transform.position = screenPos;
+        popup.GetComponent<DamagePopup>().Setup(damage);
         UpdateHpBar();
     }
     public float GetHp()
@@ -245,31 +256,6 @@ public class Dragon : MonoBehaviour
                 this.transform.rotation = Quaternion.LookRotation(direct);
                 ChangeAttackState();
             }
-        }
-    }
-
-    public void MoveReturnBase()
-    {
-        if (_targetTr != null)
-        {
-            Vector3 direct = (_returnPosition - this.transform.position).normalized;
-            this.transform.rotation = Quaternion.LookRotation(direct);  // 드래곤을 추적방향으로 회전.
-            this.transform.Translate(direct * _moveSpeed * Time.smoothDeltaTime, Space.World);
-        }
-    }
-
-
-    public bool CheckReturnBase()
-    {
-        float ReturnDistance = (_returnPosition - this.transform.position).magnitude;
-        Debug.Log("ReturnDistance : " + ReturnDistance);
-        if (ReturnDistance >= _returnDistance)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
         }
     }
 
