@@ -11,10 +11,10 @@ using System.Collections;
 
 public class PPFXMeteor : MonoBehaviour {
 	
-	Vector3 groundPos = new Vector3(0,0,0);
-	public Vector3 spawnPosOffset = new Vector3(0,0,0);
+	public Vector3 groundPos = new Vector3(0,0,0);
+	public Vector3 spawnPosOffset = new Vector3(0,30,0);
 	
-	public float speed = 10f;
+	public float speed = 1000f;
 	public GameObject detonationPrefab;
 	
 	public bool destroyOnHit;
@@ -122,8 +122,8 @@ public class PPFXMeteor : MonoBehaviour {
 				
 			}
 			//destroy this ParticleSystem after duration
-			PPFXAutodestruct _ad = this.GetComponent<PPFXAutodestruct>();
-			_ad.DestroyPSystem(this.gameObject);
+			//PPFXAutodestruct _ad = this.GetComponent<PPFXAutodestruct>();
+			//_ad.DestroyPSystem(this.gameObject);
         }
         else
         {
@@ -159,7 +159,7 @@ public class PPFXMeteor : MonoBehaviour {
         
         if(detonationPrefab!=null)
         {
-        	Instantiate(detonationPrefab, this.transform.position, detonationPrefab.transform.rotation);
+        	//Instantiate(detonationPrefab, this.transform.position, detonationPrefab.transform.rotation);
         }
         
         

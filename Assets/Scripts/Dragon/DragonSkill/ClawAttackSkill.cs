@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class ClawAttackSkill : MonoBehaviour
 {
-    [SerializeField]
-    float damage = 10;
     // Start is called before the first frame update
     void Start()
     {

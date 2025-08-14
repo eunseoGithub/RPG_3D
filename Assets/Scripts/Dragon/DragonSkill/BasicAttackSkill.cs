@@ -6,8 +6,6 @@ public class BasicAttackSkill : MonoBehaviour
 {
     public float speed = 10f;  // 이동 속도
     public float lifeTime = 5f; // Fireball의 수명(초)
-    [SerializeField]
-    float damage = 10;
     private Vector3 direction; // 이동 방향
     public void Initialize(Vector3 fireDirection)
     {

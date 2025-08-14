@@ -9430,9 +9430,10 @@ GameObject:
   - component: {fileID: 8890708607618012785}
   - component: {fileID: 8890708607618012786}
   - component: {fileID: 9011741026581303083}
+  - component: {fileID: 2372692083462019190}
   m_Layer: 0
-  m_Name: FireBallSkill
-  m_TagString: Untagged
+  m_Name: Basic Attack_FireBall
+  m_TagString: EnemyAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9479,7 +9480,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   lifeTime: 5
-  damage: 10
 --- !u!54 &9011741026581303083
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -9496,3 +9496,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2372692083462019190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8890708607618012797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e18693291297bdd41808cfa8e39ed93d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
+  snare: 0
+  dot: 0
+  slow: 0
+  skill: 0
+  attackId: 

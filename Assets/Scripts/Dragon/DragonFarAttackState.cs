@@ -20,7 +20,8 @@ public class DragonFarAttackState : IState<Dragon>
             // 공격
             if (!(_owner._animator.GetBool("farAttack")))
             {
-                _owner._animator.SetInteger("farAttackSkill", Random.Range(0, 4));
+                _owner._animator.SetInteger("farAttackSkill", 1);// 디버깅용
+                //_owner._animator.SetInteger("farAttackSkill", Random.Range(0, 4));
                 _owner._animator.SetBool("farAttack", true);
             }
         }

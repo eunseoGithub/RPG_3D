@@ -26,10 +26,10 @@ public class DragonAnimationEvent : MonoBehaviour
         _flameAttackCount = 2;
         _basicAttackCount = 3;
         _screamCount = 3;
-        _sleepCount = 2;
+        _sleepCount = 4;
         _takeoffCount = 3;
     }
-    public void BasicAttack_Fireballl_Attack()
+    void BasicAttack_Fireballl_Attack()
     {
         GameObject fireball = Instantiate(_basicAttack_firballlPrefab, _basicAttack_FirePoint.transform.position, Quaternion.identity);
         Vector3 fireDirection = transform.forward;
@@ -88,7 +88,6 @@ public class DragonAnimationEvent : MonoBehaviour
             {
                 if (_basicAttack_FirePoint.activeSelf == false)
                     _basicAttack_FirePoint.SetActive(true);
-                BasicAttack_Fireballl_Attack();
             }
             _basicAttackCount--;
 
@@ -143,7 +142,7 @@ public class DragonAnimationEvent : MonoBehaviour
             _owner._animator.SetBool("farAttack", false);
             if (_sleepAttack_Obj.activeSelf == true)
                 _sleepAttack_Obj.SetActive(false);
-            _sleepCount = 2;
+            _sleepCount = 4;
         }
     }
     void LandEnd()

@@ -18970,7 +18970,7 @@ GameObject:
   - component: {fileID: 5256167828772361733}
   - component: {fileID: 5227617358726392021}
   m_Layer: 0
-  m_Name: FireSkill003
+  m_Name: Take off Attack_Firewall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18984,7 +18984,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5354017713581990497}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 824.9033, y: -0.0000009536743, z: 800}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 5350543276520317513}

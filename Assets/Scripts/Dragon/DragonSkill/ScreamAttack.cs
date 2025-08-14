@@ -6,16 +6,14 @@ public class ScreamAttack : MonoBehaviour
 {
     public GameObject warningCirclePrefab;  // 경고 원 프리팹
     public GameObject explosionPrefab;      // 폭발 파티클 프리팹
-    public Transform bossTransform;         // 보스의 위치
+    public Transform playerTransform;         // 플레이어 위치
     public float warningDuration = 2f;      // 경고 원 표시 시간
-    public float spawnRange = 15f;          // 폭발이 발생할 범위
-    public float minDistanceFromBoss = 5f;  // 보스와 너무 가까운 위치는 제외
-    public int explosionCount = 10;         // 총 폭발 횟수
-    public float delayBetweenExplosions = 0.5f; // 각 폭발 간 시간 지연
+    public float detectInterval = 0.1f;           // 플레이어 위치 감지 간격
     private List<GameObject> spawnObjects = new List<GameObject>();
+    public LayerMask groundLayer;
     private void OnEnable()
     {
-        StartCoroutine(SpawnExplosions());
+        StartCoroutine(AttackPattern());
     }
 
     private void OnDisable()
@@ -29,50 +27,48 @@ public class ScreamAttack : MonoBehaviour
         }
         spawnObjects.Clear();
     }
-    private IEnumerator SpawnExplosions()
-    {
-        for (int i = 0; i < explosionCount; i++)
-        {
-            Vector3 randomPosition = GetValidRandomPosition();
 
-            GameObject warningCircle = Instantiate(warningCirclePrefab, randomPosition, Quaternion.Euler(90f, 0f, 0f));
+    private IEnumerator AttackPattern()
+    {
+        yield return StartCoroutine(SpawnExplosionsOnPlayer(3, detectInterval));
+
+        yield return new WaitForSeconds(1f);
+
+        yield return StartCoroutine(SpawnExplosionsOnPlayer(3, detectInterval));
+    }
+
+    private IEnumerator SpawnExplosionsOnPlayer(int count, float interval)
+    {
+        for(int i = 0; i<count; i++)
+        {
+            Vector3 targetPos = playerTransform.position;
+            targetPos.y = GetGroundY(targetPos);
+
+            GameObject warningCircle = Instantiate(warningCirclePrefab, targetPos, Quaternion.Euler(90f, 0f, 0f));
             spawnObjects.Add(warningCircle);
 
             yield return new WaitForSeconds(warningDuration);
 
-            if (warningCircle != null)
+            if(warningCircle != null)
             {
                 Destroy(warningCircle);
                 spawnObjects.Remove(warningCircle);
             }
 
-            GameObject explosion = Instantiate(explosionPrefab, randomPosition, Quaternion.identity);
+            GameObject explosion = Instantiate(explosionPrefab, targetPos, Quaternion.identity);
             spawnObjects.Add(explosion);
 
-            yield return new WaitForSeconds(delayBetweenExplosions);
+            yield return new WaitForSeconds(interval);
         }
     }
 
-    private Vector3 GetValidRandomPosition()
+    private float GetGroundY(Vector3 position)
     {
-        Vector3 randomPosition;
-        float distance;
-
-        do
+        Ray ray = new Ray(position + Vector3.up * 50f, Vector3.down);
+        if (Physics.Raycast(ray, out RaycastHit hit, 100f, groundLayer))
         {
-            float randomX = Random.Range(-spawnRange, spawnRange);
-            float randomZ = Random.Range(-spawnRange, spawnRange);
-
-            randomPosition = new Vector3(
-                bossTransform.position.x + randomX,
-                bossTransform.position.y + 0.5f, // Y축은 보스와 동일한 높이로
-                bossTransform.position.z + randomZ
-            );
-
-            distance = Vector3.Distance(bossTransform.position, randomPosition);
+            return hit.point.y;
         }
-        while (distance < minDistanceFromBoss);
-
-        return randomPosition;
+        return position.y;
     }
 }

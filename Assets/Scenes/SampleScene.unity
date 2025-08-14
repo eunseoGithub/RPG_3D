@@ -5889,9 +5889,10 @@ GameObject:
   - component: {fileID: 217507004}
   - component: {fileID: 217507006}
   - component: {fileID: 217507005}
+  - component: {fileID: 217507007}
   m_Layer: 0
   m_Name: DefendAttackColider
-  m_TagString: Untagged
+  m_TagString: EnemyAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5923,7 +5924,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fbba5054be470248bafddf3058717ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
 --- !u!65 &217507006
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5937,6 +5937,24 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 416.46127, y: 138.92484, z: 83.17892}
   m_Center: {x: -1.1899927, y: -77.18993, z: -17.40291}
+--- !u!114 &217507007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 217507003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e18693291297bdd41808cfa8e39ed93d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
+  snare: 0
+  dot: 0
+  slow: 0
+  skill: 0
+  attackId: 
 --- !u!1001 &217793971
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10960,12 +10978,12 @@ MonoBehaviour:
     type: 3}
   explosionPrefab: {fileID: 3509914526402049239, guid: 5bf99d6f3c6e50f499c7504685514287,
     type: 3}
-  bossTransform: {fileID: 3762465397611562104}
-  warningDuration: 2
-  spawnRange: 15
-  minDistanceFromBoss: 5
-  explosionCount: 10
-  delayBetweenExplosions: 0.5
+  playerTransform: {fileID: 4063551573125709}
+  warningDuration: 1
+  detectInterval: 0.1
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!4 &411266644
 Transform:
   m_ObjectHideFlags: 0
@@ -11104,18 +11122,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33716e058ba3eb94b994f56032603710, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  warningPrefab: {fileID: 7960950102477711452, guid: 3d9182bedbf8f7b4abb8905a625ff64a,
+  warningPrefeb: {fileID: 7960950102477711452, guid: 3d9182bedbf8f7b4abb8905a625ff64a,
     type: 3}
-  explosionPrefab: {fileID: 5354017713581990497, guid: dfed37c1e9c5a4149834642b976b9253,
+  explosionPrefeb: {fileID: 5354017713581990497, guid: dfed37c1e9c5a4149834642b976b9253,
     type: 3}
-  coliderPrefab: {fileID: 8895096547138057401, guid: 7e91a02f8ec6dd2408d0143c3da51467,
+  coliderPrefeb: {fileID: 8895096547138057401, guid: 7e91a02f8ec6dd2408d0143c3da51467,
     type: 3}
   bossTransform: {fileID: 3762465397611562104}
-  warningDuration: 2
-  spawnRange: 15
-  minDistanceFromBoss: 5
-  explosionCount: 10
-  delayBetweenExplosions: 0.5
+  warningDuration: 0.5
+  spacing: 4
+  gridCount: 5
+  delayBetWeenSpawns: 0.3
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1001 &422798340
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13012,9 +13032,10 @@ GameObject:
   - component: {fileID: 499669830}
   - component: {fileID: 499669832}
   - component: {fileID: 499669831}
+  - component: {fileID: 499669833}
   m_Layer: 0
   m_Name: FlameAttack_FirePoint
-  m_TagString: Untagged
+  m_TagString: EnemyAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13046,7 +13067,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7472456075f80ae43969765f9fd58e8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
 --- !u!65 &499669832
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13060,6 +13080,24 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 103.73528, y: 72.60056, z: 716.7386}
   m_Center: {x: 4.2336254, y: 0.6192173, z: 472.78293}
+--- !u!114 &499669833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 499669829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e18693291297bdd41808cfa8e39ed93d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
+  snare: 0
+  dot: 0
+  slow: 0
+  skill: 0
+  attackId: 
 --- !u!4 &500262819 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8130538785930002560, guid: 49a43a0f277453b4e9b4438abaae51d2,
@@ -47412,11 +47450,6 @@ MonoBehaviour:
   explosionPrefab: {fileID: 6954623329274471876, guid: 697a411bbdb88e94e9c7e14e7af4d36a,
     type: 3}
   bossTransform: {fileID: 3762465397611562104}
-  warningDuration: 2
-  spawnRange: 15
-  minDistanceFromBoss: 5
-  explosionCount: 10
-  delayBetweenExplosions: 0.5
 --- !u!4 &1439425005
 Transform:
   m_ObjectHideFlags: 0
@@ -69866,9 +69899,10 @@ GameObject:
   - component: {fileID: 2079804881}
   - component: {fileID: 2079804880}
   - component: {fileID: 2079804879}
+  - component: {fileID: 2079804882}
   m_Layer: 0
   m_Name: ClawAttackPoint
-  m_TagString: Untagged
+  m_TagString: EnemyAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -69885,7 +69919,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8279100793ec65e4b81b60a0c5b4a8d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
 --- !u!65 &2079804880
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -69913,6 +69946,24 @@ Transform:
   m_Father: {fileID: 3762465397611570000}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2079804882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2079804878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e18693291297bdd41808cfa8e39ed93d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
+  snare: 0
+  dot: 0
+  slow: 0
+  skill: 0
+  attackId: 
 --- !u!1001 &2082239023
 PrefabInstance:
   m_ObjectHideFlags: 0

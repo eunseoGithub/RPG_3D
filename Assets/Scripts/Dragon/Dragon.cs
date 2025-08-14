@@ -173,7 +173,7 @@ public class Dragon : MonoBehaviour
 
         foreach (var col in colliders)
         {
-            // 반경안에 들어온 오브젝트의 collider.gameObject의 이름이 Magician_RIO 인지 확인한다.
+            // 반경안에 들어온 오브젝트의 collider.gameObject의 이름이 PolyArtWizardMaskTintMat 인지 확인한다.
             if (col.name.Contains("PolyArtWizardMaskTintMat"))
             {
                 // 타겟 발견

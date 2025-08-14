@@ -810,6 +810,14 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.4047619
+        functionName: BasicAttack_Fireballl_Attack
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 19513362994f30c44a26b68141dab265,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask:
       - path: 
         weight: 1
