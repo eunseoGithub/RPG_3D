@@ -3,7 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Newtonsoft.Json;
-
+/*
+ * DialogueManager
+ * NPC 대화를 관리
+ * 기능 요약 : 
+ * - JSON 파일로부터 대화 데이터를 로드
+ * - 대사 큐를 통해 순차적으로 대사 출력
+ * - TypeSentence 코루틴을 이용한 타이핑 효과 구현
+ * - Enter 키 입력 시 다음 문장 출력
+ * - 대화 종료 시 EndDialogue 처리 및 NPC 비활성화
+ */
 public class DialogueManager : MonoBehaviour
 {
     public Text dialogueText;  // UI 텍스트

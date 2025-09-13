@@ -1,7 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+ * StateMachine<T>
+ * 제너릭 상태 머신 클래스
+ */
 public class StateMachine<T>
 {
     private T sender;

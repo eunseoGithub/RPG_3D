@@ -1,7 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+ * DragonChaseState
+ * 보스 추적 상태(FSM) 처리
+ * OperateEnter() : 추적 상태 진입 시 chase 애니메이션 활성화
+ * OperateUpdate() : 
+ *      - 추적 범위 내인지 확인
+ *      - 우너거리 공격 범위에 들어오면 근거리/원거리 공격 상태 랜덤 전환
+ *      - 범위 밖이면 MoveChase()로 이동
+ * OperateExit() : 추적 상태 종료 시 chase 애니메이션 비활성화
+ */
 public class DragonChaseState : IState<Dragon>
 {
     protected Dragon _owner;
@@ -31,8 +40,8 @@ public class DragonChaseState : IState<Dragon>
                 // 난수를 발생하여 원거리 공격을 할 것인지 근거리 공격
                 // 을 할 것인지를 결정한다.
                 int randValue = UnityEngine.Random.Range(0, 1000);
-                //int attackType = randValue % 2;
-                int attackType = 1;//디버깅용
+                int attackType = randValue % 2;
+                //int attackType = 1;//디버깅용
                 switch (attackType)
                 {
                     case 0: // 근거리 공격 상태로 변경

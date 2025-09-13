@@ -4,6 +4,19 @@ using System.Collections.Generic;
 using System;
 using UnityEngine.UI;
 using UnityEngine.AI;
+/*
+ * Monster
+ * 일반 몬스터의 상태, 행동 체력 및 보상 관리
+ * 기능 요약 :
+ * - FSM 기반으로 Idle, Chase, Attack, Return 상태 관리
+ * - NavMeshAgent를 이용한 이동 및 플레이어 추적
+ * - 체력(hp) 관리 및 Hp 바 업데이트
+ * - 스킬/공격 피격 처리
+ * - 공격 colider On/Off 및 애니메이션 이벤트 처리
+ * - 사망 처리 및 경험치/아이템 드랍
+ * - 랜덤 아이템 획득 및 로그 메세지 출력
+ * - 생성 위치에서 일정 거리 벗어나면 복귀 처리
+ */
 public class Monster : MonoBehaviour
 {
     StateMachine<Monster> _fsm;
@@ -22,8 +35,13 @@ public class Monster : MonoBehaviour
     private bool die;
     private float dieCount;//죽고 시간 체크
     private bool isDeadHandled = false; // Watching()에서 이미 처리했는지 확인하는 변수
+    
     public GameObject hpBarPrefab;
-    public Vector3 hpBarOffset = new Vector3(-0.5f, 2.4f, 0);
+    public Vector3 hpBarOffset = new Vector3(0f, 2.4f, 0f);
+    private MonsterHpBar hpBar;
+    private float maxHp = 100f;
+
+
     private Canvas monsterCanvas;
     private Image hpBarImage;
     private LogManager logManager;
@@ -41,6 +59,10 @@ public class Monster : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        if (monsterCanvas == null)
+        {
+            monsterCanvas = GameObject.Find("DamageCanvas").GetComponent<Canvas>();
+        }
         logManager = LogManager.Instance;
         player = Character.Instance;
         _attackState = new MonsterAttackState(this);
@@ -53,22 +75,21 @@ public class Monster : MonoBehaviour
         _target = GameObject.FindWithTag("Player");
         createPoint = this.transform.position;
         returnCheck = false;
-        hp = 100.0f;
+        hp = maxHp;
         exp = 100.0f;
         die = false;
         dieCount = 3.0f;
         isDeadHandled = false;
 
-        if (monsterCanvas == null)
-        {
-            monsterCanvas = GameObject.Find("MonsterHpCanvas").GetComponent<Canvas>();
-        }
-        GameObject hpBar = Instantiate<GameObject>(hpBarPrefab, monsterCanvas.transform);
+        GameObject hpBar = Instantiate(hpBarPrefab, monsterCanvas.transform);
 
         MonsterHpBar _hpbar = hpBar.GetComponent<MonsterHpBar>();
         _hpbar.enemyTr = this.gameObject.transform;
         _hpbar.offset = hpBarOffset;
+        hpBar.SetActive(true);
         hpBarImage = hpBar.GetComponent<Image>();
+
+
         agent = GetComponent<NavMeshAgent>();
         damageable = GetComponent<MonsterDamageable>();
     }
@@ -269,7 +290,15 @@ public class Monster : MonoBehaviour
 
         if (returnCheck)
         {
-            _fsm.SetState(_idleState);
+            float distance = Vector3.Distance(transform.position, _target.transform.position);
+            if(distance <= triggerRange)
+            {
+                PlayerDetectOn();
+            }
+            else
+            {
+                _fsm.SetState(_idleState);
+            }
             return;
         }
 
@@ -321,6 +350,7 @@ public class Monster : MonoBehaviour
                 {
                     logManager.AddLog("Key를 획득하셨습니다.");
                     Character.Instance.key = true;
+                    Character.Instance.AddItem(ItemType.Key);
                 }
                 if(RandomItem())
                 {
@@ -330,6 +360,12 @@ public class Monster : MonoBehaviour
                         Instantiate(potionPrefab, dropPosition, Quaternion.identity);
                         logManager.AddLog("체력 포션을 획득하셨습니다.");
                     }
+                }
+                if(Character.Instance.GetLevel() == 19&& !Character.Instance.key)
+                {
+                    logManager.AddLog("Key를 획득하셨습니다.");
+                    Character.Instance.key = true;
+                    Character.Instance.AddItem(ItemType.Key);
                 }
                 OnMonsterDeath?.Invoke(this);
                 StartCoroutine(HandleDeath());

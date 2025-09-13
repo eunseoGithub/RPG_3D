@@ -2,6 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+/*
+ * LevelupUI
+ * 플레이어 레벨업 시 스킬 선택 UI 관리
+ * 기능 요약 : 
+ * - 레벨업 시 레벨업 패널 표시
+ * - 스킬 선택 UI에 아이콘과 설명 표시
+ * - 선택 가능한 스킬 수에 따라 UI 활성/비활성 처리
+ * - 선택한 스킬에 따라 해당 메서드 실행
+ * - 선택 기록은 StaManager에 저장
+ * - 레벨 20 달성 시 GameManger를 통해 문 열기 컷신 실행
+ */
 public class LevelUpUI : MonoBehaviour
 {
     public GameObject levelUpSkillPanel;
@@ -20,6 +31,7 @@ public class LevelUpUI : MonoBehaviour
     private int playerLevel;
     private int choiceCount;
     private LevelUpgrade upgrade;
+    public GameManager gameManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -86,8 +98,9 @@ public class LevelUpUI : MonoBehaviour
     }
     public void LevelUpClick(int selectedIndex)
     {
+        
         playerLevel = character.GetLevel();
-
+        Debug.Log(playerLevel);
         upgrade = skillUpgradeTable.levels.Find(x => x.level == playerLevel);
 
         if(upgrade == null)
@@ -113,10 +126,12 @@ public class LevelUpUI : MonoBehaviour
         {
             Debug.LogError("메서드를 찾을수 없습니다.");
         }
-
         levelUpSkillPanel.SetActive(false);
+        if (Character.Instance.GetLevel()==20)
+        {
+            gameManager.PlayDoorOpenTimeline();
+        }
         PauseManager.Instance.GameResume();
-
     }
 
 

@@ -1,7 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+ * DragonNearAttackState
+ * 보스의 근거리 공격 상태 관리
+ * OperateUpdate() :
+ * - 근거리 공격 범위에 들어오면 랜덤 근거리 스킬 발동
+ * - 범위를 벗어나면 Chase 상태로 이동하거나, 추적 범위도 벗어나면 ReturnBase 상태로 전환
+ */
 public class DragonNearAttackState : IState<Dragon>
 {
     protected Dragon _owner;

@@ -1,7 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+ * CharacterAnimationEvent
+ * 플레이어 애니메이션 이벤트와 스킬 발동 관리
+ * 기능 요약 : 
+ * - 각 스킬 발사 처리
+ * - R 스킬 시전 시 무적 적용
+ * - 스킬별 발사 위치와 방향 계산
+ * - Q,R 스킬 연속 발사 기능
+ */
 public class CharacterAnimationEvent : MonoBehaviour
 {
     CharacterControl characterControl;
@@ -14,11 +22,13 @@ public class CharacterAnimationEvent : MonoBehaviour
     public GameObject potionHealPrefab;
     public GameObject Boss;
     Character character;
+    SkillCooldownManager skillcooldownManager;
     public bool rSkillInvincibleOn = false;
     public void Start()
     {
         characterControl = GetComponent<CharacterControl>();
         character = Character.Instance;
+        skillcooldownManager = GetComponent<SkillCooldownManager>();
     }
     public void StartAttack()
     {
@@ -100,15 +110,6 @@ public class CharacterAnimationEvent : MonoBehaviour
 
     void FireAtMousePosition_Attack03()
     {
-        if(StatManger.Instance.eStackEnabled)
-        {
-            if (StatManger.Instance.eCurrentStack <= 0)
-                return;
-            StatManger.Instance.eCurrentStack--;
-            var lastUsed = characterControl.GetLastSkillUseTimes();
-            if (lastUsed.ContainsKey(KeyCode.E))
-                lastUsed[KeyCode.E] = Time.time;
-        }
         Vector3 direction = new Vector3(characterControl.currentTargetPosition.x, 1.0f, characterControl.currentTargetPosition.z);
         GameObject fire = Instantiate(Attack03Prefab, direction, Quaternion.identity);
         fire.GetComponentInChildren<SkillDamage>().damage = StatManger.Instance.WDamage;
@@ -128,8 +129,8 @@ public class CharacterAnimationEvent : MonoBehaviour
     {
         Vector3 direction = new Vector3(characterControl.currentTargetPosition.x, 1.0f, characterControl.currentTargetPosition.z);
         GameObject fire = Instantiate(Attack05Prefab, direction, Quaternion.identity);
-        fire.GetComponent<SkillDamage>().damage = StatManger.Instance.RDamage;
-        fire.GetComponent<SkillDamage>().skill = Skill.R;
+        fire.GetComponentInChildren<SkillDamage>().damage = StatManger.Instance.RDamage;
+        fire.GetComponentInChildren<SkillDamage>().skill = Skill.R;
         SFXManager.Instance.PlaySound(SFXManager.Instance.playerAttack_E);
 
         if (StatManger.Instance.rDoubleFireEnabled)
@@ -142,8 +143,8 @@ public class CharacterAnimationEvent : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
         GameObject fire = Instantiate(Attack05Prefab, direction, Quaternion.identity);
-        fire.GetComponent<SkillDamage>().damage = StatManger.Instance.RDamage;
-        fire.GetComponent<SkillDamage>().skill = Skill.R;
+        fire.GetComponentInChildren<SkillDamage>().damage = StatManger.Instance.RDamage;
+        fire.GetComponentInChildren<SkillDamage>().skill = Skill.R;
         SFXManager.Instance.PlaySound(SFXManager.Instance.playerAttack_E);
     }
 }

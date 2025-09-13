@@ -1,7 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+ * SFXManager
+ * 게임 내 효과음 관리 클래스
+ */
 public class SFXManager : MonoBehaviour
 {
     public static SFXManager Instance { get; private set; }

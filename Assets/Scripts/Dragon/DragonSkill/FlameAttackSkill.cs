@@ -11,10 +11,7 @@ public class FlameAttackSkill : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            //other.GetComponent<Character>().GetDamage(damage);
-        }
+
     }
     // Update is called once per frame
     void Update()

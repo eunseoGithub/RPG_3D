@@ -2,7 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+/*
+ * Character
+ * 플레이어 캐릭터의 상태, 스탯, 경험치, 레벨, 인벤토리, 회복 및 UI 업데이트 관리
+ * 기능 요약 : 
+ * - Hp, Mp, Exp, 레벨 관리 & 관련 UI 업데이트
+ * - 레벨업 체크 및 UI 표시
+ * - 아이템 추가/삭제
+ * - 무적 상태 적용
+ * - 자동 체력/마나 회복 및 힐 아이템 회복 관리
+ */
+public enum ItemType
+{
+    Key,
+    Posion
+}
 public class Character : MonoBehaviour
 {
     public static Character Instance { get; private set; }
@@ -30,6 +44,7 @@ public class Character : MonoBehaviour
     public LevelUpUI levelUpUI;
     public int posionCount;
     public Text posionCountText;
+    public List<ItemType> inventory = new List<ItemType>();
     // Start is called before the first frame update
     private void Awake()
     {
@@ -102,8 +117,8 @@ public class Character : MonoBehaviour
     {
         if (hpBarImage != null && hpText != null)
         {
-            hpBarImage.fillAmount = hp / 100.0f; // HP 비율 반영
             int currentMaxHp = stat.statData.stat[level - 1].hp;
+            hpBarImage.fillAmount = hp / currentMaxHp; // HP 비율 반영
             hpText.text = $"HP : ({hp} / {currentMaxHp})";
         }
     }
@@ -111,8 +126,8 @@ public class Character : MonoBehaviour
     {
         if (mpBarImage != null && mpText != null)
         {
-            mpBarImage.fillAmount = mp / 100.0f; // HP 비율 반영
             int currentMaxMp = stat.statData.stat[level - 1].mp;
+            mpBarImage.fillAmount = mp / currentMaxMp; // MP 비율 반영
             mpText.text = $"MP : ({mp} / {currentMaxMp})";
         }
     }
@@ -140,6 +155,8 @@ public class Character : MonoBehaviour
     }
     void CheckLevelUp()
     {
+        if (level >= 20)
+            return;
         if (exp >= stat.statData.stat[level - 1].exp)
         {
             exp -= stat.statData.stat[level - 1].exp;
@@ -151,6 +168,16 @@ public class Character : MonoBehaviour
             levelUpUI.ShowLevelUpUI();
         }
     }
+
+    public void AddItem(ItemType item)
+    {
+        inventory.Add(item);
+    }
+    public void RemoveItem(ItemType item)
+    {
+        inventory.Remove(item);
+    }
+
     public void SetInvincible(float duration)
     {
         StartCoroutine(InvincibleCoroutine(duration));

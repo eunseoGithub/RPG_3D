@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+/*
+ * MenuUI
+ * 메인 메뉴 내 하위 UI 관리
+ */
 public class MenuUI : MonoBehaviour
 {
     public GameObject SoundPanel;
@@ -31,6 +35,7 @@ public class MenuUI : MonoBehaviour
     public void Button_Back()
     {
         this.gameObject.SetActive(false);
+        PauseManager.Instance.GameResume();
     }
     // Update is called once per frame
     void Update()

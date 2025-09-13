@@ -2,7 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+/*
+ * LogManager
+ * 게임 내 로그 메세지를 화면 UI에 출력하고 관리
+ * 기능 요약 : 
+ * - 싱글톤 패턴으로 인스턴스 관리
+ * - ScrollRect와 연동
+ * - 로그 추가 시 자동 스크롤
+ */
 public class LogManager : MonoBehaviour
 {
     public static LogManager Instance { get; private set; }

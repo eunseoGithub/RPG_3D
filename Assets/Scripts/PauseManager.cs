@@ -1,7 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+ * PauseManger
+ * 게임 일시정지 및 재개 관리 클래스
+ */
 public class PauseManager : MonoBehaviour
 {
     public static PauseManager Instance { get; private set; }

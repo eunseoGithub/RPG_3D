@@ -1,7 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+ * DragonAnimationEvent
+ * 보스의 애니메이션 이벤트 처리
+ * 기능 요약 : 
+ * - 각 애니메이션 이벤트 시작/종료 처리
+ * - 공격 오브젝트/colider 활성화 및 비활성화
+ * - SFX 재생
+ * - 애니메이션 종료 후 상태 머신으로 Idle 상태 복귀
+ */
 public class DragonAnimationEvent : MonoBehaviour
 {
     //보스 애니메이션 실행시 호출되는 함수

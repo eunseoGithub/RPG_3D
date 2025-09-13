@@ -1,7 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+ * MonsterChaseState
+ * 몬스터의 추적 상태(FSM) 관리
+ * OperateEnter() : 추적 애니메이션 활성화
+ * OperateUpdate() : 애니메이션 상태 재확인 및 플레이어를 향해 이동
+ * OperateExit() : 추적 애니메이션 비활성화
+ */
 public class MonsterChaseState : IState<Monster>
 {
     protected Monster _owner;

@@ -1,7 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+ * TakeOffAttack
+ * 보스의 공격 패턴(격자 형태의 폭발 생성)
+ * OnEnable() : 격자 폭발 패턴 시작(코루틴 실행)
+ * OnDiable() : 생성된 오브젝트 정리
+ * SpawnGridExplosions() : 보스 위치 기준으로 가로/세로 격자 패턴을 순서대로 생성
+ * SpawnWarningAndExplosions() : 경고 이펙트 ->폭발 & colider 순서대로 생성
+ * GetGround() : 레이케스트로 지면 높이 계산
+ */
 public class TakeOffAttack : MonoBehaviour
 {
     public GameObject warningPrefeb;

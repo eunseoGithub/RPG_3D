@@ -2,15 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+/*
+ * Dragon
+ * 보스 메인 클래스(FSM 기반 상태 관리 및 행동 처리)
+ * 기능 요약 : 
+ * - FSM 상태 관리 : Idle, Chase, Attack, ReturnBase, NearAttack, FarAttack
+ * - Hp 관리 : GetDamage(), UpdateHpBar(), Hp 바 UI 업데이트
+ * - 공격/추적 범위 확인 : CheckNearAttackRange(), CheckFarAttackRange(), CheckChaseRange()
+ * - 타겟 감지 : DetectingTarget()
+ * - 공격 및 상태 전환 : ChangeIdleState(), ChangeAttackState(), ChangeReturnBaseState(), 
+ *                                ChangeNearAttackState(), ChangeNearFarState()
+ * - FixedUpdate() : FSM 업데이트 호출
+ * - Update() : 사망 처리
+ */
 public class Dragon : MonoBehaviour
 {
     // Dragon의 fsm 상태 객체 저장용
     DragonAttackState _attackState;                       //공격상태관리
     DragonIdleState _idleState;                               //Idle 상태 관리
     DragonChaseState _chaseState;                        //추적상태관리
-    DragonMoveState _moveState;                         //이동 상태 관리
     DragonReturnBaseState _returnBaseState;     //귀환 상태 관리
-    DragonRetreatState _retreatState;                  //생성 위치 귀환 관리
     DragonNearAttackState _nearAttackState;     //근거리 공격 상태 관리
     DragonFarAttackState _farAttackState;          //원거리 공격 상태 관리
 
@@ -85,9 +96,7 @@ public class Dragon : MonoBehaviour
         _attackState = new DragonAttackState(this);
         _idleState = new DragonIdleState(this);
         _chaseState = new DragonChaseState(this);
-        _moveState = new DragonMoveState(this);
         _returnBaseState = new DragonReturnBaseState(this);
-        _retreatState = new DragonRetreatState(this);
         _nearAttackState = new DragonNearAttackState(this);
         _farAttackState = new DragonFarAttackState(this);
 
@@ -102,7 +111,7 @@ public class Dragon : MonoBehaviour
         isDead = false;
         if (monsterCanvas == null)
         {
-            monsterCanvas = GameObject.Find("MonsterHpCanvas").GetComponent<Canvas>();
+            monsterCanvas = GameObject.Find("DamageCanvas").GetComponent<Canvas>();
         }
     }
     public void GetDamage(float damage)
@@ -122,7 +131,7 @@ public class Dragon : MonoBehaviour
     {
         if (hpBarImage != null && hpText != null)
         {
-            hpBarImage.fillAmount = hp / 100.0f;
+            hpBarImage.fillAmount = hp / 500.0f;
             hpText.text = $"HP : ({hp} / 500)";
         }
     }
@@ -130,11 +139,6 @@ public class Dragon : MonoBehaviour
     public void ChangeIdleState()
     {
         _fsm.SetState(_idleState);
-    }
-
-    public void ChangeMoveState()
-    {
-        _fsm.SetState(_moveState);
     }
 
     public void ChangeAttackState()
@@ -150,11 +154,6 @@ public class Dragon : MonoBehaviour
     public void ChangeReturnBaseState()
     {
         _fsm.SetState(_returnBaseState);
-    }
-
-    public void ChangeRetreatState()
-    {
-        _fsm.SetState(_retreatState);
     }
 
     public void ChangeNearAttackState()

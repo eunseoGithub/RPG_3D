@@ -1,7 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+ * DragonIdleState
+ * 보스 Idle 상태(FSM) 관리
+ * OperateUpdate() :
+ *      - 주변 타겟 감지
+ *      타겟 감지 범위 안에 들어오면 Chase 상태로 전환
+ */
 public class DragonIdleState : IState<Dragon>
 {
     protected Dragon _owner;

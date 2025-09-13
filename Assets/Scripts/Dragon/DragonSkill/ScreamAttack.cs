@@ -1,7 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+ * ScreamAttack
+ * 보스의 공격 패턴을 구현한 클래스
+ * 플레이어 위치를 감지해 원 생성 후 폭발 발생
+ * OnEnable() : 공격 패턴 코루틴 시작
+ * OnDisable() : 생성된 오브젝트 정리
+ * AttackPattern() : 일정 간격으로 두 번 폭탄 sequence 실행
+ * SpawnExplosionOnPlayer() : 플레이어 위치에 경고 원 -> 폭발 순서대로 생성
+ * GetGround() : 레이 케스트로 지면 높이 계산
+ */
 public class ScreamAttack : MonoBehaviour
 {
     public GameObject warningCirclePrefab;  // 경고 원 프리팹

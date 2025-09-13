@@ -1,13 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
+/*
+ * MonsterHpBar
+ * 몬스터의 체력 바 위치를 화면상에 표시
+ * World 위치를 Screen 좌표로 변환하여 UICanvas에 표시
+ */
 public class MonsterHpBar : MonoBehaviour
 {
-    private Camera uiCam;
-    private Canvas canvas;
-    private RectTransform recParent;
-    private RectTransform rectHp;
+    RectTransform rectHp;
 
     public Vector3 offset = Vector3.zero;
     public Transform enemyTr;
@@ -15,20 +17,16 @@ public class MonsterHpBar : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        canvas = GetComponentInParent<Canvas>();
-        uiCam = canvas.worldCamera;
-        recParent = canvas.GetComponent<RectTransform>();
-        rectHp = this.gameObject.GetComponent<RectTransform>();
+        rectHp = GetComponent<RectTransform>();
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         if (enemyTr == null)
             return;
+        
         var screenPos = Camera.main.WorldToScreenPoint(enemyTr.position + offset);
-        var localPos = Vector2.zero;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(recParent, screenPos, uiCam, out localPos);
-        rectHp.localPosition = localPos;
+        rectHp.position = screenPos;
     }
 }

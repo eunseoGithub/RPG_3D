@@ -1,7 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+ * MonsterReturnState
+ * 몬스터가 생성 위치로 복귀하는 상태(FSM) 관리
+ * OperateEnter() : 상태 진입 시 복귀 애니메이션 활성화
+ * OperateUpdate() : 생성 위치까지 이동, 도착 시 returnCheck를 true 설정
+ * OperateExit() : 상태 종료 시 복귀 애니메이션 비활성화
+ */
 public class MonsterReturnState : IState<Monster>
 {
     protected Monster _owner;

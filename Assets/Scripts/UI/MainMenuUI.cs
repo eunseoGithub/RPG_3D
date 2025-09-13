@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+/*
+ * MainMenuUI
+ * 게임의 메인 메뉴 UI를 관리
+ */
 public class MainMenuUI : MonoBehaviour
 {
     public GameObject MenuPanel;
@@ -23,6 +27,14 @@ public class MainMenuUI : MonoBehaviour
     {
         PauseManager.Instance.GamePause();
         SkillPanel.SetActive(true);
+    }
+    public void skillButtonExit()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
     // Start is called before the first frame update
     void Start()

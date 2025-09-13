@@ -2,7 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+/*
+ * SoundUI
+ * 게임 내 사운드 설정 UI 관리
+ * 기능 요약 : 
+ * - 전체, 배경음, 스킬 볼륨 조절
+ * - 슬라이더 값 변경 시 텍스트 UI 업데이트
+ * - AudioSource 볼륨 실시간 적용
+ */
 public class SoundUI : MonoBehaviour
 {
     public Slider totalSlider;

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//필요 없음
 public class CameraController : MonoBehaviour
 {
     public GameObject Target;               // 카메라가 따라다닐 타겟

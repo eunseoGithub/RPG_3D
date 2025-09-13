@@ -1,7 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+ * SkillTag
+ * 스킬 태그
+ */
 public class SkillTag : MonoBehaviour
 {
     public Skill skill;

@@ -3,7 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-
+/*
+ * SkillAccountUI
+ * 플레이어가 선택한 스킬 업그레이드 내역을 Ui에 표시
+ * 기능 요약 : 
+ * - ScrollRect를 이용한 스킬 선택 내역 표시
+ * - 스킬 선택 시 관련 업그레이드 내역 목록 생성
+ * - 스킬 이미지 및 이름 표시
+ * - 패널 열기/닫기 처리
+ */
 public class SkillAccountUI : MonoBehaviour
 {
     public ScrollRect scrollRect;
@@ -45,19 +53,6 @@ public class SkillAccountUI : MonoBehaviour
                 accountNum++;
             }
         }
-        //List<LevelUpgrade> levels = skillUpgradeTable.levels;
-        //for (int i = 0; i< levels.Count; i++)
-        //{
-        //    LevelUpgrade levelUpgrade = levels[i];
-        //    for(int j = 0; j < levelUpgrade.choices.Count; j++)
-        //    {
-        //        SkillUpgradeChoice choice = levelUpgrade.choices[j];
-        //        if(choice.skill == currentSkill)
-        //        {
-        //            AddSkillAccount($"[Lv.{levelUpgrade.level}] {choice.description}");
-        //        }
-        //    }
-        //}
         currentskillAccountPanel.SetActive(true);
     }
     private void ClearSkillAccount()

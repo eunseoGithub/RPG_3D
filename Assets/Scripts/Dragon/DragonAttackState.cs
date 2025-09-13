@@ -1,7 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+ * DragonAttackState
+ * 보스 공격 상태(FSM) 처리
+ * OperateEnter() : 공격 상태 진입 시 애니메이터의 nearAttack/farAttack 활성화
+ */
 public class DragonAttackState : IState<Dragon>
 {
     protected Dragon _owner;

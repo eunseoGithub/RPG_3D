@@ -1,7 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+ * BGMManager
+ * 배경음악 관리
+ */
 public class BGMManager : MonoBehaviour
 {
     public static BGMManager Instance { get; private set; }

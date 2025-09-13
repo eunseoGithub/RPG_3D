@@ -1,7 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+ * MonsterPool
+ * 몬스터 풀 관리
+ * 기능 요약 : 
+ * - 지정된 개수의 몬스터를 미리 생성하고 풀에 저장
+ * - active 수만큼 초기 몬스터를 활성화
+ * - 몬스터 사망 시 비활성화 후 풀에서 다음 몬스터 활성화
+ * - 몬스터 스폰 위치를 랜덤으로 생성하며, 최소 거리를 유지
+ * - 모든 몬스터 제거 기능 지원
+ */
 public class MonsterPool : MonoBehaviour
 {
     public GameObject monsterPrefab;

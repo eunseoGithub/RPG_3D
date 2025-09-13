@@ -294,6 +294,7 @@ MonoBehaviour:
   dot: 0
   slow: 0
   skill: 0
+  attackId: 
 --- !u!135 &2124573492816340548
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -717,6 +718,7 @@ MonoBehaviour:
   immuneToSnare: 0
   immuneToDot: 0
   immuneToSlow: 0
+  isBoss: 0
 --- !u!1 &7712155012871449178
 GameObject:
   m_ObjectHideFlags: 0

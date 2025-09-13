@@ -2,7 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+/*
+ * DisplayUI
+ * 화면 해상도 및 모드 설정 UI 관리
+ * 기능 요약 : 
+ * - Dropdown UI를 통해 해상도, 화면 모드 선택 가능
+ */
 public class DisplayUI : MonoBehaviour
 {
     public Dropdown DisplayDropdown;

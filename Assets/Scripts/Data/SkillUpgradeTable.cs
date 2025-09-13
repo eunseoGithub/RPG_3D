@@ -1,7 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+ * SkillUpgradeTable
+ * 스킬 업그레이드 데이터를 저장하는 ScriptableObject
+ * LevelUpgrade : 특정 레벨에서 가능한 업그레이드 선택지 목록
+ * SkillUpgradeChoice : 업그레이드 가능한 스킬, 선택지 번호, 설명 포함
+ * Skill enum : 스킬 식별용
+ */
 [CreateAssetMenu(fileName = "SkillUpgradeTable", menuName = "RPG/Skill Upgrade Table")]
 public class SkillUpgradeTable : ScriptableObject
 {

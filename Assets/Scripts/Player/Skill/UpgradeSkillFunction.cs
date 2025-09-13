@@ -1,7 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+ * UpgradeSkillFunction
+ * 플레이어 스킬 업그레이드 기능을 담당
+ * 주요 기능 : 
+ * - 각 스킬 및 공격의 데메지, 속도, 범위, 쿨타임, 특수 효과 강화
+ * - 선택지 형태로 레벨업 단계별 강화 적용 (ChoiceX_Y)
+ * - 마나 회복, 체력 회복, 스킬 연속 사용 등 특수 효과 적용 가능
+ */
 public class UpgradeSkillFunction : MonoBehaviour
 {
     public static UpgradeSkillFunction Instance { get; private set; }
@@ -116,10 +123,11 @@ public class UpgradeSkillFunction : MonoBehaviour
         //W 적중 시 이동속도 -20% 디버프 추가 2초
         StatManger.Instance.wSlowDuration += 2.0f;
         StatManger.Instance.wSlowAmount += 0.2f;
-        characterAnimationEvent.Attack03Prefab.GetComponent<SkillDamage>().slow = true;
+        characterAnimationEvent.Attack03Prefab.GetComponentInChildren<SkillDamage>().slow = true;
     }
     public void Choice9_1()
     {
+        //Q 스킬 데미지 + 10%
         StatManger.Instance.QDamage = StatManger.Instance.QDamage * 1.1f;
     }
     public void Choice9_2()
@@ -129,6 +137,7 @@ public class UpgradeSkillFunction : MonoBehaviour
     }
     public void Choice10_1()
     {
+        //①데미지 +30%
         StatManger.Instance.RDamage = StatManger.Instance.RDamage * 1.3f;
     }
     public void Choice10_2()
@@ -153,21 +162,26 @@ public class UpgradeSkillFunction : MonoBehaviour
     }
     public void Choice11_1()
     {
+        if (StatManger.Instance.aaMpUp == false)
+            StatManger.Instance.aaMpUp = true;
+        
         //평타 마나 회복 추가
         float maxMp = StatManger.Instance.statData.stat[character.GetLevel() - 1].mp;
 
         float mp = character.GetMp();
-        Mathf.Min(mp + 2.0f, maxMp);
+        mp = Mathf.Min(mp + 10.0f, maxMp);
 
         character.SetMp(mp);
         character.UpdateMpBar();
+        Debug.Log("max : " + maxMp);
+        Debug.Log(character.GetMp());
     }
     public void Choice11_2()
     {
         //Q 스킬 슬로우 20% (1초) 효과 추가
         StatManger.Instance.qSlowDuration += 1.0f;
         StatManger.Instance.qSlowAmount += 0.2f;
-        characterAnimationEvent.Attack02Prefab.GetComponent<SkillDamage>().slow = true;
+        characterAnimationEvent.Attack02Prefab.GetComponentInChildren<SkillDamage>().slow = true;
     }
     public void Choice12_1()
     {
@@ -190,11 +204,16 @@ public class UpgradeSkillFunction : MonoBehaviour
     }
     public void Choice13_2()
     {
+        if(StatManger.Instance.rMpUp == false)
+        {
+            StatManger.Instance.rMpUp = true;
+        }
+
         //R이 적을 맞출 때 마나를 10 회복
         float maxMp = StatManger.Instance.statData.stat[character.GetLevel() - 1].mp;
 
         float mp = character.GetMp();
-        Mathf.Min(mp + 10.0f, maxMp);
+        mp = Mathf.Min(mp + 10.0f, maxMp);
 
         character.SetMp(mp);
         character.UpdateMpBar();
@@ -204,7 +223,7 @@ public class UpgradeSkillFunction : MonoBehaviour
         //Q 스킬 슬로우 20% (1초) 효과 추가
         StatManger.Instance.qSlowDuration += 1.0f;
         StatManger.Instance.qSlowAmount += 0.2f;
-        characterAnimationEvent.Attack02Prefab.GetComponent<SkillDamage>().slow = true;
+        characterAnimationEvent.Attack02Prefab.GetComponentInChildren<SkillDamage>().slow = true;
     }
     public void Choice14_2()
     {
@@ -214,7 +233,7 @@ public class UpgradeSkillFunction : MonoBehaviour
     public void Choice15_1()
     {
         //Q 적중 시 속박 0.3초 확률 (10%)
-        characterAnimationEvent.Attack02Prefab.GetComponent<SkillDamage>().snare = true;
+        characterAnimationEvent.Attack02Prefab.GetComponentInChildren<SkillDamage>().snare = true;
     }
     public void Choice15_2()
     {
@@ -223,6 +242,8 @@ public class UpgradeSkillFunction : MonoBehaviour
     }
     public void Choice16_1()
     {
+        if (StatManger.Instance.qCoolReset == false)
+            StatManger.Instance.qCoolReset = true;
         //Q 스킬 쿨타임 초기화(50%)
         if (Random.value > 0.5f)
             return;
@@ -249,7 +270,7 @@ public class UpgradeSkillFunction : MonoBehaviour
     public void Choice17_2()
     {
         //W 장판 남은 적에게 도트 데미지
-        characterAnimationEvent.Attack03Prefab.GetComponent<SkillDamage>().dot = true;
+        characterAnimationEvent.Attack03Prefab.GetComponentInChildren<SkillDamage>().dot = true;
     }
     public void Choice18_1()
     {

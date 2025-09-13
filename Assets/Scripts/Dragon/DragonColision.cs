@@ -1,7 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+ * DragonColision
+ * 보스 피격 처리 및 스킬 효과 적용
+ * 기능 요약
+ * - OnTriggerEnter() : 플레이어 공격 충돌 시 처리
+ *      - 공격 중복 처리 방지(AttackIds 사용)
+ *      - 데미지 적용
+ *      - 스킬 효과 적용
+ * - 피격된 공격 오브젝트 파괴
+ */
 public class DragonColision : MonoBehaviour
 {
     GameObject DragonObj;

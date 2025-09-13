@@ -1,7 +1,40 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+ * CharacterControl
+ * 플레이어 캐릭터의 이동, 공격, 스킬, 상태 관리
+ * 주요 기능 : 
+ * - 플레이어 이동 처리(마우시 기반)
+ *      - 우클릭 시 목표 지점 설정 및 이동
+ *      - 이동 중 캐릭터 회전 처리
+ *      - 클릭 위치에 시각적 파티클 생성
+ * 
+ * - 공격 처리
+ *      - 좌클릭으로 기본 공격 발동
+ *      - Q/W/E/R 스킬 발동 처리 및 쿨타임 관리
+ *      - 포션 사용 처리(T키)
+ *      - 공격 상태 시 애니메이션 트리거 설정
+ *      - 스킬 연속 발사, 스택형 스킬 등 특수 기능 처리
+ *      
+ * - 스킬 및 쿨타임 관리
+ *      - KeyCode별 스킬 쿨타임과 마지막 사용 시간 저장
+ *      - CanUseSkill()로 스킬 사용 가능 여부 판단
+ *      - 스택형 스킬 처리 및 StackTimer 연동
+ *      
+ * - 상태 머신 적용
+ *      - Idle/Move/Attack 상태를 IState 인터페이스 기반으로 관리
+ *      - sm.SetState를 통해 상태 전환
+ *      - FixedUpdate에서 상태별 OperateUpdate 호출
+ *      
+ * - 캐릭터 중력 및 이동 처리
+ *      - CharacterController를 사용하여 이동 및 중력 적용
+ *      - PlayerMoveHandle에서 이동 방향, 속도, 회전 처리
+ *      
+ *  - 기타 기능
+ *      - 캐릭터 Hp 0시 사망 애니메이션 처리
+ *      - 포션 사용 시 회복 이펙트 처리
+ */
 public class CharacterControl : MonoBehaviour
 {
     public float Speed = 4.0f;
@@ -30,6 +63,7 @@ public class CharacterControl : MonoBehaviour
     private bool isDead;
     public GameObject clickParticlePrefab;
     private CharacterAnimationEvent characterAnimationEvent;
+    private SkillCooldownManager skillCooldownManager;
     public enum CharState
     {
         Idle,
@@ -81,6 +115,7 @@ public class CharacterControl : MonoBehaviour
         clickLayer = LayerMask.GetMask("Terrains");
 
         characterAnimationEvent = GetComponent<CharacterAnimationEvent>();
+        skillCooldownManager = GetComponent<SkillCooldownManager>();
     }
 
     public void ChangeToIdleState()
@@ -106,6 +141,17 @@ public class CharacterControl : MonoBehaviour
     }
     private bool CanUseSkill(KeyCode key)
     {
+        if(key == KeyCode.E)
+        {
+            if (StatManger.Instance.eStackEnabled)
+            {
+                return StatManger.Instance.eCurrentStack > 0;
+            }
+            else
+            {
+                return Time.time >= lastSkillUseTime[key] + skillCooldowns[key];
+            }
+        }
         return Time.time >= lastSkillUseTime[key] + skillCooldowns[key];
     }
     public void SetAttackNum()
@@ -118,6 +164,9 @@ public class CharacterControl : MonoBehaviour
             sm.SetState(dicState[CharState.Attack]);
             LookAtBoss();
             characterSetting.UseMp(10.0f);
+
+            if (StatManger.Instance.qCoolReset)
+                UpgradeSkillFunction.Instance.Choice16_1();
         }
         else if (Input.GetKeyDown(KeyCode.W) && CanUseSkill(KeyCode.W))
         {
@@ -130,6 +179,16 @@ public class CharacterControl : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.E) && CanUseSkill(KeyCode.E))
         {
+            if(StatManger.Instance.eStackEnabled)
+            {
+                if (StatManger.Instance.eCurrentStack <= 0)
+                    return;
+                StatManger.Instance.eCurrentStack--;
+                if(skillCooldownManager != null)
+                {
+                    skillCooldownManager.ResetStackTimer(KeyCode.E);
+                }
+            }
             lastSkillUseTime[KeyCode.E] = Time.time;
             charAnimator.SetInteger("Attack_num", 3);
             shouldMove = false;
@@ -145,6 +204,8 @@ public class CharacterControl : MonoBehaviour
             sm.SetState(dicState[CharState.Attack]);
             LookAtBoss();
             characterSetting.UseMp(10.0f);
+            if (StatManger.Instance.rMpUp)
+                UpgradeSkillFunction.Instance.Choice13_2();
         }
         else if(Input.GetKeyDown(KeyCode.T))
         {
@@ -188,7 +249,8 @@ public class CharacterControl : MonoBehaviour
             charAnimator.SetInteger("Attack_num", 0);
             shouldMove = false;
             sm.SetState(dicState[CharState.Attack]);
-            //FireAtMousePosition();
+            if (StatManger.Instance.aaMpUp)
+                UpgradeSkillFunction.Instance.Choice11_1();
         }
         SetAttackNum();
     }
@@ -255,11 +317,13 @@ public class CharacterControl : MonoBehaviour
             sm.SetState(dicState[CharState.Idle]);
         }
     }
-
-    void Update()
+    private void Update()
     {
         PlayerAttack();
         PlayerMove();
+    }
+    void FixedUpdate()
+    {
         PlayerMoveHandle();
         float hp = this.GetComponent<Character>().GetHp();
         if (characterSetting.healOn == false && Attack05Particle.activeSelf == true)
@@ -276,15 +340,6 @@ public class CharacterControl : MonoBehaviour
             }
             
         }
-        //if (Input.GetKeyDown(KeyCode.T))
-        //{
-        //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        //    RaycastHit hit;
-        //    if (Physics.Raycast(ray, out hit, 100f))
-        //    {
-        //        Instantiate(Attack06Prefab, hit.point, Quaternion.identity);
-        //    }
-        //}
         sm.DoOperateUpdate();
     }
 }

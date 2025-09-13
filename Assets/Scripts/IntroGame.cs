@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+/*
+ * IntroGame
+ * 인트로 화면에서 게임 시작 및 종료를 관리
+ */
 public class IntroGame : MonoBehaviour
 {
     // Start is called before the first frame update

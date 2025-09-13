@@ -1,7 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/* 
+ * MonsterIdleState
+ * 몬스터 대기 상태(FSM) 상태 관리
+ * OperateEnter() : 상태 진입 시 추적 애니메이션 비활성화
+ */
 public class MonsterIdleState : IState<Monster>
 {
     protected Monster _owner;

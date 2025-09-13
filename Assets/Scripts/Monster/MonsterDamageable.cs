@@ -2,6 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+/*
+ * MonsterDamageable
+ * 몬스터 또는 보스에게 적용되는 상태 이상 및 디버프 처리
+ * TakeDamage() : 일반 데메지 처리
+ * ApplySnare() : 이동 불가 상태 적용
+ * ApplyDot() : 일정 시간 동안 지속 피해 적용
+ * ApplySlow() : 이동 속도 감소 상태 적용
+ * 면역 여부 설정/확인 기능 제공
+ */
 public class MonsterDamageable : MonoBehaviour
 {
     //속박이나 도트데미지를 받을 객체인지 체크

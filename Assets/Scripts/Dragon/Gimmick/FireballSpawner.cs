@@ -1,7 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+ * FireballSpawner
+ * 보스의 파이어볼 기믹 패턴
+ * SpawnFireballs() : 지정 방향으로 다수 파이어볼 생성
+ * SpawnFireballsRepeat() : 지정 횟수와 간격으로 반복 발사
+ * BossHp200GimickStart() : HP 200이하일때 1회 발사 (TimeLine용 함수)
+ * GimickStart() : 일반 패턴 반복 발사
+ */
 public class FireballSpawner : MonoBehaviour
 {
     public GameObject fireballPrefab;
@@ -17,9 +24,18 @@ public class FireballSpawner : MonoBehaviour
     
     private void Start()
     {
+        
+    }
+    public void BossHp200GimickStart()
+    {
+        repeatCount = 1;
         StartCoroutine(SpawnFireballsRepeat());
     }
-
+    public void GimickStart()
+    {
+        repeatCount = 5;
+        StartCoroutine(SpawnFireballsRepeat());
+    }
     void SpawnFireballs(Vector3 origin, Vector3 baseDirection)
     {
         float halfSpread = spreadAngle / 2f;

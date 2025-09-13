@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/* WarningArea
+ * 경고 영역 오브젝트의 좌우 위치 반환 클래스
+ */
 public class WarningArea : MonoBehaviour
 {
     [SerializeField] private Transform _leftPos;

@@ -1,7 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+ * SleepAttack
+ * 보스의 공격 패턴(랜덤 메테오 낙하 폭발 공격)
+ * OnEnable() : 공격 패턴 시작 (코루틴 실행)
+ * OnDisable() : 생성된 오브젝트 정리
+ * SpawnExplosions() : 여러 라운드 동안 랜덤 위치에 경고 원 + 메테오 소환
+ * HandleMeteorSpawn() : 경고 원 표시 후 일정 시간 뒤 폭발 생성
+ * GetValidRandomPosition() : 보스 주위 랜덤 위치 계산( 보스와 너무 가까운 위치 제외, 지면 높이 보강)
+ */
 public class SleepAttack : MonoBehaviour
 {
     public GameObject warningCirclePrefab;  // 경고 원 프리팹
