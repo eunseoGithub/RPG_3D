@@ -173,8 +173,6 @@ public class UpgradeSkillFunction : MonoBehaviour
 
         character.SetMp(mp);
         character.UpdateMpBar();
-        Debug.Log("max : " + maxMp);
-        Debug.Log(character.GetMp());
     }
     public void Choice11_2()
     {

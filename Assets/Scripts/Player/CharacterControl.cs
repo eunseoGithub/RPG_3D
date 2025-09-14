@@ -83,7 +83,6 @@ public class CharacterControl : MonoBehaviour
 
     private Dictionary<CharState, IState<CharacterControl>> dicState = new Dictionary<CharState, IState<CharacterControl>>();
     private StateMachine<CharacterControl> sm;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -164,7 +163,7 @@ public class CharacterControl : MonoBehaviour
             sm.SetState(dicState[CharState.Attack]);
             LookAtBoss();
             characterSetting.UseMp(10.0f);
-
+            isAttacking = true;
             if (StatManger.Instance.qCoolReset)
                 UpgradeSkillFunction.Instance.Choice16_1();
         }
@@ -176,15 +175,16 @@ public class CharacterControl : MonoBehaviour
             sm.SetState(dicState[CharState.Attack]);
             LookAtBoss();
             characterSetting.UseMp(10.0f);
+            isAttacking = true;
         }
         else if (Input.GetKeyDown(KeyCode.E) && CanUseSkill(KeyCode.E))
         {
-            if(StatManger.Instance.eStackEnabled)
+            if (StatManger.Instance.eStackEnabled)
             {
                 if (StatManger.Instance.eCurrentStack <= 0)
                     return;
                 StatManger.Instance.eCurrentStack--;
-                if(skillCooldownManager != null)
+                if (skillCooldownManager != null)
                 {
                     skillCooldownManager.ResetStackTimer(KeyCode.E);
                 }
@@ -195,6 +195,7 @@ public class CharacterControl : MonoBehaviour
             sm.SetState(dicState[CharState.Attack]);
             LookAtBoss();
             characterSetting.UseMp(10.0f);
+            isAttacking = true;
         }
         else if (Input.GetKeyDown(KeyCode.R) && CanUseSkill(KeyCode.R))
         {
@@ -204,10 +205,11 @@ public class CharacterControl : MonoBehaviour
             sm.SetState(dicState[CharState.Attack]);
             LookAtBoss();
             characterSetting.UseMp(10.0f);
+            isAttacking = true;
             if (StatManger.Instance.rMpUp)
                 UpgradeSkillFunction.Instance.Choice13_2();
         }
-        else if(Input.GetKeyDown(KeyCode.T))
+        else if (Input.GetKeyDown(KeyCode.T))
         {
             if (characterSetting.posionCount <= 0)
                 return;
@@ -216,6 +218,7 @@ public class CharacterControl : MonoBehaviour
             characterSetting.posionCount--;
             characterSetting.posionCountText.text = characterSetting.posionCount.ToString();
         }
+
     }
     public Dictionary<KeyCode, float> GetSkillCooldowns()
     {
@@ -233,7 +236,7 @@ public class CharacterControl : MonoBehaviour
         {
             return;
         }
-
+        
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -249,10 +252,12 @@ public class CharacterControl : MonoBehaviour
             charAnimator.SetInteger("Attack_num", 0);
             shouldMove = false;
             sm.SetState(dicState[CharState.Attack]);
+            isAttacking = true;
             if (StatManger.Instance.aaMpUp)
                 UpgradeSkillFunction.Instance.Choice11_1();
         }
         SetAttackNum();
+
     }
     private void PlayerMove()
     {

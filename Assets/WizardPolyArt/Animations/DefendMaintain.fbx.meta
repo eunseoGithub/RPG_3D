@@ -416,7 +416,7 @@ ModelImporter:
     second: WizardBody
   - first:
       74: 7400000
-    second: DefendMaintain
+    second: Attack05Maintain
   - first:
       95: 9500000
     second: //RootNode
@@ -452,7 +452,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: DefendMaintain
+      name: Attack05Maintain
       takeName: Take 001
       internalID: 0
       firstFrame: 0

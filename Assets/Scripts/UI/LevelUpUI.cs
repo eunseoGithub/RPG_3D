@@ -100,7 +100,6 @@ public class LevelUpUI : MonoBehaviour
     {
         
         playerLevel = character.GetLevel();
-        Debug.Log(playerLevel);
         upgrade = skillUpgradeTable.levels.Find(x => x.level == playerLevel);
 
         if(upgrade == null)

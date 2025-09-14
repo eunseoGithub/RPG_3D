@@ -32,7 +32,7 @@ public class CharacterAnimationEvent : MonoBehaviour
     }
     public void StartAttack()
     {
-        if(!characterControl.isAttacking)
+        if (!characterControl.isAttacking)
             characterControl.isAttacking = true;
     }
 

@@ -33,6 +33,7 @@ public class DragonGimickController : MonoBehaviour
     private BossHp200GimickCut bossHp200Cut;
     public GameObject uiCanvas;
     public bool isGimick;
+    private bool bossHp300CutFinish;
     // Start is called before the first frame update
     void Start()
     {
@@ -47,6 +48,7 @@ public class DragonGimickController : MonoBehaviour
         bossHp200Cut = bossHp200CutController.GetComponent<BossHp200GimickCut>();
         bossHp200Cut.OnTimeLineFinished += OnHp200TImeLineFinished;
         isGimick = false;
+        bossHp300CutFinish = false;
     }
     void CheckHp300()
     {
@@ -63,7 +65,7 @@ public class DragonGimickController : MonoBehaviour
     }
     void CheckHp200()
     {
-        if (hp200GimickTriggered)
+        if (hp200GimickTriggered||!bossHp300CutFinish)
             return;
         else
         {
@@ -99,6 +101,7 @@ public class DragonGimickController : MonoBehaviour
         GimickEnd();
         bossHp300CutController.transform.GetChild(0).gameObject.SetActive(false);
         bossHp300CutController.transform.GetChild(2).gameObject.SetActive(false);
+        bossHp300CutFinish = true;
     }
     void Hp200GimickStart()
     {

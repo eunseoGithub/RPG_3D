@@ -36,7 +36,6 @@ public class GameManager : MonoBehaviour
     {
         if(director == doorCutTimeline)
         {
-            Debug.Log("TimeLine 끝남");
             DoorOpenCutController.SetActive(false);
         }
     }
