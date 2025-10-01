@@ -14,7 +14,7 @@ using UnityEngine;
  */
 public class Attack02Skill : MonoBehaviour
 {
-    public float speed = 10f; // 발사체 속도
+    public float speed = 100f; // 발사체 속도
 
     private Rigidbody rb;
     private int hitCount = 0;

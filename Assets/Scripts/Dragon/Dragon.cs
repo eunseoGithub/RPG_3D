@@ -158,10 +158,12 @@ public class Dragon : MonoBehaviour
 
     public void ChangeNearAttackState()
     {
+        LookAtPlayer();
         _fsm.SetState(_nearAttackState);
     }
     public void ChangeFarAttackState()
     {
+        LookAtPlayer();
         _fsm.SetState(_farAttackState);
     }
 
@@ -225,8 +227,7 @@ public class Dragon : MonoBehaviour
         if (_targetTr != null)
         {
             _animator.SetBool("chase", true);
-            Vector3 direct = (_targetTr.position - this.transform.position).normalized;
-            this.transform.rotation = Quaternion.LookRotation(direct);
+            LookAtPlayer();
             if (Vector3.Distance(transform.position, _targetTr.position) > _currentDistance)
             {
                 transform.position = Vector3.MoveTowards(transform.position, _targetTr.position, speed * Time.deltaTime);
@@ -234,7 +235,11 @@ public class Dragon : MonoBehaviour
 
         }
     }
-
+    public void LookAtPlayer()
+    {
+        Vector3 direct = (_targetTr.position - this.transform.position).normalized;
+        this.transform.rotation = Quaternion.LookRotation(direct);
+    }
     public void MoveRetreat()
     {
         if (_targetTr != null)

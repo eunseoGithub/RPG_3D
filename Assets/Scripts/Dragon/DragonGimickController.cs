@@ -81,13 +81,18 @@ public class DragonGimickController : MonoBehaviour
     {
         bossPos = this.transform.position;
         this.transform.position = newPos;
-        anim.enabled = false;
+        anim.speed = 0;
         isGimick = true;
     }
     void GimickEnd()
     {
         this.transform.position = bossPos;
-        anim.enabled = true;
+        anim.speed = 1;
+        dragon.ChangeIdleState();
+        anim.Play("Idle01", 0, 0f);
+        anim.SetBool("chase", false);
+        anim.SetBool("farAttack", false);
+        anim.SetBool("nearAttack", false);
         isGimick = false;
     }
     void Hp300GimickStart()

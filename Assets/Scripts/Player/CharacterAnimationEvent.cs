@@ -74,8 +74,7 @@ public class CharacterAnimationEvent : MonoBehaviour
     }
     void FireAtMousePosition_Attack01()
     {
-        Vector3 direction = (characterControl.currentTargetPosition - firePoint.position).normalized;
-
+        Vector3 direction = firePoint.forward.normalized;
         GameObject fireball = Instantiate(Attack01Prefab, firePoint.position, Quaternion.identity);
         fireball.GetComponent<SkillDamage>().damage = StatManger.Instance.AADamage;
         fireball.GetComponent<SkillDamage>().skill = Skill.AA;
@@ -84,8 +83,7 @@ public class CharacterAnimationEvent : MonoBehaviour
     }
     void FireAtMousePosition_Attack02()
     {
-        Vector3 direction = (characterControl.currentTargetPosition - firePoint.position).normalized;
-
+        Vector3 direction = firePoint.forward.normalized;
         GameObject fireball = Instantiate(Attack02Prefab, firePoint.position, Quaternion.LookRotation(-direction));
         fireball.GetComponent<SkillDamage>().damage = StatManger.Instance.QDamage;
         fireball.GetComponent<SkillDamage>().skill = Skill.Q;

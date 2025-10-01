@@ -41,7 +41,6 @@ public class DragonChaseState : IState<Dragon>
                 // 을 할 것인지를 결정한다.
                 int randValue = UnityEngine.Random.Range(0, 1000);
                 int attackType = randValue % 2;
-                //int attackType = 1;//디버깅용
                 switch (attackType)
                 {
                     case 0: // 근거리 공격 상태로 변경
